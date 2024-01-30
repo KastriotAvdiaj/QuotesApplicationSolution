@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34221.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuotesApplication", "QuotesApplication\QuotesApplication.csproj", "{26AABF9B-51DF-446C-9D95-36DDCCD6E5F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuotesAppMVC", "QuotesAppMVC\QuotesAppMVC.csproj", "{22DC2387-2CC5-44FF-9EC1-B6871B186BDB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{26AABF9B-51DF-446C-9D95-36DDCCD6E5F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26AABF9B-51DF-446C-9D95-36DDCCD6E5F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26AABF9B-51DF-446C-9D95-36DDCCD6E5F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26AABF9B-51DF-446C-9D95-36DDCCD6E5F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22DC2387-2CC5-44FF-9EC1-B6871B186BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22DC2387-2CC5-44FF-9EC1-B6871B186BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22DC2387-2CC5-44FF-9EC1-B6871B186BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22DC2387-2CC5-44FF-9EC1-B6871B186BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6B71C735-F495-46D1-BFDC-E4434FBCD77F}
+	EndGlobalSection
+EndGlobal
