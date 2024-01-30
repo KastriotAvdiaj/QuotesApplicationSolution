@@ -16,7 +16,7 @@ namespace QuotesApplication.Controllers
             _db = db;
         }
 
-        [HttpGet("getAll")]
+        [HttpGet]
         public IEnumerable<Quote> GetQuotes()
         {
             return _db.Quotes.ToList();
