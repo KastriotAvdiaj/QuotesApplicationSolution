@@ -1,0 +1,22 @@
+body{
+    color: #fceb00;
+}
+
+
+.quote {
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    border-left: 4px solid #fceb00;
+    color: black;
+    background-color: #f9f9f9;
+  }
+  
+  .quote-description {
+    font-style: italic;
+  }
+  
+  .quote-author {
+    text-align: right;
+    margin-top: 0.5rem;
+    font-weight: bold;
+  }

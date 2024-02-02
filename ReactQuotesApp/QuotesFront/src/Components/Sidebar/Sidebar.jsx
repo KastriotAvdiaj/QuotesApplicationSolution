@@ -24,7 +24,7 @@ export const Sidebar = () => {
 
         <ul className="sidebarUl">
           <li>
-            <NavLink to="/quotes">First Item</NavLink>
+            <NavLink to="/quotes">Quotes</NavLink>
           </li>
           <li>
             <NavLink to="#">Second Item</NavLink>
