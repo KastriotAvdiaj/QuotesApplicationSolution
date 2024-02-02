@@ -8,18 +8,27 @@ export const Sidebar = () => {
     <>
       <div className="sidebar">
         <div className="logoText">
-          <img
-            src={Logo}
-            alt=""
-            style={{ padding: "1rem", height: "50px", width: "50px" }}
-          />
-          Quotes App
-        </div>
-        <ul className="sidebarUl">
-          <NavLink to="/quotes">
-            <li>First Item</li>
+          <NavLink to="/">
+            <img
+              src={Logo}
+              alt=""
+              style={{
+                padding: "1rem",
+                height: "50px",
+                width: "50px",
+              }}
+            />
+            Quotes App
           </NavLink>
-          <li>Second Item</li>
+        </div>
+
+        <ul className="sidebarUl">
+          <li>
+            <NavLink to="/quotes">First Item</NavLink>
+          </li>
+          <li>
+            <NavLink to="#">Second Item</NavLink>
+          </li>
         </ul>
       </div>
     </>

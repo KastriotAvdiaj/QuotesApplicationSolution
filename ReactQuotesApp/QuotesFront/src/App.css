@@ -1,6 +1,11 @@
-.App{
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    width: 100%;
-}
+.App-container {
+    display: flex;
+    height: 100vh; 
+  }
+  
+  .App {
+    flex: 1;
+    overflow-y: auto;
+    margin-left: 15rem; 
+    padding: 1rem; 
+  }
