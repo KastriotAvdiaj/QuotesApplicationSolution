@@ -1,6 +1,7 @@
 import React from "react";
 import "./Sidebar.css";
 import Logo from "../../assets/quotesLogo2.png";
+import { NavLink } from "react-router-dom";
 
 export const Sidebar = () => {
   return (
@@ -15,7 +16,9 @@ export const Sidebar = () => {
           Quotes App
         </div>
         <ul className="sidebarUl">
-          <li>First Item</li>
+          <NavLink to="/quotes">
+            <li>First Item</li>
+          </NavLink>
           <li>Second Item</li>
         </ul>
       </div>

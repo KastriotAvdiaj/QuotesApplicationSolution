@@ -1,8 +1,6 @@
-import React, { createContext, useState, useEffect } from 'react';
-
+import React, { createContext, useState, useEffect } from "react";
 
 export const QuotesContext = createContext();
-
 
 export const QuotesProvider = ({ children }) => {
   const [quotes, setQuotes] = useState([]);
@@ -10,7 +8,9 @@ export const QuotesProvider = ({ children }) => {
   useEffect(() => {
     const fetchQuotes = async () => {
       try {
-        const response = await fetch('URL_TO_FETCH_QUOTES');
+        const response = await fetch(
+          "https://localhost:7099/api/Quotes/GetQuotes"
+        );
         const data = await response.json();
         setQuotes(data);
       } catch (error) {
@@ -23,7 +23,7 @@ export const QuotesProvider = ({ children }) => {
 
   return (
     <QuotesContext.Provider value={quotes}>
-      {children}
+        {children}
     </QuotesContext.Provider>
   );
 };
