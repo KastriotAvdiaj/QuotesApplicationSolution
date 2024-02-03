@@ -1,11 +1,14 @@
 import React, { useContext, useState } from "react";
-import { QuotesContext } from "../Components/Quotes/QuotesProvider";
-import Quote from "../Components/Quotes/Quote";
-import Pagination from "../Components/Pagination/Pagination";
+import { QuotesContext } from "../../Components/Quotes/QuotesProvider";
+import Quote from "../../Components/Quotes/Quote";
+import Pagination from "../../Components/Pagination/Pagination";
 import { IoIosAddCircle } from "react-icons/io";
+import QuoteForm from "../../Components/Quotes/QuoteForm";
+import "./Quotes.css";
 
 export const Quotes = () => {
   const quotes = useContext(QuotesContext);
+  const [showForm, setShowForm] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const quotesPerPage = 5;
@@ -24,12 +27,19 @@ export const Quotes = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleAddQuote = async (newQuote) => {
+    // API call to add the quote
+    // Then fetch or update quotes list accordingly
+    setShowForm(false); // Close the form on successful addition
+  };
+
   return (
     <div>
       <h1>Quotes</h1>
-      <button className="newQuoteButton">
+      <button onClick={() => setShowForm(true)} className="newQuoteButton">
         <IoIosAddCircle className="addIcon" /> New Quote
       </button>
+      {showForm && <QuoteForm onAdd={handleAddQuote} />}
       <ul>
         {currentQuotes.map((quote, index) => (
           <li key={index}>

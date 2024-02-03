@@ -1,0 +1,10 @@
+.quoteForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 6rem;
+    border-radius: 0.2rem;
+    background-color: #f9f9f9;
+    border-left: 4px solid #f5c013;
+    width: 60%;
+}

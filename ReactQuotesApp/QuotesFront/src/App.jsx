@@ -1,7 +1,7 @@
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import "./App.css";
 import { Sidebar } from "./Components/Sidebar/Sidebar";
-import { Quotes } from "./Pages/Quotes";
+import { Quotes } from "./Pages/Quotes/Quotes";
 import { QuotesProvider } from "./Components/Quotes/QuotesProvider";
 import { Home } from "./Pages/Home";
 
