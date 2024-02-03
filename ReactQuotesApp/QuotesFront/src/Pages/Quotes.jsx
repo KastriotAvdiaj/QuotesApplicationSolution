@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { QuotesContext } from "../Components/Quotes/QuotesProvider";
 import Quote from "../Components/Quotes/Quote";
 import Pagination from "../Components/Pagination/Pagination";
+import { IoIosAddCircle } from "react-icons/io";
 
 export const Quotes = () => {
   const quotes = useContext(QuotesContext);
@@ -26,6 +27,9 @@ export const Quotes = () => {
   return (
     <div>
       <h1>Quotes</h1>
+      <button className="newQuoteButton">
+        <IoIosAddCircle className="addIcon" /> New Quote
+      </button>
       <ul>
         {currentQuotes.map((quote, index) => (
           <li key={index}>

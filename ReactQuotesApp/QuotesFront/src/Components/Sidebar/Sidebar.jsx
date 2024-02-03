@@ -2,6 +2,8 @@ import React from "react";
 import "./Sidebar.css";
 import Logo from "../../assets/quotesLogo2.png";
 import { NavLink } from "react-router-dom";
+import { BiSolidQuoteSingleLeft } from "react-icons/bi";
+import { BiSolidQuoteSingleRight } from "react-icons/bi";
 
 export const Sidebar = () => {
   return (
@@ -24,7 +26,11 @@ export const Sidebar = () => {
 
         <ul className="sidebarUl">
           <li>
-            <NavLink to="/quotes">Quotes</NavLink>
+            <NavLink to="/quotes">
+              <BiSolidQuoteSingleLeft />
+              Quotes
+              <BiSolidQuoteSingleRight />
+            </NavLink>
           </li>
           <li>
             <NavLink to="#">Second Item</NavLink>

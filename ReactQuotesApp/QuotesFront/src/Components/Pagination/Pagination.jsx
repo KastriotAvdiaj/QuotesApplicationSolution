@@ -1,17 +1,23 @@
 import React from "react";
+import "./Pagination.css";
+import { IoArrowBackCircleSharp, IoArrowForwardCircle } from "react-icons/io5";
 
 const Pagination = ({ currentPage, totalCount, pageSize, onPageChange }) => {
   const totalPages = Math.ceil(totalCount / pageSize);
-
   const pages = [...Array(totalPages).keys()].map((num) => num + 1);
 
   return (
-    <div>
+    <div className="pagination-container">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        className="PreviousNextButtons"
       >
-        Previous
+        <IoArrowBackCircleSharp
+          className={`pagination-icon ${
+            currentPage === 1 ? "pagination-icon-disabled" : ""
+          }`}
+        />
       </button>
       {pages.map((page) => (
         <button
@@ -25,8 +31,13 @@ const Pagination = ({ currentPage, totalCount, pageSize, onPageChange }) => {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        className="PreviousNextButtons"
       >
-        Next
+        <IoArrowForwardCircle
+          className={`pagination-icon ${
+            currentPage === totalPages ? "pagination-icon-disabled" : ""
+          }`}
+        />
       </button>
     </div>
   );
