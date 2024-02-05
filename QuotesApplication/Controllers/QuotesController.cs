@@ -64,21 +64,21 @@ namespace QuotesApplication.Controllers
         }
 
 
-        [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        [HttpDelete]
+        public IActionResult Delete([FromBody] int[] ids)
         {
-            var quote = _db.Quotes.Find(id);
+            var quotesToDelete = _db.Quotes.Where(q => ids.Contains(q.Id)).ToList();
 
-            if (quote != null)
+            if (quotesToDelete.Any())
             {
-                _db.Remove(quote);
+                _db.Quotes.RemoveRange(quotesToDelete);
                 _db.SaveChanges();
 
-                return Ok("Quote with the ID[" + quote.Id + "] was deleted successfully!");
+                return Ok($"Quotes with the IDs [{string.Join(", ", ids)}] were deleted successfully!");
             }
             else
             {
-                return NotFound();
+                return NotFound("No quotes found with the provided IDs.");
             }
         }
 

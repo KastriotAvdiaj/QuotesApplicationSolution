@@ -1,6 +1,9 @@
 import React, { createContext, useState, useEffect } from "react";
 
-export const QuotesContext = createContext({ quotes: [], addQuote: () => {} });
+export const QuotesContext = createContext({
+  quotes: [],
+  addQuote: () => {},
+});
 
 export const QuotesProvider = ({ children }) => {
   const [quotes, setQuotes] = useState([]);
@@ -25,8 +28,16 @@ export const QuotesProvider = ({ children }) => {
     setQuotes((prevQuotes) => [...prevQuotes, newQuote]);
   };
 
+  const deleteSelectedQuotes = (idsToDelete) => {
+    setQuotes((currentQuotes) =>
+      currentQuotes.filter((quote) => !idsToDelete.includes(quote.id))
+    );
+  };
+
   return (
-    <QuotesContext.Provider value={{ quotes, addQuote }}>
+    <QuotesContext.Provider
+      value={{ quotes, addQuote, setQuotes, deleteSelectedQuotes }}
+    >
       {children}
     </QuotesContext.Provider>
   );
