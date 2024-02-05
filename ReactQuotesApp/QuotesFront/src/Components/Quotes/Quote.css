@@ -3,6 +3,7 @@ body{
 }
 
 .quote {
+  cursor: pointer;
     display: flex; /* This makes .quote a Flexbox container */
     justify-content: space-between;
     align-items: center;
@@ -10,7 +11,7 @@ body{
     height: 6rem;
     margin: 1rem;
     padding: 0.5rem;
-    border-left: 4px solid #f5c013;
+    border-left: 6px solid #f5c013;
     color: black;
     background-color: #f9f9f9;
     font-size: 20px;
@@ -53,7 +54,7 @@ body{
 
   .addIcon{
     margin-right: 0.3rem;
-    font-size: 1.3rem;
+    font-size: 1.6rem;
   }
   .newQuoteButton:active{
     transform: scale(0.97);

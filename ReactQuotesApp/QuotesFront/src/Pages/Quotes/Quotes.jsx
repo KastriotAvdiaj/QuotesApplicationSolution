@@ -7,20 +7,18 @@ import QuoteForm from "../../Components/Quotes/QuoteForm";
 import "./Quotes.css";
 
 export const Quotes = () => {
-  const quotes = useContext(QuotesContext);
+  const { quotes, addQuote } = useContext(QuotesContext);
   const [showForm, setShowForm] = useState(false);
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
 
   const [currentPage, setCurrentPage] = useState(1);
   const quotesPerPage = 5;
-
-  // Calculate the total number of pages
   const totalPages = Math.ceil(quotes.length / quotesPerPage);
-
-  // Calculate the indices of the first and last quote on the current page
   const lastQuoteIndex = currentPage * quotesPerPage;
   const firstQuoteIndex = lastQuoteIndex - quotesPerPage;
-
-  // Slice the quotes array to get only the quotes for the current page
   const currentQuotes = quotes.slice(firstQuoteIndex, lastQuoteIndex);
 
   const onPageChange = (pageNumber) => {
@@ -28,9 +26,24 @@ export const Quotes = () => {
   };
 
   const handleAddQuote = async (newQuote) => {
-    // API call to add the quote
-    // Then fetch or update quotes list accordingly
-    setShowForm(false); // Close the form on successful addition
+    try {
+      const response = await fetch("https://localhost:7099/api/Quotes/Add", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newQuote),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add the quote.");
+      }
+      const addedQuote = await response.json(); // Assuming the API returns the added quote
+      addQuote(addedQuote);
+      setShowForm(false);
+    } catch (error) {
+      console.error("Error adding quote:", error);
+    }
   };
 
   return (
@@ -39,7 +52,9 @@ export const Quotes = () => {
       <button onClick={() => setShowForm(true)} className="newQuoteButton">
         <IoIosAddCircle className="addIcon" /> New Quote
       </button>
-      {showForm && <QuoteForm onAdd={handleAddQuote} />}
+      {showForm && (
+        <QuoteForm onAdd={handleAddQuote} onClose={handleCloseForm} />
+      )}
       <ul>
         {currentQuotes.map((quote, index) => (
           <li key={index}>

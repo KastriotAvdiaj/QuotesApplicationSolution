@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 
-export const QuotesContext = createContext();
+export const QuotesContext = createContext({ quotes: [], addQuote: () => {} });
 
 export const QuotesProvider = ({ children }) => {
   const [quotes, setQuotes] = useState([]);
@@ -21,9 +21,13 @@ export const QuotesProvider = ({ children }) => {
     fetchQuotes();
   }, []);
 
+  const addQuote = (newQuote) => {
+    setQuotes((prevQuotes) => [...prevQuotes, newQuote]);
+  };
+
   return (
-    <QuotesContext.Provider value={quotes}>
-        {children}
+    <QuotesContext.Provider value={{ quotes, addQuote }}>
+      {children}
     </QuotesContext.Provider>
   );
 };

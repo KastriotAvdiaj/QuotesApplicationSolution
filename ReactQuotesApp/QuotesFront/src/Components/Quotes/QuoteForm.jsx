@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./QuotesForm.css";
 
-const QuoteForm = ({ onAdd }) => {
+const QuoteForm = ({ onAdd, onClose }) => {
   const [description, setDescription] = useState("");
   const [authorName, setAuthorName] = useState("");
 
@@ -9,7 +9,6 @@ const QuoteForm = ({ onAdd }) => {
     e.preventDefault();
     // Validate inputs here if necessary
     onAdd({ description, authorName });
-    // Clear form fields after submission
     setDescription("");
     setAuthorName("");
   };
@@ -23,7 +22,7 @@ const QuoteForm = ({ onAdd }) => {
             onChange={(e) => setDescription(e.target.value)}
             placeholder="Enter quote"
             required
-            className="quote-description"
+            className="quoteDescription"
           />
           <input
             type="text"
@@ -31,10 +30,14 @@ const QuoteForm = ({ onAdd }) => {
             onChange={(e) => setAuthorName(e.target.value)}
             placeholder="Author's name"
             required
-            className="quote-author"
+            className="quoteAuthor"
           />
-          <button type="submit">Add Quote</button>
-          <button>Cancel</button>
+          <button type="submit" className="addQuote">
+            Add
+          </button>
+          <button type="button" className="cancelButton" onClick={onClose}>
+            Cancel
+          </button>
         </form>
       </div>
     </div>

@@ -1,12 +1,14 @@
 using QuotesApplication.Data;
 using Microsoft.EntityFrameworkCore;
+using QuotesApplication.Configurations;
+using QuotesApplication.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<OpenAI>(builder.Configuration.GetSection("OpenAI"));
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(
@@ -24,6 +26,9 @@ builder.Services.AddCors(options =>
                    .AllowCredentials();
         });
 });
+
+
+builder.Services.AddScoped<IOpenAiService, OpenAIService>();
 
 var app = builder.Build();
 

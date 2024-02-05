@@ -1,5 +1,6 @@
 .quoteForm{
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-items: center;
     height: 6rem;
@@ -8,3 +9,67 @@
     border-left: 4px solid #f5c013;
     width: 60%;
 }
+
+form{
+    display: flex;
+    width: 90%;
+}
+
+.quoteDescription, .quoteAuthor {
+    margin-right: 0.5rem;
+    border: none;
+    border-bottom: 2px solid #ccc; 
+    outline: none;
+    width: 100%;
+    background-color: transparent; 
+  }
+
+  .quoteAuthor{
+    width: 25%;
+  }
+
+  .quoteDescription:focus, .quoteAuthor:focus {
+    border-bottom: 2px solid #007bff; 
+  }
+  
+  .quoteDescription::placeholder, .quoteAuthor::placeholder {
+    color: #aaa; 
+    font-style: italic; 
+  }
+
+  .addQuote{
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.5); 
+    margin: 0 0.5rem 0 2rem;
+    width: 6rem;
+    background-color: #2ab1da;
+    border: none;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  .addQuote:hover{
+    background-color: #1995bb;
+  }
+
+  .addQuote:active{
+    transform: scale(0.97);
+  }
+
+  .cancelButton{
+    box-shadow: 1px 4px 8px rgba(0, 0, 0, 0.5); 
+    border: none;
+    font-size: 1rem;
+    background-color: #f78989;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    width: 6rem;
+  }
+
+  .cancelButton:hover{
+    background-color: #d46767;
+  }
+
+  .cancelButton:active{
+    transform: scale(0.97);
+  }
