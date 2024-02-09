@@ -1,7 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export const Signup = () => {
   return (
-    <div>Signup</div>
-  )
-}
+    <>
+      <div className="signupMainDiv">Signup</div>
+    </>
+  );
+};

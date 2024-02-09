@@ -9,11 +9,19 @@ const Quote = ({
   onCheckboxChange,
   isSelected,
   theme,
+  borderColor,
+  boxShadow,
 }) => {
   console.log(theme);
 
   return (
-    <div className={theme === "light" ? "quote" : "quoteDark"}>
+    <div
+      className={theme === "light" ? "quote" : "quoteDark"}
+      style={{
+        borderLeft: `8px solid ${borderColor}`,
+        boxShadow: boxShadow,
+      }}
+    >
       <p className="quote-description">"{description}"</p>
       <p className="quote-author">-{authorName}</p>
       <input
