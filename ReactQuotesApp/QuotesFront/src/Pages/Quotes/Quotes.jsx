@@ -6,7 +6,10 @@ import { IoIosAddCircle } from "react-icons/io";
 import { FaEdit } from "react-icons/fa";
 import QuoteForm from "../../Components/Quotes/QuoteForm";
 import { MdDeleteForever } from "react-icons/md";
+import MaterialUISwitch from "../../Components/Mui/MaterialUISwitch";
+import FormControlLabel from "@mui/material/FormControlLabel";
 import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
+import { useTheme } from "../../Components/Theme/ThemeContext";
 import "./Quotes.css";
 
 export const Quotes = () => {
@@ -16,6 +19,12 @@ export const Quotes = () => {
   const [disabledCheckbox, setDisabledCheckbox] = useState(true);
   const [isDeleteButtonDisabled, DisableDeleteButton] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
+  // const [theme, setTheme] = useState("light");
+  const { theme, changeTheme } = useTheme();
+
+  const toggleTheme = () => {
+    changeTheme(theme === "light" ? "dark" : "light");
+  };
 
   const handleCheckboxChange = (id, isChecked) => {
     setSelectedQuotes((prevSelected) => {
@@ -48,6 +57,7 @@ export const Quotes = () => {
     setCurrentPage(pageNumber);
   };
 
+  //CREATING A NEW QUOTE
   const handleAddQuote = async (newQuote) => {
     try {
       const response = await fetch("https://localhost:7099/api/Quotes/Add", {
@@ -64,11 +74,15 @@ export const Quotes = () => {
       const addedQuote = await response.json();
       addQuote(addedQuote);
       setShowForm(false);
+
+      setSuccessMessage("You have successfully added a new quote!");
+      setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {
       console.error("Error adding quote:", error);
     }
   };
 
+  //DELETING THE QUOTE/s
   const handleDeleteSelectedQuotes = async () => {
     try {
       const response = await fetch(`https://localhost:7099/api/Quotes/Delete`, {
@@ -89,7 +103,6 @@ export const Quotes = () => {
       setQuotes(updatedQuotes);
       setSelectedQuotes([]);
       DisableDeleteButton(true);
-
       //Changing the page if all the quotes in that page are deleted
       const newTotalPages = Math.ceil(updatedQuotes.length / quotesPerPage);
       if (currentPage > newTotalPages && currentPage !== 1) {
@@ -99,7 +112,9 @@ export const Quotes = () => {
         setCurrentPage(newTotalPages);
       }
 
-      setSuccessMessage("Selected quote/quotes have been successfully deleted.");
+      setSuccessMessage(
+        "Selected quote/quotes have been successfully deleted."
+      );
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {
       console.error("Error deleting selected quotes:", error);
@@ -109,6 +124,16 @@ export const Quotes = () => {
   return (
     <div>
       <h1>Quotes</h1>
+      <FormControlLabel
+        control={
+          <MaterialUISwitch
+            sx={{ m: 1 }}
+            checked={theme === "dark"}
+            onClick={toggleTheme}
+          />
+        }
+        label={theme.charAt(0).toUpperCase() + theme.slice(1)} // "Dark" or "Light"
+      />
       <SuccessMessage message={successMessage} />
       <div className="buttonContainer">
         <button onClick={() => setShowForm(true)} className="newQuoteButton">
@@ -141,6 +166,8 @@ export const Quotes = () => {
               authorName={quote.authorName}
               disabled={disabledCheckbox}
               onCheckboxChange={handleCheckboxChange}
+              isSelected={selectedQuotes.includes(quote.id)}
+              theme={theme}
             />
           </li>
         ))}

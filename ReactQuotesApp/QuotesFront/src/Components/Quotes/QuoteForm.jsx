@@ -7,8 +7,9 @@ const QuoteForm = ({ onAdd, onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Validate inputs here if necessary
-    onAdd({ description, authorName });
+    const finalAuthorName = authorName.trim() ? authorName : "Unknown";
+    console.log(finalAuthorName);
+    onAdd({ description, authorName: finalAuthorName });
     setDescription("");
     setAuthorName("");
   };
@@ -29,7 +30,6 @@ const QuoteForm = ({ onAdd, onClose }) => {
             value={authorName}
             onChange={(e) => setAuthorName(e.target.value)}
             placeholder="Author's name"
-            required
             className="quoteAuthor"
           />
           <button type="submit" className="addQuote">
