@@ -1,0 +1,9 @@
+.signupMainDiv{
+    margin: 0;
+    padding: 0;
+    height: calc(100vh - 3rem);
+    width: calc(100vw - 20rem);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

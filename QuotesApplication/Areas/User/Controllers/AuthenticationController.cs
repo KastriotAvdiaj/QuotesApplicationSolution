@@ -3,6 +3,7 @@ using QuotesApplication.Data;
 using QuotesApplication.Areas.User.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using QuotesApplication.Areas.User.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuotesApplication.Areas.User.Controllers
 {
@@ -28,7 +29,6 @@ namespace QuotesApplication.Areas.User.Controllers
                 return BadRequest(ModelState);
             }
 
-            // Check if the email already exists
             var existingUser = _context.Users.FirstOrDefault(u => u.Email == user.Email);
             if (existingUser != null)
             {
@@ -44,17 +44,30 @@ namespace QuotesApplication.Areas.User.Controllers
                 NormalizedUsername = user.Username.ToUpper(),
                 NormalizedEmail = user.Email.ToUpper(),
             };
-
-            // Hash the password
             newUser.PasswordHash = _passwordHasher.HashPassword(newUser, user.Password);
 
-            // Add the new user to the database
+            
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
             // Return a successful response (e.g., CreatedAtAction to follow RESTful best practices)
             return CreatedAtAction("GetUser", new { id = newUser.Id }, newUser); // Adjust "GetUser" as per your actual GET method
         }
+
+        [HttpGet]
+        public async Task<ActionResult<bool>> IsEmailUsed(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return BadRequest("Email is required.");
+            }
+
+            // Use AnyAsync for asynchronous operation, and await the result
+            var isUsed = await _context.Users.AnyAsync(u => u.Email == email);
+            return Ok(isUsed);
+        }
+
+
 
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationUser>> GetUser(string id)
