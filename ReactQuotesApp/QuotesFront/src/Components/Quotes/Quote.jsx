@@ -10,7 +10,6 @@ const Quote = ({
   isSelected,
   theme,
   borderColor,
-  boxShadow,
 }) => {
   console.log(theme);
 
@@ -19,7 +18,6 @@ const Quote = ({
       className={theme === "light" ? "quote" : "quoteDark"}
       style={{
         borderLeft: `8px solid ${borderColor}`,
-        boxShadow: boxShadow,
       }}
     >
       <p className="quote-description">"{description}"</p>

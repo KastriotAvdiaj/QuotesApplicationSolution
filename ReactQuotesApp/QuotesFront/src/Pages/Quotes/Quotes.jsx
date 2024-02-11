@@ -19,7 +19,6 @@ export const Quotes = () => {
   const [disabledCheckbox, setDisabledCheckbox] = useState(true);
   const [isDeleteButtonDisabled, DisableDeleteButton] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
-  // const [theme, setTheme] = useState("light");
   const { theme, changeTheme } = useTheme();
 
   const toggleTheme = () => {
@@ -169,11 +168,6 @@ export const Quotes = () => {
               isSelected={selectedQuotes.includes(quote.id)}
               theme={theme}
               borderColor={index % 2 === 0 ? "#f5c013" : "red"}
-              boxShadow={
-                index % 2 === 0
-                  ? "0px 4px 8px rgba(245, 192, 19, 0.4)"
-                  : "0px 4px 8px rgba(245, 19, 19, 0.4)"
-              }
             />
           </li>
         ))}

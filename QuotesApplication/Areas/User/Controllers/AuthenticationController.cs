@@ -49,9 +49,8 @@ namespace QuotesApplication.Areas.User.Controllers
             
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-
-            // Return a successful response (e.g., CreatedAtAction to follow RESTful best practices)
-            return CreatedAtAction("GetUser", new { id = newUser.Id }, newUser); // Adjust "GetUser" as per your actual GET method
+      
+            return CreatedAtAction("GetUser", new { id = newUser.Id }, null); 
         }
 
         [HttpGet]
@@ -62,11 +61,20 @@ namespace QuotesApplication.Areas.User.Controllers
                 return BadRequest("Email is required.");
             }
 
-            // Use AnyAsync for asynchronous operation, and await the result
             var isUsed = await _context.Users.AnyAsync(u => u.Email == email);
             return Ok(isUsed);
         }
+        [HttpGet]
+        public async Task<ActionResult<bool>> isUsernameUsed(string username)
+        {
+            if(string.IsNullOrWhiteSpace(username))
+            {
+                return BadRequest("Username is required.");
+            }
 
+            var isUsed = await _context.Users.AnyAsync(u => u.Username == username);
+            return Ok(isUsed);
+        }
 
 
         [HttpGet("{id}")]
