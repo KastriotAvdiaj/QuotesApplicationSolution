@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Quote.css";
 
 const Quote = ({
@@ -11,14 +11,18 @@ const Quote = ({
   theme,
   borderColor,
 }) => {
-  console.log(theme);
+  const themeClass = theme === "light" ? "" : "quote--dark";
+
+  const [isExpanded, setIsExpanded] = useState(false);
+  const toggleExpand = () => setIsExpanded(!isExpanded);
 
   return (
     <div
-      className={theme === "light" ? "quote" : "quoteDark"}
+      className={`quote ${themeClass} ${isExpanded ? "expanded" : ""}`}
       style={{
         borderLeft: `8px solid ${borderColor}`,
       }}
+      onClick={toggleExpand}
     >
       <p className="quote-description">"{description}"</p>
       <p className="quote-author">-{authorName}</p>
@@ -28,6 +32,7 @@ const Quote = ({
         disabled={disabled}
         className="checkBox"
         onChange={(e) => onCheckboxChange(id, e.target.checked)}
+        onClick={(e) => e.stopPropagation()}
       />
     </div>
   );

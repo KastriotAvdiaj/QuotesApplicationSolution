@@ -4,37 +4,59 @@ body{
 
 .quote {
   cursor: pointer;
-    display: flex; /* This makes .quote a Flexbox container */
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0.2rem;
-    height: 6.5rem;
-    margin: 2rem;
-    padding: 0.5rem;
-    border-left: 6px solid #f5c013;
-    color: black;
-    /* box-shadow: 0px 4px 8px rgba(245, 19, 19, 0.4); */
-    background-color: #f9f9f9;
-    font-size: 24px;
-    transition: transform 0.3s ease-in-out;
-  }
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 0.2rem;
+  margin: 2rem;
+  padding: 0.5rem;
+  border-left: 6px solid #f5c013; 
+  color: black; 
+  background-color: #f9f9f9; 
+  font-size: 24px;  
+  user-select: none;
+  width: 700px; 
+  height: 300px; 
+  overflow: hidden; 
+  position: relative;
+  transition: all 0.3s ease;
+}
 
-  .quoteDark{
-    background-color: #1f1d18;
-    color: white;
-    /* box-shadow: 0px 4px 8px rgba(245, 192, 19, 0.4); */
-    cursor: pointer;
-    display: flex; /* This makes .quote a Flexbox container */
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 0.2rem;
-    height: 6.5rem;
-    margin: 2rem;
-    padding: 0.5rem;
-    border-left: 6px solid #f5c013;
-    font-size: 24px;
-    transition: transform 0.3s ease-in-out;
+
+/* @media (max-width: 1851px){
+  .quote{
+    width: 100%;
   }
+} */
+/* @media (max-width: 1483px){
+  .quote{
+    width: 480px;
+  }
+}
+
+@media (max-width: 1455px){
+  .quote{
+    width: 1050px;
+  }
+} */
+
+
+
+.quote.expanded {
+  max-height: none; /* Remove max-height when expanded */
+  overflow: visible; /* Show overflow when expanded */
+}
+
+.quote.expanded .quote-description, .quote.expanded .quote-author {
+  white-space: normal; /* Allow wrapping in expanded state */
+  overflow: visible; /* Show overflow in expanded state */
+  text-overflow: clip; /* Remove ellipsis in expanded state */
+}
+
+.quote--dark {
+  background-color: #1f1d18;
+  color: white;
+}
   
   .quote:hover{
     transform: scale(1.01); 
@@ -50,12 +72,24 @@ body{
   }
   
   .quote-author {
+    font-size: 1rem;
+    color: #f5c013;
+    position: absolute;
+    bottom: 0;
+    right: 0;
     text-align: right;
     margin-top: 4rem;
+    margin-right: 1rem;
     font-weight: bold;
     flex: 0 1 20%;
   }
 
+  .quote-description, .quote-author {
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides text overflow */
+    text-overflow: ellipsis; /* Shows ellipsis for overflowed text */
+    max-width: 100%; /* Adjust based on your layout */
+  }
 
 .checkBox{
   transform: scale(1.5);

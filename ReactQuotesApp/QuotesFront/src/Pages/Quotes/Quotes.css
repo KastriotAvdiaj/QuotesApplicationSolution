@@ -90,3 +90,10 @@
   .deleteButton:not(:disabled):active{
     transform: scale(0.97);
   }
+
+  .quotes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: start;
+    padding: 1rem;
+  }

@@ -46,7 +46,7 @@ export const Quotes = () => {
   };
 
   const [currentPage, setCurrentPage] = useState(1);
-  const quotesPerPage = 5;
+  const quotesPerPage = 6;
   const totalPages = Math.ceil(quotes.length / quotesPerPage);
   const lastQuoteIndex = currentPage * quotesPerPage;
   const firstQuoteIndex = lastQuoteIndex - quotesPerPage;
@@ -120,6 +120,8 @@ export const Quotes = () => {
     }
   };
 
+  const whiteOrBlackBorder = theme === "dark" ? "white" : "#092396";
+
   return (
     <div>
       <h1>Quotes</h1>
@@ -156,9 +158,9 @@ export const Quotes = () => {
       {showForm && (
         <QuoteForm onAdd={handleAddQuote} onClose={handleCloseForm} />
       )}
-      <ul>
+      <ul className="quotes-container">
         {currentQuotes.map((quote, index) => (
-          <li key={index}>
+          <li key={`${currentPage}-${quote.id}`}>
             <Quote
               id={quote.id}
               description={quote.description}
@@ -167,7 +169,7 @@ export const Quotes = () => {
               onCheckboxChange={handleCheckboxChange}
               isSelected={selectedQuotes.includes(quote.id)}
               theme={theme}
-              borderColor={index % 2 === 0 ? "#f5c013" : "red"}
+              borderColor={index % 2 === 0 ? "#f5c013" : whiteOrBlackBorder}
             />
           </li>
         ))}
