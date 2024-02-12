@@ -4,6 +4,7 @@ using QuotesApplication.Areas.User.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using QuotesApplication.Areas.User.Models;
 using Microsoft.EntityFrameworkCore;
+using QuotesApplication.Areas.User.Services;
 
 namespace QuotesApplication.Areas.User.Controllers
 {
@@ -14,13 +15,18 @@ namespace QuotesApplication.Areas.User.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly PasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly IAuthenticationService _authenticationService;
 
-        public AuthenticationController(ApplicationDbContext context)
+        public AuthenticationController(ApplicationDbContext context, IAuthenticationService authenticationService)
         {
+            _authenticationService = authenticationService;
             _context = context;
             _passwordHasher = new PasswordHasher<ApplicationUser>();
         }
 
+        /*.
+        SIGNUP API ENDPOINT
+        .*/
         [HttpPost]
         public async Task<IActionResult> SignUp(UserViewModel user)
         {
@@ -28,13 +34,6 @@ namespace QuotesApplication.Areas.User.Controllers
             {
                 return BadRequest(ModelState);
             }
-
-            var existingUser = _context.Users.FirstOrDefault(u => u.Email == user.Email);
-            if (existingUser != null)
-            {
-                return BadRequest("Email already in use.");
-            }
-
 
             var newUser = new ApplicationUser
             {
@@ -46,13 +45,30 @@ namespace QuotesApplication.Areas.User.Controllers
             };
             newUser.PasswordHash = _passwordHasher.HashPassword(newUser, user.Password);
 
-            
+
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
-      
-            return CreatedAtAction("GetUser", new { id = newUser.Id }, null); 
+
+            return Ok(newUser);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> SignIn([FromBody] LoginDto loginData)
+        {
+            var user = await _authenticationService.AuthenticateUser(loginData.Email, loginData.Password);
+            if (user != null)
+            {
+                var token = _authenticationService.GenerateJwtToken(user);
+                return Ok(new { Token = token });
+            }
+
+            return Unauthorized("Invalid email or password.");
+        }
+
+
+        /*.
+        CHECKING IF EMAIL IS USED
+        .*/
         [HttpGet]
         public async Task<ActionResult<bool>> IsEmailUsed(string email)
         {
@@ -64,10 +80,14 @@ namespace QuotesApplication.Areas.User.Controllers
             var isUsed = await _context.Users.AnyAsync(u => u.Email == email);
             return Ok(isUsed);
         }
+
+        /*.
+        CHECKING IF USERNAME IS USED
+        .*/
         [HttpGet]
         public async Task<ActionResult<bool>> isUsernameUsed(string username)
         {
-            if(string.IsNullOrWhiteSpace(username))
+            if (string.IsNullOrWhiteSpace(username))
             {
                 return BadRequest("Username is required.");
             }
@@ -76,7 +96,9 @@ namespace QuotesApplication.Areas.User.Controllers
             return Ok(isUsed);
         }
 
-
+        /*.
+        RETRIEVING A USER BASED ON THEIR ID
+        .*/
         [HttpGet("{id}")]
         public async Task<ActionResult<ApplicationUser>> GetUser(string id)
         {
@@ -94,5 +116,52 @@ namespace QuotesApplication.Areas.User.Controllers
 
             return Ok(user);
         }
+
+        /*.
+        PASSWORD VALIDTATING METHOD
+        .*/
+        private bool ValidatePassword(string password, out List<string> errors)
+        {
+            errors = new List<string>();
+            if (password.Length < 8)
+            {
+                errors.Add("Password must be at least 8 characters long.");
+            }
+            if (!password.Any(char.IsUpper))
+            {
+                errors.Add("Password must contain at least one uppercase letter.");
+            }
+            if (!password.Any(char.IsLower))
+            {
+                errors.Add("Password must contain at least one lowercase letter.");
+            }
+            if (!password.Any(char.IsDigit))
+            {
+                errors.Add("Password must contain at least one digit.");
+            }
+            if (!password.Any(ch => "!@#$%^&*()".Contains(ch)))
+            {
+                errors.Add("Password must contain at least one special character (!@#$%^&*()).");
+            }
+
+            return errors.Count == 0;
+        }
+
+        /*.
+        PASSWORD VALIDTATING API ENDPOINT USING THE PASSWORD VALIDATION METHOD
+        .*/
+        [HttpPost]
+        public IActionResult ValidatePassword([FromBody] string password)
+        {
+            if (ValidatePassword(password, out List<string> errors))
+            {
+                return Ok(new { isValid = true });
+            }
+            else
+            {
+                return Ok(new { isValid = false, errors = errors });
+            }
+        }
+
     }
 }

@@ -23,25 +23,7 @@ body{
 }
 
 
-/* @media (max-width: 1851px){
-  .quote{
-    width: 100%;
-  }
-} */
-/* @media (max-width: 1483px){
-  .quote{
-    width: 480px;
-  }
-}
-
-@media (max-width: 1455px){
-  .quote{
-    width: 1050px;
-  }
-} */
-
-
-
+  
 .quote.expanded {
   max-height: none; /* Remove max-height when expanded */
   overflow: visible; /* Show overflow when expanded */

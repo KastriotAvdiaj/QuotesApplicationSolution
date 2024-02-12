@@ -7,11 +7,15 @@
     border-radius: 0.2rem;
     background-color: #f9f9f9;
     border-left: 4px solid #f5c013;
-    width: 60%;
+    width: 90%;
+}
+
+.quoteForm2{
+  display: flex;
+  width: 90%;
 }
 
 .quoteForm{
-    display: flex;
     width: 90%;
 }
 

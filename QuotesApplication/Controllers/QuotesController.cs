@@ -84,7 +84,7 @@ namespace QuotesApplication.Controllers
 
 
         [HttpGet("{authorName}")]
-        public IActionResult GetQuotesByWriter(string authorName)
+        public IActionResult GetQuotesByAuthor(string authorName)
         {
             var quotesByAuthor = _db.Quotes.Where(q => q.AuthorName == authorName).ToList();
 

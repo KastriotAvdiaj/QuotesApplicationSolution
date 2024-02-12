@@ -17,7 +17,7 @@ const QuoteForm = ({ onAdd, onClose }) => {
   return (
     <div className="quote-form-overlay">
       <div className="quoteForm">
-        <form onSubmit={handleSubmit} className="quoteForm">
+        <form onSubmit={handleSubmit} className="quoteForm2">
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
