@@ -123,7 +123,7 @@ export const Quotes = () => {
   const whiteOrBlackBorder = theme === "dark" ? "white" : "#092396";
 
   return (
-    <div>
+    <div className="quotesMainDiv">
       <h1>Quotes</h1>
       <FormControlLabel
         control={

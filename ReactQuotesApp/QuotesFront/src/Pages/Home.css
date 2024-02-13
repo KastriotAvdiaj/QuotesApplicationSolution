@@ -1,35 +1,86 @@
 .homeMainDiv {
     display: grid;
-    grid-template-rows: fit-content auto; /* Adjust 200px to the fixed height you want */
-    gap: 2rem;
+    grid-template-rows: auto; /* Adjust 200px to the fixed height you want */
+    /* gap: 2rem; */
   }
   
   .firstParagraph {
+    user-select: none;
     font-size: 6rem;
   }
 
-  .firstRow{
+  .firstRow {
+    position: relative;
     text-align: center;
-    grid-column: 1 / -1; /* Spans from the first column to the last */
+    grid-column: 1 / -1;
+  }
+
+  .backgroundImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(4px); 
+    z-index: -1; 
   }
 
   .secondRow {
-    padding: 0 2rem 0 2rem;
+    overflow: hidden;
+    padding: 1.5rem 2rem 1.5rem 2rem;
     display: grid;
     grid-template-columns: 1fr 1fr; /* This ensures any children of secondRow are side by side */
-    gap: 2rem; /* Keeps consistency with the gap defined in homeMainDiv */
+    gap: 2rem; 
+  }
+
+  .quotesSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .quotesDiv{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
     cursor: pointer;
     border-radius: 0.2rem;
     height: 300px;
     background-color: rgb(36, 32, 32);
     box-shadow: 1px 8px 14px rgba(0, 0, 0, 0.5); 
-    transition: all 0.16s ease-out;
   }
-  .quotesDiv:hover{
+
+  .topParagraph {
+    margin-bottom: 1rem;
+    color: white; 
+    width: 100%; 
+    text-align: center;
+    font-weight: bold; 
+    font-size: 2rem; 
+    background: -webkit-linear-gradient(45deg, #fffeff, #585855);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; 
+    background-clip: text;
+    transition: all 0.16s ease-in;
+  }
+
+  .topParagraph:hover{
     transform: scale(1.04);
+    background: -webkit-linear-gradient(135deg,#fffb27,#f700ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; 
+  }
+
+  .quotesParagraph {
+    font-style: italic;
+    color: white;
+    text-align: center; 
+    padding: 10px; 
   }
 
   .booksDiv{
@@ -38,8 +89,31 @@
     height: 300px;
     background-color: rgb(36, 32, 32);
     box-shadow: 1px 8px 14px rgba(0, 0, 0, 0.5); 
-    transition: all 0.16s ease-out;
   }
-  .booksDiv:hover{
-    transform: scale(1.04);
+
+  .bookImages {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+  
+  .bookImage {
+    width: 100px; 
+    height: auto;
+    border-radius: 4px; 
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.6); 
+  }
+
+  .bookImage:hover{
+    transform: scale(1.03);
+  }
+
+  .quotesDiv, .booksDiv {
+    transform: scale(0.96); /* Scale down slightly */
+    transition: transform 0.16s ease-out;
+  }
+  
+  .quotesDiv:hover, .booksDiv:hover {
+    transform: scale(1); /* Scale back to normal */
   }

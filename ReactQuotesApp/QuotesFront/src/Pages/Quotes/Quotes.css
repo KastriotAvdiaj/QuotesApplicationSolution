@@ -1,3 +1,7 @@
+.quotesMainDiv{
+  padding: 1rem;
+}
+
 .quote-form-overlay {
     position: fixed;
     top: 0;

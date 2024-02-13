@@ -1,3 +1,5 @@
+
+
 .App-container {
     display: flex;
     height: 100vh; 
@@ -7,5 +9,4 @@
     flex: 1;
     overflow-y: auto;
     margin-left: 15rem; 
-    padding: 1rem; 
   }
