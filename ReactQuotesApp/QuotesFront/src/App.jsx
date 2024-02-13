@@ -7,6 +7,7 @@ import { Signup } from "./Pages/Signup/Signup";
 import { QuotesProvider } from "./Components/Quotes/QuotesProvider";
 import { Home } from "./Pages/Home";
 import { ThemeProvider } from "./Components/Theme/ThemeContext";
+import { Login } from "./Pages/Login/Login";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
                 <Route path="/quotes" element={<Quotes />} />
                 <Route path="/books" element={<Books />} />
                 <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
               </Routes>
             </ThemeProvider>
           </QuotesProvider>

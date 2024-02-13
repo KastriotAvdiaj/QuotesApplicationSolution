@@ -1,6 +1,7 @@
 import React from "react";
 import "./Sidebar.css";
 import Logo from "../../assets/quotesLogo2.png";
+import Logo2 from "../../assets/quotesAppTransparent.png";
 import { NavLink } from "react-router-dom";
 import { BiSolidQuoteSingleLeft } from "react-icons/bi";
 import { BiSolidQuoteSingleRight } from "react-icons/bi";
@@ -12,7 +13,7 @@ export const Sidebar = () => {
         <div className="logoText">
           <NavLink to="/">
             <img
-              src={Logo}
+              src={Logo2}
               alt=""
               style={{
                 padding: "1rem",
@@ -20,7 +21,7 @@ export const Sidebar = () => {
                 width: "50px",
               }}
             />
-            Quotes App
+            Everything App
           </NavLink>
         </div>
 

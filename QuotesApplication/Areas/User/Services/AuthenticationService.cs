@@ -56,7 +56,6 @@ namespace QuotesApplication.Areas.User.Services
             {
                 return null;
             }
-            // Assuming _passwordHasher is available in your service to verify the password
             var result = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 
             if (result == PasswordVerificationResult.Failed)
