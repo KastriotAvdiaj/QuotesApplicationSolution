@@ -4,12 +4,14 @@ import "./Quote.css";
 const Quote = ({
   description,
   authorName,
-  disabled,
+  // disabled,
   id,
   onCheckboxChange,
   isSelected,
   theme,
   borderColor,
+  editButtonDisplay,
+  checkboxDisplay,
 }) => {
   const themeClass = theme === "light" ? "" : "quote--dark";
 
@@ -24,13 +26,19 @@ const Quote = ({
       }}
       onClick={toggleExpand}
     >
+      <button
+        className="editQuoteButton"
+        style={{ display: editButtonDisplay }}
+      >
+        Change
+      </button>
       <p className="quote-description">"{description}"</p>
       <p className="quote-author">-{authorName}</p>
       <input
         type="checkbox"
         checked={isSelected}
-        disabled={disabled}
         className="checkBox"
+        style={{ display: checkboxDisplay }}
         onChange={(e) => onCheckboxChange(id, e.target.checked)}
         onClick={(e) => e.stopPropagation()}
       />

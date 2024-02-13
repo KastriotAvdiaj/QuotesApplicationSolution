@@ -16,10 +16,11 @@ export const Quotes = () => {
   const { quotes, addQuote, setQuotes } = useContext(QuotesContext);
   const [showForm, setShowForm] = useState(false);
   const [selectedQuotes, setSelectedQuotes] = useState([]);
-  const [disabledCheckbox, setDisabledCheckbox] = useState(true);
   const [isDeleteButtonDisabled, DisableDeleteButton] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
   const { theme, changeTheme } = useTheme();
+  const [editButtonDisplay, setEditButtonDisplay] = useState("none");
+  const [checkboxDisplay, setCheckboxDisplay] = useState("none");
 
   const toggleTheme = () => {
     changeTheme(theme === "light" ? "dark" : "light");
@@ -42,7 +43,17 @@ export const Quotes = () => {
   };
 
   const handeCheckBoxes = () => {
-    setDisabledCheckbox(!disabledCheckbox);
+    if (checkboxDisplay === "none") {
+      setCheckboxDisplay("inline");
+    } else {
+      setCheckboxDisplay("none");
+    }
+
+    if (editButtonDisplay === "none") {
+      setEditButtonDisplay("inline");
+    } else {
+      setEditButtonDisplay("none");
+    }
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -165,11 +176,12 @@ export const Quotes = () => {
               id={quote.id}
               description={quote.description}
               authorName={quote.authorName}
-              disabled={disabledCheckbox}
               onCheckboxChange={handleCheckboxChange}
               isSelected={selectedQuotes.includes(quote.id)}
               theme={theme}
               borderColor={index % 2 === 0 ? "#f5c013" : whiteOrBlackBorder}
+              editButtonDisplay={editButtonDisplay}
+              checkboxDisplay={checkboxDisplay}
             />
           </li>
         ))}
