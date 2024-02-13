@@ -28,6 +28,14 @@ export const QuotesProvider = ({ children }) => {
     setQuotes((prevQuotes) => [...prevQuotes, newQuote]);
   };
 
+  const updateQuote = (updatedQuote) => {
+    setQuotes((prevQuotes) =>
+      prevQuotes.map((quote) =>
+        quote.id === updatedQuote.id ? updatedQuote : quote
+      )
+    );
+  };
+
   const deleteSelectedQuotes = (idsToDelete) => {
     setQuotes((currentQuotes) =>
       currentQuotes.filter((quote) => !idsToDelete.includes(quote.id))
@@ -36,7 +44,7 @@ export const QuotesProvider = ({ children }) => {
 
   return (
     <QuotesContext.Provider
-      value={{ quotes, addQuote, setQuotes, deleteSelectedQuotes }}
+      value={{ quotes, addQuote, setQuotes, updateQuote, deleteSelectedQuotes }}
     >
       {children}
     </QuotesContext.Provider>

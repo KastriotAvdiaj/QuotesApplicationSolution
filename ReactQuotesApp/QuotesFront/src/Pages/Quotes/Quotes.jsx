@@ -10,11 +10,13 @@ import MaterialUISwitch from "../../Components/Mui/MaterialUISwitch";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
 import { useTheme } from "../../Components/Theme/ThemeContext";
+import QuoteEdit from "../../Components/Quotes/QuoteEdit";
 import "./Quotes.css";
 
 export const Quotes = () => {
   const { quotes, addQuote, setQuotes } = useContext(QuotesContext);
   const [showForm, setShowForm] = useState(false);
+  const [showEditForm, setShowEditForm] = useState(false);
   const [selectedQuotes, setSelectedQuotes] = useState([]);
   const [isDeleteButtonDisabled, DisableDeleteButton] = useState(true);
   const [successMessage, setSuccessMessage] = useState("");
@@ -22,10 +24,31 @@ export const Quotes = () => {
   const [editButtonDisplay, setEditButtonDisplay] = useState("none");
   const [checkboxDisplay, setCheckboxDisplay] = useState("none");
 
+  const [editingQuote, setEditingQuote] = useState({
+    description: "",
+    authorName: "",
+  });
+
+  const setEditSuccessMessage = (message) => {
+    setSuccessMessage(message);
+    setTimeout(() => setSuccessMessage(""), 3000);
+  };
+
+  const handleEditButtonClick = (description, authorName, id) => {
+    setEditingQuote({ description, authorName, id });
+    setShowEditForm(!showEditForm);
+  };
+
+  // .
+  // THEME MEHTOD
+  // .
   const toggleTheme = () => {
     changeTheme(theme === "light" ? "dark" : "light");
   };
 
+  // .
+  // CHECKING WHICH CHECKBOXES ARE CHECKED
+  // .
   const handleCheckboxChange = (id, isChecked) => {
     setSelectedQuotes((prevSelected) => {
       const newSelectedQuotes = isChecked
@@ -38,11 +61,17 @@ export const Quotes = () => {
     });
   };
 
+  // .
+  // CLOSING THE CREATE NEW FORM
+  // .
   const handleCloseForm = () => {
     setShowForm(false);
   };
 
-  const handeCheckBoxes = () => {
+  // .
+  // REMOVING AND ADDING THE CHECKBOXES/CHANGE BUTTONS FROM THE QUOTE
+  // .
+  const handleCheckBoxes = () => {
     if (checkboxDisplay === "none") {
       setCheckboxDisplay("inline");
     } else {
@@ -56,6 +85,9 @@ export const Quotes = () => {
     }
   };
 
+  // .
+  // PAGINATION LOGIC
+  // .
   const [currentPage, setCurrentPage] = useState(1);
   const quotesPerPage = 6;
   const totalPages = Math.ceil(quotes.length / quotesPerPage);
@@ -67,7 +99,9 @@ export const Quotes = () => {
     setCurrentPage(pageNumber);
   };
 
-  //CREATING A NEW QUOTE
+  // .
+  // CREATING A NEW QUOTE
+  // .
   const handleAddQuote = async (newQuote) => {
     try {
       const response = await fetch("https://localhost:7099/api/Quotes/Add", {
@@ -92,7 +126,9 @@ export const Quotes = () => {
     }
   };
 
-  //DELETING THE QUOTE/s
+  // .
+  // DELETING THE QUOTE/s
+  // .
   const handleDeleteSelectedQuotes = async () => {
     try {
       const response = await fetch(`https://localhost:7099/api/Quotes/Delete`, {
@@ -131,6 +167,9 @@ export const Quotes = () => {
     }
   };
 
+  // .
+  // CHECKING THE BORDER OF THE QUOTES AND UPDATING IT
+  // .
   const whiteOrBlackBorder = theme === "dark" ? "white" : "#092396";
 
   return (
@@ -161,11 +200,20 @@ export const Quotes = () => {
           >
             <MdDeleteForever />
           </button>
-          <button className="editButton" onClick={handeCheckBoxes}>
+          <button className="editButton" onClick={handleCheckBoxes}>
             <FaEdit />
           </button>
         </div>
       </div>
+      {showEditForm && (
+        <QuoteEdit
+          onCancel={handleEditButtonClick}
+          quote={editingQuote.description}
+          author={editingQuote.authorName}
+          id={editingQuote.id}
+          setEditSuccessMessage={setEditSuccessMessage}
+        />
+      )}
       {showForm && (
         <QuoteForm onAdd={handleAddQuote} onClose={handleCloseForm} />
       )}
@@ -182,6 +230,13 @@ export const Quotes = () => {
               borderColor={index % 2 === 0 ? "#f5c013" : whiteOrBlackBorder}
               editButtonDisplay={editButtonDisplay}
               checkboxDisplay={checkboxDisplay}
+              onEditButtonClick={() =>
+                handleEditButtonClick(
+                  quote.description,
+                  quote.authorName,
+                  quote.id
+                )
+              }
             />
           </li>
         ))}

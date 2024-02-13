@@ -4,7 +4,6 @@ import "./Quote.css";
 const Quote = ({
   description,
   authorName,
-  // disabled,
   id,
   onCheckboxChange,
   isSelected,
@@ -12,6 +11,7 @@ const Quote = ({
   borderColor,
   editButtonDisplay,
   checkboxDisplay,
+  onEditButtonClick,
 }) => {
   const themeClass = theme === "light" ? "" : "quote--dark";
 
@@ -29,6 +29,10 @@ const Quote = ({
       <button
         className="editQuoteButton"
         style={{ display: editButtonDisplay }}
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent the quote from expanding
+          onEditButtonClick(description, authorName, id); // Call the function passed as a prop
+        }}
       >
         Change
       </button>

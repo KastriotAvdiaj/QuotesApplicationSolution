@@ -8,7 +8,6 @@ const QuoteForm = ({ onAdd, onClose }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const finalAuthorName = authorName.trim() ? authorName : "Unknown";
-    console.log(finalAuthorName);
     onAdd({ description, authorName: finalAuthorName });
     setDescription("");
     setAuthorName("");

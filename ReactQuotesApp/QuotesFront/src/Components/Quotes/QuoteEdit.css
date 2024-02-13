@@ -1,0 +1,146 @@
+.quote-edit-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; 
+  }
+
+  .quote-edit-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    background-color: #474242;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
+  }
+
+  .input-container {
+    position: relative;
+    width: calc(90% - 10px); /* Adjust based on your layout */
+    margin-bottom: 20px;
+  }
+  
+  .input-container::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0px;
+    width: 0;
+    height: 3px;
+    background-color: #ff0000;
+    transition: width 0.3s ease-in-out;
+  }
+
+  .input-container.textarea::after{
+    bottom: 3px;
+  }
+  
+
+  .edit-quote-input:focus, .edit-author-input:focus {
+    outline: none; 
+  }
+  
+  .input-container:focus-within::after {
+    width: 100%;
+  }
+  
+  .edit-quote-input,
+  .edit-author-input {
+    box-sizing: border-box;
+    border: none;
+    background-color: #3a3232;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+    font-size: 16px;
+  }
+
+  
+  .edit-quote-input::placeholder,
+  .edit-author-input::placeholder {
+    color: #b6b1b1; 
+  }
+
+  .edit-quote-input {
+    height: auto;
+    resize: vertical; 
+  }
+  
+  .quote-edit-actions {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .saveEditButton,
+  .cancelEditButton {
+    border: none;
+    font-size: 1rem;
+    border-radius: 0.2rem;
+    box-shadow: 1px 8px 14px rgba(0, 0, 0, 0.5); 
+    padding: 0.5rem 1.5rem 0.5rem 1.5rem;
+    color: white;
+    font-weight: bold;
+    transition: all 0.15s ease-in-out;
+    margin-left: 10px;
+  }
+  
+  .saveEditButton {
+    background-color: #4CAF50; /* Green */
+    color: white;
+  }
+
+  .saveEditButton:hover{
+    background-color: #358d38;
+  }
+
+  .saveEditButton:active{
+    transform: scale(0.98);
+  }
+
+  .cancelEditButton{
+    background-color: red;
+    color: white;
+  }
+
+  .cancelEditButton:hover{
+    background-color: rgb(175, 19, 19);
+  }
+
+  .cancelEditButton:active{
+    transform: scale(0.98);
+  }
+
+  .successMessage {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    font-size: 1.5rem;
+    background-color: #d4edda;
+    color: #104b1e;
+    padding: 10px 20px;
+    border: 1px solid #c3e6cb;
+    z-index: 1000;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s, visibility 0.5s;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6), 0 6px 20px 0 rgb(5, 5, 5);
+  }
+  
+  .visible {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s 0.5s;
+  }
+  
