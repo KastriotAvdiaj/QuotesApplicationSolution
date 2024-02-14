@@ -11,6 +11,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
 import { useTheme } from "../../Components/Theme/ThemeContext";
 import QuoteEdit from "../../Components/Quotes/QuoteEdit";
+import quoteSharing from "../../assets/quoteSharing.png";
 import "./Quotes.css";
 
 export const Quotes = () => {
@@ -174,7 +175,16 @@ export const Quotes = () => {
 
   return (
     <div className="quotesMainDiv">
-      <h1>Quotes</h1>
+      <div className="imageAndTextContainer">
+        <div
+          className="imageDiv"
+          style={{ backgroundImage: `url(${quoteSharing})` }}
+        ></div>
+        <p className="quotesPageParagraph">
+          The place where you can discover and add your favourite quotes.
+        </p>
+      </div>
+
       <FormControlLabel
         control={
           <MaterialUISwitch

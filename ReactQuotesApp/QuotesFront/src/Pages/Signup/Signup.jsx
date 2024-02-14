@@ -4,6 +4,7 @@ import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { FaBackward } from "react-icons/fa";
 import { motion } from "framer-motion";
 import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
+import logoImage from "../../assets/quotesAppTransparent.png";
 import "./Signup.css";
 
 export const Signup = () => {
@@ -47,29 +48,6 @@ export const Signup = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    // if (checkEmail()) {
-    //   if (email && !username) {
-    //     if (!checkUsername()) {
-    //       return;
-    //     }
-    //   }
-
-    //   if (email && username && !password) {
-    //     setCurrentStep(currentStep + 1);
-    //     return;
-    //   }
-
-    //   if (email && username && password && !confirmPassword) {
-    //     return;
-    //   }
-
-    //   if (email && username && password && confirmPassword) {
-    //     setCurrentStep(currentStep + 1);
-    //   }
-    // } else {
-    //   return;
-    // }
 
     const userData = {
       email: email,
@@ -385,7 +363,15 @@ export const Signup = () => {
           exit="exit"
           variants={variants}
           transition={{ duration: 0.5 }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: "2rem",
+          }}
         >
+          <img src={logoImage} style={{ height: "200px" }} />
           <form className="signupForm" onSubmit={handleSubmit}>
             {renderStep()}
             {currentStep < 4 && (

@@ -9,12 +9,76 @@
     font-size: 6rem;
   }
 
+  @keyframes rainbow-animation {
+    to {
+        background-position: 4500vh;
+    }
+}
+  .logInParagraph,
+  .signUpParagraph{
+  user-select: none;
+  font-family:arial black;
+  font-size:70px;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;  
+  animation: rainbow-animation 35s linear infinite;
+  }
+
+  .signUpParagraph{
+    background-image: linear-gradient(to right, rgb(117, 0, 111),rgb(245, 118, 238), rgb(117, 0, 111)); 
+  }
+
+  .logInParagraph{
+    background-image: linear-gradient(to right, rgb(14, 22, 133),rgb(108, 110, 241), rgb(14, 22, 133)); 
+  }
+
+.signupDiv{
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.loginButton,
+.signupButton{
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: rgb(224, 216, 216);
+  cursor: pointer;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 1rem 2.5rem 1rem 2.5rem;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  box-shadow: 1px 8px 14px rgba(0, 0, 0, 0.5); 
+}
+
+.signupButton{
+  background-color: rgb(117, 0, 111);
+}
+
+.signupButton:hover{
+  background-color: rgb(99, 6, 94);
+}
+
+.loginButton{
+  background-color: rgb(14, 22, 133);
+}
+
+.loginButton:hover{
+  background-color: rgb(13, 20, 117);
+}
+
+
   .firstRow {
     position: relative;
     text-align: center;
     grid-column: 1 / -1;
   }
 
+  .mainBackgroundImage,
   .backgroundImage {
     position: absolute;
     top: 0;
@@ -25,6 +89,15 @@
     background-position: center;
     filter: blur(4px); 
     z-index: -1; 
+  }
+
+  .mainBackgroundImage{
+    opacity: 0;
+  transition: opacity 1s ease-in-out; 
+  }
+
+  .mainBackgroundImage.active {
+    opacity: 1;
   }
 
   .secondRow {

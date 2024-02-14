@@ -1,10 +1,12 @@
 import React from "react";
 import "./Sidebar.css";
-import Logo from "../../assets/quotesLogo2.png";
+import { FaBook } from "react-icons/fa";
 import Logo2 from "../../assets/quotesAppTransparent.png";
 import { NavLink } from "react-router-dom";
 import { BiSolidQuoteSingleLeft } from "react-icons/bi";
 import { BiSolidQuoteSingleRight } from "react-icons/bi";
+import { IoMdLogIn } from "react-icons/io";
+import { MdPerson } from "react-icons/md";
 
 export const Sidebar = () => {
   return (
@@ -28,15 +30,29 @@ export const Sidebar = () => {
         <ul className="sidebarUl">
           <li>
             <NavLink to="/quotes">
-              <BiSolidQuoteSingleLeft />
               Quotes
-              <BiSolidQuoteSingleRight />
+              <div>
+                <BiSolidQuoteSingleLeft />
+                <BiSolidQuoteSingleRight />
+              </div>
             </NavLink>
           </li>
           <li>
-            <NavLink to="/books">Second Item</NavLink>
+            <NavLink to="/books">
+              Books <FaBook />
+            </NavLink>
           </li>
         </ul>
+
+        <div className="bottomButtons">
+          <NavLink to="/login">
+            {" "}
+            <IoMdLogIn /> Login
+          </NavLink>
+          <NavLink to="/signup">
+            <MdPerson /> Signup
+          </NavLink>
+        </div>
       </div>
     </>
   );
