@@ -96,10 +96,48 @@
   }
 
   .quotes-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: start;
-    padding: 1rem;
+    /* width: calc(100% - 15rem); */
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 0rem; 
+    align-items: start; 
+  }
+
+
+  .quotes-container > li {
+    min-width: 0; 
+    max-width: 100%; 
+    overflow: hidden; 
+    word-wrap: break-word; 
+  }
+
+  
+
+  @media (max-width: 1570px) {
+    .quotes-container {
+      grid-template-columns: repeat(4, 1fr); 
+    }
+  }
+
+  @media (max-width: 1377px) {
+    .quotes-container {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (max-width: 1101px) {
+    .quotes-container {
+      grid-template-columns: repeat(2, 1fr); 
+    }
+  }
+
+  @media (max-width: 822px) {
+    .quotes-container {
+      grid-template-columns: repeat(1, 1fr); 
+    }
+    .quote{
+      width: 400px;
+    }
   }
 
   .imageAndTextContainer {

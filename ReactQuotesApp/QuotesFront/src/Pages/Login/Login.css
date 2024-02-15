@@ -1,4 +1,4 @@
-.signupMainDiv{
+.mainLoginDiv{
     margin: 0;
     padding: 0;
     height: calc(100vh - 3rem);
@@ -6,9 +6,11 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
+    gap: 2rem;
 }
 
-.signupForm {
+.loginForm {
     padding: 40px;
     color: white;
     background: rgb(48, 45, 45);
@@ -18,10 +20,9 @@
     min-width: 500px;
     width: 100%;
   }
-  
-  .signupForm input[type="email"],
-  .signupForm input[type="text"],
-  .signupForm input[type="password"] {
+
+  .loginForm input[type="email"],
+  .loginForm input[type="password"] {
     width: 100%;
     padding: 15px;
     margin: 10px 0;
@@ -29,46 +30,55 @@
     border-radius: 4px;
     box-sizing: border-box;
   }
+
   
-  .signupForm button {
+
+  .loginForm button{
     border: none;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     box-shadow: 2px 4px 8px rgb(13, 13, 15);
-    background-color: #3d3c3c; 
-    color: #f5c013; 
-    font-size: 1.2rem;
     font-weight: bold;
+    background-color: #3d3c3c; 
+    font-size: 1.2rem;
     width: 100%;
-    padding: 0.2rem 0 0.2rem 0;
+    padding: 0.7rem 0 0.7rem 0;
     margin: 0.5rem 0 0 0;
+    color: #f5c013; 
     border-radius: 4px;
     cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .continueButton{
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    justify-content: center;
+    font-size: 3rem;
+  }
+
+  .loginForm button:hover{
+    transform: scale(1.02);
+  }
+
+  .loginButtonGroup{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 0.5rem;
-    transition: all 0.2s ease;
+    gap: 1rem;
   }
 
-  .signupForm button:hover{
-    transform: scale(1.02);
-  }
-  
-  .error {
-    color: red;
-    margin-bottom: 15px;
-  }
-  
-  .signupForm p {
-    margin: 10px 0;
-  }
+  .accountPrompt {
+  font-size: 14px;
+  margin-left: 0.3rem;
+  margin-bottom: 20px; /* Space before the Continue button */
+}
 
-  .emailParagraph{
-    font-size: 2rem;
-  }
+.accountPrompt a {
+    color: #f5c013; 
+  text-decoration: none;
+}
 
-  .nextBackButtons{
-    display: flex;
-    gap: 2rem;
-  }
-
+.accountPrompt a:hover {
+  text-decoration: underline;
+}

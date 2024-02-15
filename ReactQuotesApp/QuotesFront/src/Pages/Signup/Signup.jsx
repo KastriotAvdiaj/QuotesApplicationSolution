@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
 import { FaBackward } from "react-icons/fa";
@@ -347,7 +348,6 @@ export const Signup = () => {
 
   return (
     <motion.div
-      key="email"
       initial="initial"
       animate="animate"
       exit="exit"
@@ -372,17 +372,21 @@ export const Signup = () => {
           }}
         >
           <img src={logoImage} style={{ height: "200px" }} />
+          {/* <h2>Sign Up</h2> */}
           <form className="signupForm" onSubmit={handleSubmit}>
             {renderStep()}
             {currentStep < 4 && (
               <>
+                <p className="accountPrompt">
+                  Already have an account? <NavLink to="/login">Login</NavLink>
+                </p>
                 <div className="nextBackButtons">
                   <button
                     type="button"
                     className="backButton"
                     onClick={handleBackClick}
                   >
-                    <FaBackward />
+                    <FaBackward style={{ marginTop: "0.2rem" }} />
                     <p>Back</p>
                   </button>
                   <button
@@ -391,7 +395,7 @@ export const Signup = () => {
                     onClick={handleNextClick}
                   >
                     <p>Next</p>
-                    <TbPlayerTrackNextFilled />
+                    <TbPlayerTrackNextFilled style={{ marginTop: "0.2rem" }} />
                   </button>
                 </div>
               </>
