@@ -372,8 +372,11 @@ export const Signup = () => {
           }}
         >
           <img src={logoImage} style={{ height: "200px" }} />
-          {/* <h2>Sign Up</h2> */}
           <form className="signupForm" onSubmit={handleSubmit}>
+            <div className="signupTitle">
+              <h2 className="page-title">Sign Up</h2>
+            </div>
+
             {renderStep()}
             {currentStep < 4 && (
               <>

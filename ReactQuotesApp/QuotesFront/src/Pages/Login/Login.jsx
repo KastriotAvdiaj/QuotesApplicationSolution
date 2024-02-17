@@ -1,14 +1,20 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import logoImage from "../../assets/quotesAppTransparent.png";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
+import { useAuth } from "../../Components/AuthContext/AuthContext";
 import "./Login.css";
 
 export const Login = () => {
+  const { login } = useAuth();
+  
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPasswordInput, setShowPasswordInput] = useState(false);
+  const navigate = useNavigate();
 
   const fadeVariants = {
     hidden: { opacity: 0 },
@@ -29,15 +35,41 @@ export const Login = () => {
   const handleBack = (e) => {
     e.preventDefault();
     setShowPasswordInput(false); // Allows the user to go back and edit the email
-    setPassword(""); // Clear the password if you want the user to re-enter it
+    // setPassword("");
   };
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Handle login logic here with email and password
-    console.log(email, password);
-  };
+    const requestBody = {
+      email: email,
+      password: password,
+    };
 
+    try {
+      const response = await fetch(
+        "https://localhost:7099/api/Authentication/SignIn",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(requestBody),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        localStorage.setItem("token", data.token);
+        login(data.token);
+        console.log("Login Successful:", data);
+        navigate("/");
+      } else {
+        console.error("Login Failed:", response.status);
+      }
+    } catch (error) {
+      console.error("Login Error:", error);
+    }
+  };
   return (
     <>
       <motion.div
@@ -53,6 +85,9 @@ export const Login = () => {
             className="loginForm"
             onSubmit={showPasswordInput ? handleLogin : handleContinue}
           >
+            <div className="signupTitle">
+              <h2 className="page-title">Log In</h2>
+            </div>
             <motion.div
               initial="hidden"
               animate="visible"

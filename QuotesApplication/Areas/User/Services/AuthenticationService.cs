@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QuotesApplication.Areas.User.Models;
@@ -15,13 +16,33 @@ namespace QuotesApplication.Areas.User.Services
         private readonly IConfiguration _configuration;
         private readonly ApplicationDbContext _context;
         private readonly PasswordHasher<ApplicationUser> _passwordHasher;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
 
-        public AuthenticationService(IConfiguration configuration, ApplicationDbContext context)
+        public AuthenticationService(IConfiguration configuration, ApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
         {
             _configuration = configuration;
             _context = context;
             _passwordHasher = new PasswordHasher<ApplicationUser>();
+            _httpContextAccessor = httpContextAccessor;
+        }
+
+
+        public (bool IsSignedIn, SimpleUserModel User)  IsUserSignedIn()
+        {
+            var user = _httpContextAccessor.HttpContext.User;
+            if (user.Identity.IsAuthenticated)
+            {
+                var simpleUser = new SimpleUserModel
+                {
+                    UserId =  user.Claims.FirstOrDefault(c => c.Type == "UserId")?.Value,
+                    Email = user.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
+                };
+
+                return (true, simpleUser);
+            }
+
+            return (false, null);
         }
 
         public string GenerateJwtToken(ApplicationUser user)

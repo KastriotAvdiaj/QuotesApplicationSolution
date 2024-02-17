@@ -7,8 +7,15 @@ import { BiSolidQuoteSingleLeft } from "react-icons/bi";
 import { BiSolidQuoteSingleRight } from "react-icons/bi";
 import { IoMdLogIn } from "react-icons/io";
 import { MdPerson } from "react-icons/md";
+import { useAuth } from "../../Components/AuthContext/AuthContext";
 
 export const Sidebar = () => {
+  const { isAuthenticated, logout } = useAuth();
+  console.log(isAuthenticated);
+
+  const handleLogout = () => {
+    logout();
+  };
   return (
     <>
       <div className="sidebar">
@@ -43,16 +50,21 @@ export const Sidebar = () => {
             </NavLink>
           </li>
         </ul>
-
-        <div className="bottomButtons">
-          <NavLink to="/login">
-            {" "}
-            <IoMdLogIn /> Login
-          </NavLink>
-          <NavLink to="/signup">
-            <MdPerson /> Signup
-          </NavLink>
-        </div>
+        {!isAuthenticated ? (
+          <div className="bottomButtons">
+            <NavLink to="/login">
+              {" "}
+              <IoMdLogIn /> Login
+            </NavLink>
+            <NavLink to="/signup">
+              <MdPerson /> Signup
+            </NavLink>
+          </div>
+        ) : (
+          <div className="bottomButtons">
+            <button onClick={handleLogout}> Logout </button>
+          </div>
+        )}
       </div>
     </>
   );

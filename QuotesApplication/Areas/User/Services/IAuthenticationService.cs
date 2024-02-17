@@ -6,7 +6,8 @@ namespace QuotesApplication.Areas.User.Services
     {
         string GenerateJwtToken(ApplicationUser user);
 
-
         Task<ApplicationUser> AuthenticateUser(string username, string password);
+
+        (bool IsSignedIn, SimpleUserModel User) IsUserSignedIn();
     }
 }

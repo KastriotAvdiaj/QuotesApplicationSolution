@@ -8,25 +8,28 @@ import { QuotesProvider } from "./Components/Quotes/QuotesProvider";
 import { Home } from "./Pages/Home";
 import { ThemeProvider } from "./Components/Theme/ThemeContext";
 import { Login } from "./Pages/Login/Login";
+import { AuthProvider } from "./Components/AuthContext/AuthContext";
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App-Container">
-        <Sidebar />
-        <div className="App">
-          <QuotesProvider>
-            <ThemeProvider>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/quotes" element={<Quotes />} />
-                <Route path="/books" element={<Books />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-              </Routes>
-            </ThemeProvider>
-          </QuotesProvider>
-        </div>
+        <AuthProvider>
+          <Sidebar />
+          <div className="App">
+            <QuotesProvider>
+              <ThemeProvider>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/quotes" element={<Quotes />} />
+                  <Route path="/books" element={<Books />} />
+                  <Route path="/signup" element={<Signup />} />
+                  <Route path="/login" element={<Login />} />
+                </Routes>
+              </ThemeProvider>
+            </QuotesProvider>
+          </div>
+        </AuthProvider>
       </div>
     </BrowserRouter>
   );

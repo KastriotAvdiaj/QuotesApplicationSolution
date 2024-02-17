@@ -24,6 +24,27 @@ namespace QuotesApplication.Areas.User.Controllers
             _passwordHasher = new PasswordHasher<ApplicationUser>();
         }
 
+
+        /*.
+        CHECKING IF THE USER IS SIGNEDIN ENDPOINT
+        .*/
+        [HttpGet]
+        public ActionResult IsUserSignedIn()
+        {
+            var (IsSignedIn, User) = _authenticationService.IsUserSignedIn();
+
+            if (!IsSignedIn)
+            {
+                return Ok(new { IsSignedIn = false });
+            }
+
+            return Ok(new
+            {
+                IsSignedIn = true,
+                User = User
+            });
+        }
+
         /*.
         SIGNUP API ENDPOINT
         .*/
@@ -52,6 +73,9 @@ namespace QuotesApplication.Areas.User.Controllers
             return Ok(newUser);
         }
 
+        /*.
+        SIGNIN API ENDPOINT
+        .*/
         [HttpPost]
         public async Task<IActionResult> SignIn([FromBody] LoginDto loginData)
         {
