@@ -48,7 +48,7 @@
     border-radius: 0.2rem;
     border: none;
     outline: none;
-    padding: 0.5rem;
+    padding: 0.94rem ;
     background-color: #f5c013;
     transition: all 0.1s ease-in;
     display: flex;
@@ -96,7 +96,6 @@
   }
 
   .quotes-container {
-    /* width: calc(100% - 15rem); */
     display: grid;
     grid-template-columns: repeat(5, 1fr); 
     gap: 0rem; 
@@ -142,34 +141,12 @@
 
   .imageAndTextContainer {
     border-radius: 0.4rem;
+    background-image: linear-gradient(#969696, #635d5d);
     position: relative; 
     width: 100%; 
     height: 400px; 
     display: flex;
     align-items: center;
     box-shadow: 1px 4px 8px rgb(26, 24, 24);
-    border: 2px solid rgb(26, 24, 24);
-  }
-
-  .quotesPageParagraph{
-    user-select: none;
-    -webkit-text-stroke: 1px black;
-    text-shadow: 12px 4px 8px rgb(0, 0, 0);
-    position: relative;
-    color: white;
-    font-weight: 700;
-    text-align: center;
-    width: 99%;
-    font-size: 4rem;
-    z-index: 1;
-  }
-
-  .imageDiv{ 
-    position: absolute; /* Update this */
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    filter: blur(2px); 
-    z-index: -1; 
+    /* border: 2px solid rgb(26, 24, 24); */
   }

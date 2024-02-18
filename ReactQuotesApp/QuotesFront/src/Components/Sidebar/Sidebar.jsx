@@ -8,6 +8,7 @@ import { BiSolidQuoteSingleRight } from "react-icons/bi";
 import { IoMdLogIn } from "react-icons/io";
 import { MdPerson } from "react-icons/md";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
+import { RiLogoutCircleLine } from "react-icons/ri";
 
 export const Sidebar = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -62,7 +63,10 @@ export const Sidebar = () => {
           </div>
         ) : (
           <div className="bottomButtons">
-            <button onClick={handleLogout}> Logout </button>
+            <NavLink onClick={handleLogout}>
+              <RiLogoutCircleLine />
+              Logout
+            </NavLink>
           </div>
         )}
       </div>

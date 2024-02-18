@@ -83,7 +83,13 @@ namespace QuotesApplication.Areas.User.Controllers
             if (user != null)
             {
                 var token = _authenticationService.GenerateJwtToken(user);
-                return Ok(new { Token = token });
+                return Ok(new
+                {
+                    Token = token,
+                    user.Username,
+                    user.Email
+                });
+
             }
 
             return Unauthorized("Invalid email or password.");

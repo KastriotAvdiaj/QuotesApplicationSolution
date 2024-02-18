@@ -9,6 +9,7 @@ import { Home } from "./Pages/Home";
 import { ThemeProvider } from "./Components/Theme/ThemeContext";
 import { Login } from "./Pages/Login/Login";
 import { AuthProvider } from "./Components/AuthContext/AuthContext";
+import { ChakraProvider } from "@chakra-ui/react";
 
 function App() {
   return (

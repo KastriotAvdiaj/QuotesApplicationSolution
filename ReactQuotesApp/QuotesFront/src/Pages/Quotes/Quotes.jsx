@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { QuotesContext } from "../../Components/Quotes/QuotesProvider";
 import Quote from "../../Components/Quotes/Quote";
 import Pagination from "../../Components/Pagination/Pagination";
@@ -11,7 +11,9 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
 import { useTheme } from "../../Components/Theme/ThemeContext";
 import QuoteEdit from "../../Components/Quotes/QuoteEdit";
-import quoteSharing from "../../assets/quoteSharing.png";
+import QuoteCarousel from "../../Components/Quotes/QuoteCarousel";
+import AlertDialog from "../../Components/Mui/AlertDialog";
+import { useAuth } from "../../Components/AuthContext/AuthContext";
 import "./Quotes.css";
 
 export const Quotes = () => {
@@ -24,6 +26,22 @@ export const Quotes = () => {
   const { theme, changeTheme } = useTheme();
   const [editButtonDisplay, setEditButtonDisplay] = useState("none");
   const [checkboxDisplay, setCheckboxDisplay] = useState("none");
+  const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
+  const { isAuthenticated } = useAuth();
+
+  const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
+
+  const openDeleteDialog = () => {
+    setIsAlertDialogOpen(true);
+  };
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentQuoteIndex((prevIndex) => (prevIndex + 1) % quotes.length);
+    }, 6000);
+
+    return () => clearInterval(intervalId);
+  }, [quotes.length]);
 
   const [editingQuote, setEditingQuote] = useState({
     description: "",
@@ -130,7 +148,7 @@ export const Quotes = () => {
   // .
   // DELETING THE QUOTE/s
   // .
-  const handleDeleteSelectedQuotes = async () => {
+  const performDelete = async () => {
     try {
       const response = await fetch(`https://localhost:7099/api/Quotes/Delete`, {
         method: "DELETE",
@@ -150,6 +168,8 @@ export const Quotes = () => {
       setQuotes(updatedQuotes);
       setSelectedQuotes([]);
       DisableDeleteButton(true);
+      setIsAlertDialogOpen(false);
+
       //Changing the page if all the quotes in that page are deleted
       const newTotalPages = Math.ceil(updatedQuotes.length / quotesPerPage);
       if (currentPage > newTotalPages && currentPage !== 1) {
@@ -176,13 +196,11 @@ export const Quotes = () => {
   return (
     <div className="quotesMainDiv">
       <div className="imageAndTextContainer">
-        <div
-          className="imageDiv"
-          style={{ backgroundImage: `url(${quoteSharing})` }}
-        ></div>
-        <p className="quotesPageParagraph">
-          The place where you can discover and add your favourite quotes.
-        </p>
+        <div className="imageAndTextContainer">
+          {quotes.length > 0 && (
+            <QuoteCarousel quotes={quotes[currentQuoteIndex]} />
+          )}
+        </div>
       </div>
 
       <FormControlLabel
@@ -195,25 +213,37 @@ export const Quotes = () => {
         }
         label={theme.charAt(0).toUpperCase() + theme.slice(1)} // "Dark" or "Light"
       />
+      <AlertDialog
+        isOpen={isAlertDialogOpen}
+        onClose={() => setIsAlertDialogOpen(false)}
+        onConfirm={performDelete}
+      />
       <SuccessMessage message={successMessage} />
       <div className="buttonContainer">
         <button onClick={() => setShowForm(true)} className="newQuoteButton">
           <IoIosAddCircle className="addIcon" /> New Quote
         </button>
-        <div className="rightButtons">
-          <button
-            onClick={handleDeleteSelectedQuotes}
-            className={
-              !isDeleteButtonDisabled ? "deleteButton" : "deleteButton disabled"
-            }
-            disabled={isDeleteButtonDisabled}
-          >
-            <MdDeleteForever />
-          </button>
-          <button className="editButton" onClick={handleCheckBoxes}>
-            <FaEdit />
-          </button>
-        </div>
+
+        {isAuthenticated ? (
+          <div className="rightButtons">
+            <button
+              onClick={openDeleteDialog}
+              className={
+                !isDeleteButtonDisabled
+                  ? "deleteButton"
+                  : "deleteButton disabled"
+              }
+              disabled={isDeleteButtonDisabled}
+            >
+              <MdDeleteForever />
+            </button>
+            <button className="editButton" onClick={handleCheckBoxes}>
+              <FaEdit />
+            </button>
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
       {showEditForm && (
         <QuoteEdit

@@ -83,3 +83,7 @@
 .accountPrompt a:hover {
   text-decoration: underline;
 }
+
+.logoutParagraph{
+  text-align: center;
+}
