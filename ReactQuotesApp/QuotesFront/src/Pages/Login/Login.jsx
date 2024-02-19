@@ -171,7 +171,7 @@ export const Login = () => {
         <div className="mainLoginDiv">
           <div className="loginForm">
             <p className="logoutParagraph">
-              You're already logged in as{" "}
+              You're currently logged in as{" "}
               {localStorage.getItem("username") || username}, with this email{" "}
               {email}. Would you like to logout?
             </p>

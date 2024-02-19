@@ -36,9 +36,24 @@ export const Home = () => {
               style={{ backgroundImage: `url(${img})` }}
             ></div>
           ))}
-          <p className="firstParagraph">
-            Welcome to Everything, where you can save your story.
-          </p>
+          <div className="firstParagraph" style={{ fontWeight: "400" }}>
+            Welcome to
+            <br />
+            <span
+              style={{
+                display: "block",
+                background:
+                  "linear-gradient(0deg, rgba(131,58,180,1) 0%, rgba(253,29,29,1) 50%, rgba(252,176,69,1) 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                fontWeight: "700",
+                fontSize: "5rem",
+              }}
+            >
+              Everything,
+            </span>
+            where you can save your story.
+          </div>
         </div>
         <div className="secondRow">
           <NavLink to="/quotes">

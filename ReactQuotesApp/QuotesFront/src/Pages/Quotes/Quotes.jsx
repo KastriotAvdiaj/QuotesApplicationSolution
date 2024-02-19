@@ -134,10 +134,9 @@ export const Quotes = () => {
       if (!response.ok) {
         throw new Error("Failed to add the quote.");
       }
+      setShowForm(false);
       const addedQuote = await response.json();
       addQuote(addedQuote);
-      setShowForm(false);
-
       setSuccessMessage("You have successfully added a new quote!");
       setTimeout(() => setSuccessMessage(""), 3000);
     } catch (error) {

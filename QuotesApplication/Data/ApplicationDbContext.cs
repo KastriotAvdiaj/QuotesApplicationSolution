@@ -12,5 +12,7 @@ namespace QuotesApplication.Data
         public DbSet<Quote> Quotes { get; set; }   
 
         public DbSet<ApplicationUser> Users { get; set; }
+
+        public DbSet<QuotesApplication.Models.Books>? Books { get; set; }
     }
 }
