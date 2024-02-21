@@ -9,7 +9,7 @@ import { Home } from "./Pages/Home";
 import { ThemeProvider } from "./Components/Theme/ThemeContext";
 import { Login } from "./Pages/Login/Login";
 import { AuthProvider } from "./Components/AuthContext/AuthContext";
-import { ChakraProvider } from "@chakra-ui/react";
+import BooksPageWrapper from "./Pages/Books/BooksPageWrapper";
 
 function App() {
   return (
@@ -23,7 +23,7 @@ function App() {
                 <Routes>
                   <Route path="/" element={<Home />} />
                   <Route path="/quotes" element={<Quotes />} />
-                  <Route path="/books" element={<Books />} />
+                  <Route path="/books" element={<BooksPageWrapper />} />
                   <Route path="/signup" element={<Signup />} />
                   <Route path="/login" element={<Login />} />
                 </Routes>

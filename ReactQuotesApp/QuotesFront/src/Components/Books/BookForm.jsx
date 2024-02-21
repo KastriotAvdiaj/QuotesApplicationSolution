@@ -129,7 +129,7 @@ export const BookForm = ({ book = {}, onSubmit }) => {
           }}
           InputProps={{
             sx: {
-              color: "white",
+              color: "gray",
               "& .MuiOutlinedInput-notchedOutline": {
                 border: "2px solid blue",
               },
@@ -142,7 +142,7 @@ export const BookForm = ({ book = {}, onSubmit }) => {
             },
           }}
           onChange={handleImageChange}
-          variant="outlined"
+          variant="filled"
         />
 
         <div className="imageHoldingDiv">

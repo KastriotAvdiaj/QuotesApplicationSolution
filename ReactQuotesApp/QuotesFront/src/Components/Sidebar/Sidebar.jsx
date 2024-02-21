@@ -12,7 +12,6 @@ import { RiLogoutCircleLine } from "react-icons/ri";
 
 export const Sidebar = () => {
   const { isAuthenticated, logout } = useAuth();
-  console.log(isAuthenticated);
 
   const handleLogout = () => {
     logout();
