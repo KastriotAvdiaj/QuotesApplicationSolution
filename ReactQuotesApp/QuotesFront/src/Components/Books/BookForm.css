@@ -3,7 +3,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 padding: 2rem;
-background: linear-gradient(to bottom, #dfdddd 30%, #f7f4d9 70%,#d1c23f 120%);
+background: linear-gradient(to bottom, #f3f3f3 30%, #f7f4d9 70%,#d1c23fa1 120%);
 }
 
 .form{
