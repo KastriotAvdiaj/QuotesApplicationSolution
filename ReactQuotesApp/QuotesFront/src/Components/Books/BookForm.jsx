@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import TextField from "@mui/material/TextField";
+import { IoIosAddCircleOutline } from "react-icons/io";
 import "./BookForm.css";
 
 export const BookForm = ({ book = {}, onSubmit }) => {
@@ -31,43 +33,125 @@ export const BookForm = ({ book = {}, onSubmit }) => {
   return (
     <div className="formHolder">
       <form onSubmit={handleSubmit} className="form">
-        <div className="form-group">
-          <label className="label">Title</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            className="input"
-          />
-        </div>
-        <div className="form-group">
-          <label className="label">Author</label>
-          <input
-            type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
-            className="input"
-          />
-        </div>
-        <div className="form-group">
-          <label className="label">Description</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="input textarea"
-          ></textarea>
-        </div>
-        <div className="form-group">
-          <label className="label">Image</label>
-          <input type="file" onChange={handleImageChange} className="input" />
-          <div className="imageHoldingDiv">
-            {previewUrl && (
-              <img src={previewUrl} alt="Preview" className="img-preview" />
-            )}
-          </div>
+        <TextField
+          fullWidth
+          required
+          id="outlined-basic"
+          placeholder="Title of the Book"
+          type="text"
+          label="Title"
+          value={title}
+          InputLabelProps={{
+            sx: { color: "gray", "&.Mui-focused": { color: "gray" } },
+          }}
+          InputProps={{
+            sx: {
+              color: "black",
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid blue",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "gray",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid #f5c013",
+              },
+            },
+          }}
+          onChange={(e) => setTitle(e.target.value)}
+          variant="filled"
+        />
+        <TextField
+          fullWidth
+          required
+          id="outlined-basic"
+          placeholder="Type the Book's Author"
+          type="text"
+          label="Author"
+          value={author}
+          InputLabelProps={{
+            sx: { color: "gray", "&.Mui-focused": { color: "gray" } },
+          }}
+          InputProps={{
+            sx: {
+              color: "black",
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid blue",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "gray",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid #f5c013",
+              },
+            },
+          }}
+          onChange={(e) => setAuthor(e.target.value)}
+          variant="filled"
+        />
+
+        <TextField
+          fullWidth
+          id="filled-basic"
+          multiline
+          rows={4}
+          placeholder="Short Description"
+          type="text"
+          label="Description"
+          value={description}
+          InputLabelProps={{
+            sx: { color: "gray", "&.Mui-focused": { color: "gray" } },
+          }}
+          InputProps={{
+            sx: {
+              color: "black",
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid blue",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "gray",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid #f5c013",
+              },
+            },
+          }}
+          onChange={(e) => setDescription(e.target.value)}
+          variant="filled"
+        />
+
+        <TextField
+          id="outlined-basic"
+          required
+          type="File"
+          InputLabelProps={{
+            sx: { color: "black", "&.Mui-focused": { color: "black" } },
+          }}
+          InputProps={{
+            sx: {
+              color: "white",
+              "& .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid blue",
+              },
+              "&:hover .MuiOutlinedInput-notchedOutline": {
+                borderColor: "gray",
+              },
+              "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+                border: "2px solid #f5c013",
+              },
+            },
+          }}
+          onChange={handleImageChange}
+          variant="outlined"
+        />
+
+        <div className="imageHoldingDiv">
+          {previewUrl && (
+            <img src={previewUrl} alt="Preview" className="img-preview" />
+          )}
         </div>
         <button type="submit" className="button">
-          Submit
+          <IoIosAddCircleOutline style={{ fontSize: "1.7rem" }} /> Add Book
         </button>
       </form>
     </div>

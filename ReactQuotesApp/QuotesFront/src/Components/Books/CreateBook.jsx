@@ -1,7 +1,7 @@
 import React from "react";
 import { BookForm } from "./BookForm";
 
-export const CreateBook = () => {
+export const CreateBook = ({ onClose }) => {
   const handleFormSubmit = async (bookData) => {
     try {
       // Call your API to create a new book
@@ -27,7 +27,6 @@ export const CreateBook = () => {
 
   return (
     <div>
-      <h2>Create a New Book</h2>
       <BookForm onSubmit={handleFormSubmit} />
     </div>
   );
