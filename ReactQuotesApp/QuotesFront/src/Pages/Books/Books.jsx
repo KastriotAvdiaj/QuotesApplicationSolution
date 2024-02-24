@@ -74,7 +74,6 @@ export const Books = () => {
   };
 
   const handleDeletionSuccess = (deletedBookIds) => {
-    
     console.log("Deletion successful", deletedBookIds);
   };
 
@@ -117,12 +116,15 @@ export const Books = () => {
         <button className="booksButton create" onClick={handleClickOpen}>
           Add New <BiBookAdd />
         </button>
+        
+        {isAuthenticated && (
+          <BookDeletionButton
+            selectedBookIds={selectedBookIds}
+            onDeleteSuccess={handleDeletionSuccess}
+            onDeleteError={handleDeletionError}
+          />
+        )}
 
-        <BookDeletionButton
-          selectedBookIds={selectedBookIds}
-          onDeleteSuccess={handleDeletionSuccess}
-          onDeleteError={handleDeletionError}
-        />
         <button className="booksButton edit">
           Edit <CiEdit />
         </button>

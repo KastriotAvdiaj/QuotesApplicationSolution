@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useAuth } from "../AuthContext/AuthContext";
 import "./IndividualBook.css";
 
 const IndividualBook = ({
@@ -11,6 +12,8 @@ const IndividualBook = ({
   isSelected,
   toggleSelect,
 }) => {
+  const { isAuthenticated } = useAuth();
+
   const handleImageDragStart = (e) => {
     e.preventDefault();
   };
@@ -20,7 +23,7 @@ const IndividualBook = ({
       className={`mainIndividualBookDiv ${isRandom ? "random" : ""} ${
         isSelected ? "selected" : ""
       }`}
-      onClick={() => toggleSelect(id)}
+      onClick={isAuthenticated ? () => toggleSelect(id) : () => {}}
     >
       <div className="bookText">
         <span className="bookTitle">

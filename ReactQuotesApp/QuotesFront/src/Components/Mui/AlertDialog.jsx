@@ -6,7 +6,12 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-export default function AlertDialog({ isOpen, onClose, onConfirm }) {
+export default function AlertDialog({
+  isOpen,
+  onClose,
+  onConfirm,
+  dialogMessage,
+}) {
   return (
     <React.Fragment>
       <Dialog
@@ -29,7 +34,7 @@ export default function AlertDialog({ isOpen, onClose, onConfirm }) {
             id="alert-dialog-description"
             style={{ color: "white" }}
           >
-            Are you sure you want to delete selected quote/quotes?
+            {dialogMessage}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

@@ -28,10 +28,12 @@ export const Quotes = () => {
   const [checkboxDisplay, setCheckboxDisplay] = useState("none");
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const { isAuthenticated } = useAuth();
+  const [dialogMessage, setDialogMessage] = useState("");
 
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
 
   const openDeleteDialog = () => {
+    setDialogMessage("Are you sure you want to delete selected quote/quotes?");
     setIsAlertDialogOpen(true);
   };
 
@@ -216,6 +218,7 @@ export const Quotes = () => {
         isOpen={isAlertDialogOpen}
         onClose={() => setIsAlertDialogOpen(false)}
         onConfirm={performDelete}
+        dialogMessage={dialogMessage}
       />
       <SuccessMessage message={successMessage} />
       <div className="buttonContainer">
