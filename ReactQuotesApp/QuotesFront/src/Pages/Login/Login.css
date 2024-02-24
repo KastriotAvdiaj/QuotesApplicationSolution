@@ -32,7 +32,10 @@
     box-sizing: border-box;
   }
 
-  
+  .logoutButtons{
+display: flex;
+gap: 1rem;
+  }
 
   .loginForm button{
     border: none;

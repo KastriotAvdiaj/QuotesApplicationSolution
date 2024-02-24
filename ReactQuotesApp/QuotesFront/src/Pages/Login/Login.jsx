@@ -50,6 +50,10 @@ export const Login = () => {
     navigate("/login");
   };
 
+  const handleCancelLogout = () => {
+    navigate("/");
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const requestBody = {
@@ -175,7 +179,10 @@ export const Login = () => {
               {localStorage.getItem("username") || username}, with this email{" "}
               {email}. Would you like to logout?
             </p>
-            <button onClick={handleLogout}>Logout</button>
+            <div className="logoutButtons">
+              <button onClick={handleLogout}>Logout</button>
+              <button onClick={handleCancelLogout}>Cancel</button>
+            </div>
           </div>
         </div>
       )}
