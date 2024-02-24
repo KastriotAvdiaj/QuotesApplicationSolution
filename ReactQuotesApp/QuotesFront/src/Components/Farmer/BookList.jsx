@@ -3,6 +3,7 @@ import IndividualBook from "../Books/IndividualBook";
 import React from "react";
 
 const BookList = ({ books, onReorderBooks }) => {
+  const random = true;
   return (
     <Reorder.Group
       axis="y"
@@ -25,7 +26,8 @@ const BookList = ({ books, onReorderBooks }) => {
               author={book.author}
               title={book.title}
               description={book.description}
-              image={book.imageBytes}
+              image={book.imageBase64}
+              isRandom={random}
             />
           </Reorder.Item>
         ))}

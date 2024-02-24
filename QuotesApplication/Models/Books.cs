@@ -1,4 +1,6 @@
-﻿namespace QuotesApplication.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace QuotesApplication.Models
 {
     public class Books
     {
@@ -8,6 +10,8 @@
 
         public string Author { get; set; }
 
+        [NotMapped]
+        public string? ImageBase64 { get; set; }
         public byte[] ImageBytes { get; set; }
     }
 }

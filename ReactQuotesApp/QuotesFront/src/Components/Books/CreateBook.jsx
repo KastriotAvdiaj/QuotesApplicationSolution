@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { BookForm } from "./BookForm";
+import { BooksContext } from "../../Components/Books/BooksProvider";
 
 export const CreateBook = ({ onBookCreationSuccess }) => {
+  const { addBook } = useContext(BooksContext);
+
   const handleFormSubmit = async (bookData) => {
     try {
       const response = await fetch(
@@ -12,8 +15,11 @@ export const CreateBook = ({ onBookCreationSuccess }) => {
         }
       );
       if (response.ok) {
+        const book = await response.json();
         console.log("Book created successfully");
         onBookCreationSuccess();
+        console.log(book);
+        addBook(book);
       } else {
         console.error("Failed to create book");
       }

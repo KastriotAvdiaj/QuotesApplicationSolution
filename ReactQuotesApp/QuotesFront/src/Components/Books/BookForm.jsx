@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import TextField from "@mui/material/TextField";
 import { IoIosAddCircleOutline } from "react-icons/io";
+
 import "./BookForm.css";
 
 export const BookForm = ({ book = {}, onSubmit }) => {
@@ -9,6 +10,7 @@ export const BookForm = ({ book = {}, onSubmit }) => {
   const [description, setDescription] = useState(book.description || "");
   const [image, setImage] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -27,7 +29,7 @@ export const BookForm = ({ book = {}, onSubmit }) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
       const fileURL = URL.createObjectURL(e.target.files[0]);
-      setPreviewUrl(fileURL); // Set the preview URL for the selected file
+      setPreviewUrl(fileURL);
     }
   };
   return (

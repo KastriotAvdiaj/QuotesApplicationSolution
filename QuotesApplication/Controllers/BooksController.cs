@@ -24,13 +24,32 @@ namespace QuotesApplication.Controllers
 
         // GET: api/Books
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Books>>> GetBooks()
+        public async Task<ActionResult<IEnumerable<BookDTO>>> GetBooks()
         {
-          if (_context.Books == null)
-          {
-              return NotFound();
-          }
-            return await _context.Books.ToListAsync();
+
+            if (_context.Books == null)
+            {
+                return NotFound();
+            }
+
+            var books = await _context.Books.ToListAsync();
+            var bookDTOs = new List<BookDTO>();
+
+            foreach (var book in books)
+            {
+                var bookDTO = new BookDTO
+                {
+                    Id = book.Id,
+                    Title = book.Title,
+                    Description = book.Description,
+                    Author=book.Author,
+                ImageBase64 = book.ImageBytes != null ? Convert.ToBase64String(book.ImageBytes) : null,
+                };
+
+                bookDTOs.Add(bookDTO);
+            }
+
+            return bookDTOs;
         }
 
         // GET: api/Books/5
@@ -107,13 +126,14 @@ namespace QuotesApplication.Controllers
                 {
                     await booksVM.ImageFile.CopyToAsync(memoryStream);
                     books.ImageBytes = memoryStream.ToArray();
+                    books.ImageBase64 = Convert.ToBase64String(books.ImageBytes);
                 }
             }
 
             _context.Books.Add(books);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBooks", new { id = books.Id }, books);
+            return Ok(books);
         }
 
         // DELETE: api/Books/5

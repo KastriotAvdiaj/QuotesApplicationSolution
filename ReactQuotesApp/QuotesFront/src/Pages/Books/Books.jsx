@@ -6,18 +6,24 @@ import FullScreenDialog from "../../Components/Mui/FullScreenDialog";
 import IndividualBook from "../../Components/Books/IndividualBook";
 import { BooksContext } from "../../Components/Books/BooksProvider";
 import { BiBookAdd } from "react-icons/bi";
+import { useAuth } from "../../Components/AuthContext/AuthContext";
 import "./Books.css";
 
 export const Books = () => {
   const { books, addBook } = useContext(BooksContext);
   const [open, setOpen] = useState(false);
+  const { isAuthenticated } = useAuth();
 
   const [isBookCreated, setIsBookCreated] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [randomBooks, setRandomBooks] = useState([]);
 
-  useEffect(() => {
+  const loadBooks = () => {
     setRandomBooks(GetRandomBooks(books));
+  };
+
+  useEffect(() => {
+    loadBooks();
   }, [books]);
 
   const handleReorderBooks = (newOrderIds) => {
@@ -43,27 +49,54 @@ export const Books = () => {
 
   return (
     <div className="booksMainDiv">
-      {isBookCreated && <SuccessMessage message={successMessage} />}
-      <button className="createBookButton" onClick={handleClickOpen}>
-        <BiBookAdd /> Add New
-      </button>
-      <FullScreenDialog
-        open={open}
-        handleClose={handleClose}
-        onBookCreationSuccess={handleBookCreationSuccess}
-      />
-      <BookList books={randomBooks} onReorderBooks={handleReorderBooks} />
-      {books.map((book, index) => (
-        <li key={book.id}>
-          <IndividualBook
-            id={book.id}
-            author={book.author}
-            title={book.title}
-            description={book.description}
-            image={book.imageBytes}
-          />
-        </li>
-      ))}
+      <div className="firstRowDiv">
+        {isBookCreated && <SuccessMessage message={successMessage} />}
+        <FullScreenDialog
+          open={open}
+          handleClose={handleClose}
+          onBookCreationSuccess={handleBookCreationSuccess}
+        />
+        <div className="sideDiv right">
+          <h2>
+            Shuffle through <br />
+            <span>
+              hundreds <br />
+            </span>{" "}
+            of amazing <br />
+            <span className="booksText">BOOKS</span>
+          </h2>
+        </div>
+        <BookList books={randomBooks} onReorderBooks={handleReorderBooks} />
+        <div className="sideDiv left">
+          <h2>
+            Or you can <br />
+            <span>
+              share
+              <br />
+            </span>{" "}
+            your own <br />
+          </h2>
+        </div>
+      </div>
+      <div className="booksButtons">
+        <button className="createBookButton" onClick={handleClickOpen}>
+          Add New
+        </button>
+      </div>
+
+      <div className="subsequent-rows">
+        {books.map((book, index) => (
+          <li key={book.id}>
+            <IndividualBook
+              id={book.id}
+              author={book.author}
+              title={book.title}
+              description={book.description}
+              image={book.imageBase64}
+            />
+          </li>
+        ))}
+      </div>
     </div>
   );
 };

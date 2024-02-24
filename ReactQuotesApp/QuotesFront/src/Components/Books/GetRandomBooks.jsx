@@ -2,7 +2,6 @@ function GetRandomBooks(books) {
   let booksCopy = [...books];
   const count = 4;
 
-  console.log(books);
   // Shuffle the array using Durstenfeld shuffle algorithm
   for (let i = booksCopy.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
