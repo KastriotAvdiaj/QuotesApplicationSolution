@@ -282,8 +282,7 @@ export const Quotes = () => {
       </ul>
       <Pagination
         currentPage={currentPage}
-        totalCount={quotes.length}
-        pageSize={quotesPerPage}
+        totalPages={totalPages}
         onPageChange={onPageChange}
       />
     </div>

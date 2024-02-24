@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./IndividualBook.css";
 
 const IndividualBook = ({
@@ -8,6 +8,8 @@ const IndividualBook = ({
   image,
   isRandom,
   description,
+  isSelected,
+  toggleSelect,
 }) => {
   const handleImageDragStart = (e) => {
     e.preventDefault();
@@ -15,19 +17,22 @@ const IndividualBook = ({
 
   return (
     <div
-      className={
-        isRandom ? "mainIndividualBookDiv random" : "mainIndividualBookDiv"
-      }
+      className={`mainIndividualBookDiv ${isRandom ? "random" : ""} ${
+        isSelected ? "selected" : ""
+      }`}
+      onClick={() => toggleSelect(id)}
     >
       <div className="bookText">
-        <span className="bookTitle">{title}</span>
+        <span className="bookTitle">
+          {title} -{id}
+        </span>
         <br />
         <span className="bookAuthor">-{author}</span>
       </div>
       {image && (
         <img
           className="individualBookImages"
-          src={`data:image/jpeg;base64,${image}`}
+          src={`data:image/png;base64,${image}`}
           alt={title}
           // style={{ maxWidth: "100px", maxHeight: "100px" }}
           onDragStart={handleImageDragStart}

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using QuotesApplication.Data;
 using QuotesApplication.Models;
 
@@ -65,9 +66,9 @@ namespace QuotesApplication.Controllers
 
 
         [HttpDelete]
-        public IActionResult Delete([FromBody] int[] ids)
+        public async Task<IActionResult> Delete([FromBody] int[] ids)
         {
-            var quotesToDelete = _db.Quotes.Where(q => ids.Contains(q.Id)).ToList();
+            var quotesToDelete = await _db.Quotes.Where(q => ids.Contains(q.Id)).ToListAsync();
 
             if (quotesToDelete.Any())
             {

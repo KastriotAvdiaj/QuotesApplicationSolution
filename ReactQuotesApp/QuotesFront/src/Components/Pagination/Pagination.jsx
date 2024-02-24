@@ -5,8 +5,14 @@ import {
   IoArrowForwardCircleSharp,
 } from "react-icons/io5";
 
-const Pagination = ({ currentPage, totalCount, pageSize, onPageChange }) => {
-  const totalPages = Math.ceil(totalCount / pageSize);
+const Pagination = ({
+  currentPage,
+  totalCount,
+  pageSize,
+  totalPages,
+  onPageChange,
+}) => {
+  // const totalPages = Math.ceil(totalCount / pageSize);
   const pages = [...Array(totalPages).keys()].map((num) => num + 1);
 
   const pageNumbers = () => {

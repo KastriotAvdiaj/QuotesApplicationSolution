@@ -25,8 +25,14 @@ export const BooksProvider = ({ children }) => {
     setBooks((prevBooks) => [...prevBooks, newBook]);
   };
 
+  const deleteSelectedBooks = (idsToDelete) => {
+    setBooks((currentBooks) =>
+      currentBooks.filter((book) => !idsToDelete.includes(book.id))
+    );
+  };
+
   return (
-    <BooksContext.Provider value={{ books, addBook }}>
+    <BooksContext.Provider value={{ books, addBook, deleteSelectedBooks }}>
       {children}
     </BooksContext.Provider>
   );

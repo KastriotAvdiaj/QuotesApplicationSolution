@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuotesApplication.Data;
@@ -137,23 +133,26 @@ namespace QuotesApplication.Controllers
         }
 
         // DELETE: api/Books/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBooks(int id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteBooks([FromBody] int[] ids)
         {
             if (_context.Books == null)
             {
                 return NotFound();
             }
-            var books = await _context.Books.FindAsync(id);
-            if (books == null)
+
+            var booksToDelete = await _context.Books.Where(b => ids.Contains(b.Id)).ToListAsync();
+
+            if (!booksToDelete.Any())
             {
-                return NotFound();
+                return NotFound("No books found with the provided IDs.");
             }
+            
+                _context.Books.RemoveRange(booksToDelete);
+                _context.SaveChanges();
 
-            _context.Books.Remove(books);
-            await _context.SaveChangesAsync();
-
-            return NoContent();
+                return Ok($"Books with the IDs [{string.Join(", ", ids)}] were successfully deleted!");
+           
         }
 
         private bool BooksExists(int id)

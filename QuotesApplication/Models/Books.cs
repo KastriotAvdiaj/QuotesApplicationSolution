@@ -12,6 +12,7 @@ namespace QuotesApplication.Models
 
         [NotMapped]
         public string? ImageBase64 { get; set; }
+
         public byte[] ImageBytes { get; set; }
     }
 }

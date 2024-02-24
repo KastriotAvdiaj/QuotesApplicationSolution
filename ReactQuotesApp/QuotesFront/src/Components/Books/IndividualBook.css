@@ -1,8 +1,9 @@
 .mainIndividualBookDiv {
+    cursor: pointer;
     font-family: "Inter", sans-serif;
-    width: 300px;
+    width: 330px;
     display: grid;
-    grid-template-columns: 200px 100px;
+    grid-template-columns: 210px 120px;
     align-items: center;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -10,11 +11,6 @@
     margin: 5px;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
 }
-
-/* .bookText{
-    display: flex;
-    flex-direction: column;
-} */
 
 .bookTitle{
     font-weight: bolder;
@@ -27,7 +23,7 @@
 }
 
 .individualBookImages {
-    height: 100px; 
+    height: 120px; 
     object-fit: contain; 
     border-radius: 4px;
     box-shadow: 1px 1px 28px rgba(5, 5, 5, 0.12), 0 1px 28px rgba(0, 0, 0, 0.30);
@@ -41,10 +37,14 @@
     background: #076585; /* fallback for old browsers */
     background: -webkit-linear-gradient(to right, #076585, #fff); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #070c22,#354392, #fff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    width: 300px;
+    width: 330px;
     cursor: grab;
 }
 
+.selected {
+    background-color: #e935357c; 
+  }
+  
 .mainIndividualBookDiv.random:active {
     cursor: grabbing;
 }
