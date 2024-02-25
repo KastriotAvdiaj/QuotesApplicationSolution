@@ -47,6 +47,15 @@ export const Books = () => {
 
   const handleDeletionSuccess = (deletedBookIds) => {
     console.log("Deletion successful", deletedBookIds);
+    setSelectedBookIds([]);
+    const remainingBooksCount = filteredBooks.length - deletedBookIds.length;
+    const newTotalPages = Math.ceil(remainingBooksCount / booksPerPage);
+
+    if (currentPage > newTotalPages) {
+      setCurrentPage((prevCurrentPage) => Math.max(newTotalPages, 1));
+    } else {
+      setCurrentPage(currentPage);
+    }
   };
 
   const handleDeletionError = (errorMessage) => {
