@@ -5,6 +5,7 @@ import { Quotes } from "./Pages/Quotes/Quotes";
 import { Books } from "./Pages/Books/Books";
 import { Signup } from "./Pages/Signup/Signup";
 import { QuotesProvider } from "./Components/Quotes/QuotesProvider";
+import { BooksProvider } from "./Components/Books/BooksProvider";
 import { Home } from "./Pages/Home";
 import { ThemeProvider } from "./Components/Theme/ThemeContext";
 import { Login } from "./Pages/Login/Login";
@@ -20,16 +21,18 @@ function App() {
           <Sidebar />
           <div className="App">
             <QuotesProvider>
-              <ThemeProvider>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/admin" element={<AdminPanel />} />
-                  <Route path="/quotes" element={<Quotes />} />
-                  <Route path="/books" element={<BooksPageWrapper />} />
-                  <Route path="/signup" element={<Signup />} />
-                  <Route path="/login" element={<Login />} />
-                </Routes>
-              </ThemeProvider>
+              <BooksProvider>
+                <ThemeProvider>
+                  <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/admin" element={<AdminPanel />} />
+                    <Route path="/quotes" element={<Quotes />} />
+                    <Route path="/books" element={<Books />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                  </Routes>
+                </ThemeProvider>
+              </BooksProvider>
             </QuotesProvider>
           </div>
         </AuthProvider>
