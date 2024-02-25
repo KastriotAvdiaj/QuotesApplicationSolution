@@ -1,46 +1,58 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { MdOutlineDeleteForever } from "react-icons/md";
 import { BooksContext } from "../BooksProvider";
 
 const BookDeletionButton = ({
+  onClick,
   selectedBookIds,
   onDeleteSuccess,
   onDeleteError,
+  confirmDelete,
+  onDeletionComplete,
 }) => {
-  const { books, setBooks, deleteSelectedBooks } = useContext(BooksContext);
-  const handleDelete = async () => {
-    if (!selectedBookIds.length) {
-      alert("Please select books to delete.");
-      return;
-    }
+  const { deleteSelectedBooks } = useContext(BooksContext);
 
-    if (window.confirm("Are you sure you want to delete the selected books?")) {
-      try {
-        const response = await fetch(
-          "https://localhost:7099/api/Books/DeleteBooks",
-          {
-            method: "DELETE",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(selectedBookIds),
+  useEffect(() => {
+    // This effect runs when `confirmDelete` changes.
+    // It will now properly react to the `confirmDelete` being true.
+    const handleDelete = async () => {
+      if (confirmDelete) {
+        try {
+          const response = await fetch(
+            "https://localhost:7099/api/Books/DeleteBooks",
+            {
+              method: "DELETE",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(selectedBookIds),
+            }
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to delete books.");
           }
-        );
-
-        if (response.ok) {
           deleteSelectedBooks(selectedBookIds);
           onDeleteSuccess(selectedBookIds);
-        } else {
-          throw new Error("Failed to delete books.");
+          onDeletionComplete();
+        } catch (error) {
+          onDeleteError(error.message);
+          onDeletionComplete();
         }
-      } catch (error) {
-        onDeleteError(error.message);
       }
-    }
-  };
+    };
+
+    handleDelete();
+  }, [
+    confirmDelete,
+    deleteSelectedBooks,
+    onDeleteError,
+    onDeleteSuccess,
+    selectedBookIds,
+  ]);
 
   return (
-    <button onClick={handleDelete} className="booksButton delete">
+    <button onClick={onClick} className="booksButton delete">
       Delete <MdOutlineDeleteForever />
     </button>
   );

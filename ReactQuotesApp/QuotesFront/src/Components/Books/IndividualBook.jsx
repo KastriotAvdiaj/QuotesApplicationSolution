@@ -18,17 +18,21 @@ const IndividualBook = ({
     e.preventDefault();
   };
 
+  const handleClick = () => {
+    if (isAuthenticated) {
+      toggleSelect(id);
+    }
+  };
+
   return (
     <div
       className={`mainIndividualBookDiv ${isRandom ? "random" : ""} ${
         isSelected ? "selected" : ""
       }`}
-      onClick={isAuthenticated ? () => toggleSelect(id) : () => {}}
+      onClick={handleClick}
     >
       <div className="bookText">
-        <span className="bookTitle">
-          {title} -{id}
-        </span>
+        <span className="bookTitle">{title}</span>
         <br />
         <span className="bookAuthor">-{author}</span>
       </div>

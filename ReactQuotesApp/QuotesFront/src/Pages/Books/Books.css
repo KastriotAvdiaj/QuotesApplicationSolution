@@ -72,10 +72,14 @@
   height: 80px;
   background-color: rgb(97, 96, 96);
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
   box-shadow: 2px 7px 10px 0px rgba(28, 28, 29, 0.514);
   padding: 0 1rem 0 1rem;
+}
+.actionButtonsBooks{
+  display: flex;
+  gap: 1rem;
 }
 
   .subsequent-rows {
@@ -120,4 +124,14 @@
 
 .booksButton.create:active{
     transform: scale(0.97);
+}
+
+
+.searchBarHolder{
+  display: grid;
+  grid-template-columns: 10% 90%;
+  align-items: center;
+  border: 1px solid white;
+  padding-left: 0.5rem;
+  color: white;
 }

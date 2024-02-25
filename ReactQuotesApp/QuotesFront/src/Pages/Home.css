@@ -1,12 +1,15 @@
 .homeMainDiv {
     display: grid;
     grid-template-rows: auto; /* Adjust 200px to the fixed height you want */
+    font-family: "Exo", sans-serif;
     /* gap: 2rem; */
   }
   
   .firstParagraph {
-    font-family: "Inter", sans-serif;
+    color: white;
+    font-family: "Exo", sans-serif;
     font-style: italic;
+    font-weight: bold;
     user-select: none;
     font-size: 6rem;
   }

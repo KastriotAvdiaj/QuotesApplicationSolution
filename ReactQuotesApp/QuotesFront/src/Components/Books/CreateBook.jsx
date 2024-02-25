@@ -16,10 +16,8 @@ export const CreateBook = ({ onBookCreationSuccess }) => {
       );
       if (response.ok) {
         const book = await response.json();
-        console.log("Book created successfully");
-        onBookCreationSuccess();
-        console.log(book);
         addBook(book);
+        onBookCreationSuccess();
       } else {
         console.error("Failed to create book");
       }
