@@ -7,7 +7,22 @@ export const DataTable = ({ items, whatItem }) => {
       { field: "id", headerName: "ID", width: 90 },
       { field: "title", headerName: "Title", width: 200 },
       { field: "author", headerName: "Author", width: 200 },
-      { field: "description", headerName: "Description", width: 300 },
+      {
+        field: "description",
+        headerName: "Description",
+        width: 550,
+        renderCell: (params) => (
+          <div
+            style={{
+              overflow: "hidden",
+              whiteSpace: "normal",
+            }}
+            title={params.value}
+          >
+            {params.value}
+          </div>
+        ),
+      },
 
       {
         field: "image",
@@ -90,7 +105,7 @@ export const DataTable = ({ items, whatItem }) => {
   return (
     <div
       style={{
-        height: "fit-content",
+        height: "700px",
         width: "80%",
         backgroundColor: "white",
         borderRadius: "0.2rem",
@@ -109,7 +124,7 @@ export const DataTable = ({ items, whatItem }) => {
           },
           "& .MuiDataGrid-row": {
             "&:nth-of-type(odd)": {
-              backgroundColor: "#f9f9f9",
+              backgroundColor: "#E7E5E5",
             },
           },
           "& .MuiDataGrid-sortIcon": {

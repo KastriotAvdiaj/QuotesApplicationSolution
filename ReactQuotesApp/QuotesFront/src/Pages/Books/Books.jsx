@@ -70,41 +70,6 @@ export const Books = () => {
     setOpen(false);
   };
 
-  //
-  // SEARCHBAR COMPONENT
-  //
-  const [searchTerm, setSearchTerm] = useState("");
-  const filteredBooks = searchTerm.trim()
-    ? books.filter((book) =>
-        book.title.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : books;
-
-  //
-  // PAGINATION LOGIC
-  //
-  const [currentPage, setCurrentPage] = useState(1);
-  const [currentBooks, setCurrentBooks] = useState([]);
-  const booksPerPage = 8;
-  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
-  const lastBookIndex = currentPage * booksPerPage;
-
-  useEffect(() => {
-    const firstBookIndex = (currentPage - 1) * booksPerPage;
-    const currentBooksToShow = filteredBooks.slice(
-      firstBookIndex,
-      firstBookIndex + booksPerPage
-    );
-    setCurrentBooks(currentBooksToShow);
-  }, [currentPage, filteredBooks]);
-
-  const onPageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-  //
-  //END OF PAGINATION LOGIC
-  //
-
   const [selectedBookIds, setSelectedBookIds] = useState([]);
   //
   // ADDING THE SELECTED BOOKS IN AN ARRAY
@@ -209,16 +174,16 @@ export const Books = () => {
         <div>
           <div className="searchBarHolder">
             <IoSearchOutline />
-            <SearchBar
-              placeholder="Search for books..."
-              onSearch={setSearchTerm}
-            />
+            {/* <SearchBar
+              placeholder="Search books..."
+              onSearch={handleBookSearch}
+            /> */}
           </div>
         </div>
       </div>
 
       <div className="subsequent-rows">
-        {currentBooks.map((book) => (
+        {books.map((book) => (
           <li key={book.id}>
             <IndividualBook
               id={book.id}
@@ -232,11 +197,11 @@ export const Books = () => {
           </li>
         ))}
       </div>
-      <Pagination
+      {/* <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
         onPageChange={onPageChange}
-      />
+      /> */}
     </div>
   );
 };
