@@ -1,0 +1,68 @@
+.mainAdminContainer{
+    font-family: "Inter", sans-serif;
+    /* this fixes the double scrollbar (the bottom one) */
+    margin-right: 2rem; 
+    display: grid;
+    grid-template-rows: 1fr auto 1fr;
+    justify-items: center;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 2rem;
+}
+
+.adminMainHeader {
+  width: 100%;
+}
+
+.adminMainHeader h2{
+ 
+ color: white;
+ font-size: 3rem;
+ display: flex;
+ align-items: center; 
+ gap: 1rem;
+}
+
+.adminPanelButtonsDiv{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: rgb(26, 24, 24);
+    width: 100%;
+}
+
+.adminPanelButtonsDiv button{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    font-size: 1rem;
+    background-color: rgb(24, 117, 47);
+    border: none;
+    border-radius: 0.2rem;
+    color: white;
+    font-weight: 600;
+}
+
+.adminPanelButtonsDiv button.active{
+    cursor: default;
+    background-color: rgb(71, 145, 90);
+}
+
+.adminPanelButtonsDiv button.active:hover{
+    background-color: rgb(71, 145, 90);
+}
+
+.adminPanelButtonsDiv button.active:active{
+    transform: scale(1);
+}
+
+.adminPanelButtonsDiv button:hover{
+    background-color: rgb(19, 92, 37);
+}
+
+.adminPanelButtonsDiv button:active{
+    transform: scale(0.98);
+}

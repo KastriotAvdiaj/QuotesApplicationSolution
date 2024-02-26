@@ -41,7 +41,6 @@ const IndividualBook = ({
           className="individualBookImages"
           src={`data:image/png;base64,${image}`}
           alt={title}
-          // style={{ maxWidth: "100px", maxHeight: "100px" }}
           onDragStart={handleImageDragStart}
         />
       )}

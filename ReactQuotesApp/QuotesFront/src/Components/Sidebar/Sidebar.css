@@ -92,10 +92,11 @@ a{
     border-radius: 5px; 
   }
 
+  .bottomButtons2 a:hover,
   .bottomButtons a:hover{
     transform: scale(1.02);
   }
-
+  .bottomButtons2 a:active,
   .bottomButtons a:active{
     transform: scale(0.98);
   }

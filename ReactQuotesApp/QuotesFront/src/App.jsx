@@ -10,7 +10,6 @@ import { Home } from "./Pages/Home";
 import { ThemeProvider } from "./Components/Theme/ThemeContext";
 import { Login } from "./Pages/Login/Login";
 import { AuthProvider } from "./Components/AuthContext/AuthContext";
-import BooksPageWrapper from "./Pages/Books/BooksPageWrapper";
 import { AdminPanel } from "./Pages/Admin/AdminPanel";
 
 function App() {
