@@ -283,9 +283,16 @@ export const Quotes = () => {
           </li>
         ))}
       </ul>
-      <Pagination
+      {/* <Pagination
         currentPage={currentPage}
         totalPages={totalPages}
+        onPageChange={onPageChange}
+      /> */}
+
+      <Pagination
+        itemsCount={quotes.length}
+        pageSize={quotesPerPage}
+        currentPage={currentPage}
         onPageChange={onPageChange}
       />
     </div>

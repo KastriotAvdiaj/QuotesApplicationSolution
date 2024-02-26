@@ -11,6 +11,7 @@ import { BiBookAdd } from "react-icons/bi";
 import AlertDialog from "../../Components/Mui/AlertDialog";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import { CiEdit } from "react-icons/ci";
+import usePagination from "@mui/material/usePagination/usePagination";
 import SearchBar from "../../Components/Searchbar/Searchbar";
 import { IoSearchOutline } from "react-icons/io5";
 import "./Books.css";
@@ -48,14 +49,6 @@ export const Books = () => {
   const handleDeletionSuccess = (deletedBookIds) => {
     console.log("Deletion successful", deletedBookIds);
     setSelectedBookIds([]);
-    const remainingBooksCount = filteredBooks.length - deletedBookIds.length;
-    const newTotalPages = Math.ceil(remainingBooksCount / booksPerPage);
-
-    if (currentPage > newTotalPages) {
-      setCurrentPage((prevCurrentPage) => Math.max(newTotalPages, 1));
-    } else {
-      setCurrentPage(currentPage);
-    }
   };
 
   const handleDeletionError = (errorMessage) => {
@@ -111,6 +104,20 @@ export const Books = () => {
     setIsBookCreated(true);
     setSuccessMessage("Successfully added a new book");
     handleClose();
+  };
+
+  const pageSize = 8;
+  const [currentPage, setCurrentPage] = useState(1);
+  const [currentBooks, setCurrentBooks] = useState([]);
+
+  useEffect(() => {
+    const indexOfLastItem = currentPage * pageSize;
+    const indexOfFirstItem = indexOfLastItem - pageSize;
+    setCurrentBooks(books.slice(indexOfFirstItem, indexOfLastItem));
+  }, [currentPage, books, pageSize]);
+
+  const onPageChange = (page) => {
+    setCurrentPage(page);
   };
 
   return (
@@ -183,7 +190,7 @@ export const Books = () => {
       </div>
 
       <div className="subsequent-rows">
-        {books.map((book) => (
+        {currentBooks.map((book) => (
           <li key={book.id}>
             <IndividualBook
               id={book.id}
@@ -197,11 +204,12 @@ export const Books = () => {
           </li>
         ))}
       </div>
-      {/* <Pagination
+      <Pagination
+        itemsCount={books.length}
+        pageSize={pageSize}
         currentPage={currentPage}
-        totalPages={totalPages}
         onPageChange={onPageChange}
-      /> */}
+      />
     </div>
   );
 };

@@ -5,35 +5,24 @@ import {
   IoArrowForwardCircleSharp,
 } from "react-icons/io5";
 
-const Pagination = ({
-  currentPage,
-  totalCount,
-  pageSize,
-  totalPages,
-  onPageChange,
-}) => {
-  // const totalPages = Math.ceil(totalCount / pageSize);
-  const pages = [...Array(totalPages).keys()].map((num) => num + 1);
+const Pagination = ({ itemsCount, pageSize, currentPage, onPageChange }) => {
+  const totalPages = Math.ceil(itemsCount / pageSize);
 
   const pageNumbers = () => {
     const pages = [];
-    const visiblePages = 1; // Number of pages to show around the current page
+    const visiblePages = 1;
 
     let startPage = Math.max(currentPage - visiblePages, 1);
     let endPage = Math.min(currentPage + visiblePages, totalPages);
 
-    // Always include the first page
     if (startPage > 1) pages.push(1);
-    // Add ellipses if there's a gap between the first page and the current range
     if (startPage > 2) pages.push("...");
 
     for (let page = startPage; page <= endPage; page++) {
       pages.push(page);
     }
 
-    // Add ellipses if there's a gap between the current range and the last page
     if (endPage < totalPages - 1) pages.push("...");
-    // Always include the last page
     if (endPage < totalPages) pages.push(totalPages);
 
     return pages;
