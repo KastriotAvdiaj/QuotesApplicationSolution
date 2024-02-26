@@ -66,3 +66,40 @@
 .adminPanelButtonsDiv button:active{
     transform: scale(0.98);
 }
+
+.accessDenied{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 2rem 0 2rem 0;
+}
+
+.accessDenied p{
+    color: red;
+    font-weight: bolder;
+    font-size: 4rem;
+    text-align: center;
+}
+
+.accessDenied a{
+    width: 12%;
+    align-self: center;
+}
+
+.loginButtonAdmin{
+    width: 100%;
+    cursor: pointer;
+    font-size: 2rem;
+    padding: 0.5rem 0 0.5rem 0;
+    border: none;
+    border-radius: 0.2rem;
+    color: white;
+    background-color: rgb(32, 29, 82);
+    box-shadow: 1px 5px 8px black;
+}
+
+.loginButtonAdmin:hover{
+    background-color: rgb(50, 48, 102);
+}
