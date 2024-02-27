@@ -11,9 +11,8 @@ import { BiBookAdd } from "react-icons/bi";
 import AlertDialog from "../../Components/Mui/AlertDialog";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import { CiEdit } from "react-icons/ci";
-import usePagination from "@mui/material/usePagination/usePagination";
 import SearchBar from "../../Components/Searchbar/Searchbar";
-import { IoSearchOutline } from "react-icons/io5";
+import { MdFormatClear } from "react-icons/md";
 import "./Books.css";
 
 export const Books = () => {
@@ -109,15 +108,43 @@ export const Books = () => {
   const pageSize = 8;
   const [currentPage, setCurrentPage] = useState(1);
   const [currentBooks, setCurrentBooks] = useState([]);
+  const [filteredBooksCount, setFilteredBooksCount] = useState(books.length);
+  const [isSearchMode, setIsSearchMode] = useState(false);
 
   useEffect(() => {
-    const indexOfLastItem = currentPage * pageSize;
-    const indexOfFirstItem = indexOfLastItem - pageSize;
-    setCurrentBooks(books.slice(indexOfFirstItem, indexOfLastItem));
-  }, [currentPage, books, pageSize]);
+    if (!isSearchMode) {
+      // Only run this logic if not in search mode
+      const indexOfLastItem = currentPage * pageSize;
+      const indexOfFirstItem = indexOfLastItem - pageSize;
+      setCurrentBooks(books.slice(indexOfFirstItem, indexOfLastItem));
+      setFilteredBooksCount(books.length);
+    }
+  }, [currentPage, books, pageSize, isSearchMode]);
 
   const onPageChange = (page) => {
     setCurrentPage(page);
+    if (isSearchMode) {
+      setIsSearchMode(false); // Reset search mode when manually changing pages
+    }
+  };
+
+  const handleBookSearch = (search) => {
+    if (search.trim() !== "") {
+      setIsSearchMode(true);
+      const filteredBooks = books.filter((book) =>
+        book.title.toLowerCase().includes(search.toLowerCase())
+      );
+      setFilteredBooksCount(filteredBooks.length);
+      setCurrentPage(1);
+      setCurrentBooks(filteredBooks.slice(0, 0 + pageSize));
+    } else {
+      setIsSearchMode(false);
+    }
+  };
+  const [searchValue, setSearchValue] = useState("");
+  const handleClearSearchBar = () => {
+    setSearchValue("");
+    setIsSearchMode(false);
   };
 
   return (
@@ -180,11 +207,15 @@ export const Books = () => {
         </div>
         <div>
           <div className="searchBarHolder">
-            <IoSearchOutline />
-            {/* <SearchBar
+            <SearchBar
               placeholder="Search books..."
               onSearch={handleBookSearch}
-            /> */}
+              inputValue={searchValue}
+              onInputChange={setSearchValue}
+            />
+            <button className="clearButton" onClick={handleClearSearchBar}>
+              Clear <MdFormatClear />
+            </button>
           </div>
         </div>
       </div>
@@ -205,7 +236,7 @@ export const Books = () => {
         ))}
       </div>
       <Pagination
-        itemsCount={books.length}
+        itemsCount={filteredBooksCount}
         pageSize={pageSize}
         currentPage={currentPage}
         onPageChange={onPageChange}
