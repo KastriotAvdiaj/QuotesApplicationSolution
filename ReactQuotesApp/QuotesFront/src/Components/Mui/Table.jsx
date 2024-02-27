@@ -2,6 +2,13 @@ import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
 export const DataTable = ({ items, whatItem }) => {
+  const [selectedRows, setSelectedRows] = React.useState([]);
+
+  const handleSelectionModelChange = (selectionModel) => {
+    setSelectedRows(selectionModel);
+    console.log(selectionModel);
+  };
+
   const columnConfigs = {
     books: [
       { field: "id", headerName: "ID", width: 90 },
@@ -142,6 +149,12 @@ export const DataTable = ({ items, whatItem }) => {
         rows={rows}
         rowHeight={80}
         columns={columns}
+        // onRowSelectionModelChange={(ids) => {
+        //   const selectedIDs = new Set(ids);
+        //   const selectedRowData = rows.filter((row) => selectedIDs.has(row.id));
+        //   console.log(selectedRowData);
+        // }}
+        onRowSelectionModelChange={handleSelectionModelChange}
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 8 },

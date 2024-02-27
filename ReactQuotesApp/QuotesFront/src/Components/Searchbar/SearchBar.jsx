@@ -24,8 +24,8 @@ const SearchBar = ({ placeholder, onSearch, inputValue, onInputChange }) => {
         value={inputValue}
       />
       <button className="search-button" onClick={handleSearchClick}>
-        Search
         <IoSearchOutline />
+        Search
       </button>
     </div>
   );

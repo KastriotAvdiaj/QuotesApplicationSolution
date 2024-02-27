@@ -159,6 +159,10 @@
 }
 
 .search-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
   border-top-right-radius: 10px; 
   border-bottom-right-radius: 10px;
   border: 2px solid black;
