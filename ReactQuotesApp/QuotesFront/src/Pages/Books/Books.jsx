@@ -40,6 +40,7 @@ export const Books = () => {
   const resetConfirmDelete = () => {
     setConfirmDelete(false);
   };
+  
   const handleAlertDialogConfirm = () => {
     setConfirmDelete(true);
     setAlertDialogOpen(false);

@@ -1,12 +1,12 @@
 import * as React from "react";
 import { DataGrid } from "@mui/x-data-grid";
 
-export const DataTable = ({ items, whatItem }) => {
-  const [selectedRows, setSelectedRows] = React.useState([]);
-
+export const DataTable = ({ items, whatItem, onSelectionChange }) => {
   const handleSelectionModelChange = (selectionModel) => {
-    setSelectedRows(selectionModel);
-    console.log(selectionModel);
+    // const selectedRowsData = rows.filter((row) =>
+    //   selectionModel.includes(row.id)
+    // );
+    onSelectionChange(selectionModel);
   };
 
   const columnConfigs = {

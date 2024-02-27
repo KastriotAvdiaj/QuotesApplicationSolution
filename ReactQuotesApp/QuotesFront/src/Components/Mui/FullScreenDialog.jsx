@@ -26,8 +26,8 @@ export default function FullScreenDialog({
         onClose={handleClose}
         TransitionComponent={Transition}
       >
-        <AppBar sx={{ position: "sticky", backgroundColor: "#D4AA22" }}>
-          <Toolbar sx={{ backgroundColor: "#D4AA22" }}>
+        <AppBar sx={{ position: "sticky", backgroundColor: "#646161" }}>
+          <Toolbar sx={{ backgroundColor: "#646161" }}>
             <IconButton
               edge="start"
               color="inherit"
