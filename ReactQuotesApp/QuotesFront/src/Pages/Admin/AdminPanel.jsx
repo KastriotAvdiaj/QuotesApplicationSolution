@@ -6,7 +6,12 @@ import { useAuth } from "../../Components/AuthContext/AuthContext";
 import QuoteEdit from "../../Components/Quotes/QuoteEdit";
 import { FaBook } from "react-icons/fa";
 import FullScreenDialog from "../../Components/Mui/FullScreenDialog";
+import { MdOutlineDeleteForever } from "react-icons/md";
 import QuoteForm from "../../Components/Quotes/QuoteForm";
+import {
+  deleteQuotes,
+  createQuote,
+} from "../../Components/Quotes/QuoteService";
 import { BsFillChatLeftQuoteFill } from "react-icons/bs";
 import { RiEditFill, RiAdminFill } from "react-icons/ri";
 import AlertDialog from "../../Components/Mui/AlertDialog";
@@ -18,14 +23,13 @@ import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
 
 export const AdminPanel = () => {
   const { books } = useContext(BooksContext);
-  const { quotes } = useContext(QuotesContext);
+  const { quotes, addQuote, setQuotes } = useContext(QuotesContext);
   const { isAuthenticated } = useAuth();
 
   const [selectedRows, setSelectedRows] = useState([]);
 
   const handleSelectedRows = (selectedRowsData) => {
     setSelectedRows(selectedRowsData);
-    console.log(selectedRowsData);
   };
 
   //!
@@ -36,6 +40,7 @@ export const AdminPanel = () => {
 
   const handleDeletionSuccess = (deletedBookIds) => {
     console.log("Deletion successful", deletedBookIds);
+    setMessage("Successfully deleted selected book/books!");
     setSelectedRows([]);
   };
   const handleDeletionError = (errorMessage) => {
@@ -54,12 +59,38 @@ export const AdminPanel = () => {
   };
 
   const handleAlertDialogConfirm = () => {
-    setConfirmDelete(true);
+    if (tableContent === "books") {
+      setConfirmDelete(true);
+      setAlertDialogOpen(false);
+      return;
+    }
+
+    // £ QUOTE DELETE
+
+    deleteQuotes(selectedRows); // actually deleting the quote
+    const updatedQuotes = quotes.filter(
+      //filtering the quotes while removing the ones just deleted
+      (quote) => !selectedRows.includes(quote.id)
+    );
+    setQuotes(updatedQuotes); // setting the quotes in the quotes provider
+    setSelectedRows([]); // re setting the selected quotes back to empty
+    setMessage("Successfully deleted selected quote/quotes.");
     setAlertDialogOpen(false);
+
+    // £ QUOTE DELETE
   };
 
   const openDeleteDialog = () => {
     if (selectedRows.length === 0) {
+      return;
+    }
+    if (tableContent === "quotes") {
+      setDialogMessage(
+        `Are you sure you want to delete the selected quote/quotes? With the Id/Ids: ${selectedRows.join(
+          ", "
+        )}`
+      );
+      setAlertDialogOpen(true);
       return;
     }
     setDialogMessage(
@@ -95,6 +126,40 @@ export const AdminPanel = () => {
   // £ QUOTE CREATE
 
   const [showCreateQuote, setCreateQuote] = useState(false);
+
+  const handleCreateButtonClick = () => {
+    if (tableContent === "books") {
+      setOpen(true);
+      return;
+    }
+    setCreateQuote(true);
+  };
+
+  const [isClosing, setIsClosing] = useState(false);
+
+  const handleCloseForm = () => {
+    setIsClosing(true);
+
+    setTimeout(() => {
+      setIsClosing(false);
+      setCreateQuote(false);
+    }, 350);
+  };
+
+  const handleAddQuote = async (newQuote) => {
+    try {
+      const addedQuote = await createQuote(newQuote);
+      setCreateQuote(false);
+      addQuote(addedQuote);
+      setMessage("You have successfully added a new quote!");
+      setTimeout(() => setMessage(""), 3000);
+    } catch (error) {
+      console.error("Error adding quote:", error);
+    }
+  };
+
+  // £ QUOTE CREATE
+
   // £ QUOTE EDIT
 
   const handleEditButtonClick = () => {
@@ -120,6 +185,8 @@ export const AdminPanel = () => {
   };
 
   const [showQuoteEditForm, setQuoteEditForm] = useState(false);
+
+  // £ QUOTE EDIT
 
   const [tableContent, setTableContent] = useState("books");
 
@@ -156,19 +223,30 @@ export const AdminPanel = () => {
               <div className="actionButtonsDiv">
                 <button
                   className="createButtonAdminPage"
-                  onClick={() => setOpen(true)}
+                  onClick={handleCreateButtonClick}
+                  // onClick={() => setOpen(true)}
                 >
                   Create
                   <IoAddCircle />
                 </button>
-                <BookDeletionButton
-                  onClick={openDeleteDialog}
-                  confirmDelete={confirmDelete}
-                  selectedBookIds={selectedRows}
-                  onDeleteSuccess={handleDeletionSuccess}
-                  onDeleteError={handleDeletionError}
-                  onDeletionComplete={resetConfirmDelete}
-                />
+                {tableContent === "books" && (
+                  <BookDeletionButton
+                    onClick={openDeleteDialog}
+                    confirmDelete={confirmDelete}
+                    selectedBookIds={selectedRows}
+                    onDeleteSuccess={handleDeletionSuccess}
+                    onDeleteError={handleDeletionError}
+                    onDeletionComplete={resetConfirmDelete}
+                  />
+                )}
+                {tableContent === "quotes" && (
+                  <button
+                    className="deleteButtonAdminPage"
+                    onClick={openDeleteDialog}
+                  >
+                    Delete <MdOutlineDeleteForever />
+                  </button>
+                )}
                 <button
                   className="editButtonAdminPage"
                   onClick={handleEditButtonClick}
@@ -198,6 +276,13 @@ export const AdminPanel = () => {
               }}
             />
           )}
+          {showCreateQuote && (
+            <QuoteForm
+              onClose={handleCloseForm}
+              isClosing={isClosing}
+              onAdd={handleAddQuote}
+            />
+          )}
 
           {/* 
 
@@ -221,7 +306,6 @@ export const AdminPanel = () => {
             handleClose={handleClose}
             onBookCreationSuccess={handleBookCreationSuccess}
           />
-          <SuccessMessage message={message} />
           <AlertDialog
             isOpen={isAlertDialogOpen}
             onClose={handleDialogClose}
@@ -237,6 +321,7 @@ export const AdminPanel = () => {
 
 
           */}
+          <SuccessMessage message={message} />
           <DataTable
             items={tableContent === "books" ? books : quotes}
             whatItem={tableContent}

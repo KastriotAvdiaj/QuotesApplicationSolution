@@ -25,6 +25,10 @@
     max-width: 500px;
   }
 
+  .quote-edit-container h2 {
+    padding-bottom: 20px;
+  }
+
   .input-container {
     position: relative;
     width: calc(90% - 10px); /* Adjust based on your layout */
@@ -85,6 +89,7 @@
   
   .saveEditButton,
   .cancelEditButton {
+    cursor: pointer;
     border: none;
     font-size: 1rem;
     border-radius: 0.2rem;

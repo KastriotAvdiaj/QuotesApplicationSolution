@@ -68,7 +68,7 @@ const QuoteForm = ({ onAdd, onClose, isClosing }) => {
     visible: {
       y: 0,
       opacity: 1,
-      transition: { type: "spring", stiffness: 100 },
+      transition: { type: "normal", stiffness: 100 },
     },
     exit: {
       y: "100vh",

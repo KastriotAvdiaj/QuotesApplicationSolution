@@ -39,7 +39,7 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.5rem 1rem 0.5rem 1rem;
-    font-size: 1rem;
+    font-size: 2rem;
     background-color: rgb(24, 117, 47);
     box-shadow: 1px 5px 8px black;
     border: none;
@@ -98,7 +98,7 @@
 }
 
 .actionButtonsDiv .deleteButtonAdminPage:hover{
-    background-color: rgb(153, 0, 0);
+    background-color: rgb(255, 0, 0);
 }
 
 .actionButtonsDiv .editButtonAdminPage:hover{
