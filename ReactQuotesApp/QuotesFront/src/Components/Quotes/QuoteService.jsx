@@ -24,8 +24,5 @@ const deleteQuotes = async (quoteIds) => {
   return true;
 };
 
-// const editQuote = async (quoteId, updatedQuote) => {
-
-// };
 
 export { createQuote, deleteQuotes };

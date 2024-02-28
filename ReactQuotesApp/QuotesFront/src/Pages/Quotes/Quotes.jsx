@@ -64,6 +64,7 @@ export const Quotes = () => {
     setShowEditForm(!showEditForm);
   };
 
+
   // .
   // THEME MEHTOD
   // .
@@ -144,21 +145,10 @@ export const Quotes = () => {
   // .
   const performDelete = async () => {
     try {
-      const response = await fetch(`https://localhost:7099/api/Quotes/Delete`, {
-        method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(selectedQuotes),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to delete the selected quotes.");
-      }
+      await deleteQuotes(selectedQuotes);
       const updatedQuotes = quotes.filter(
-        (quote) => !selectedQuotes.includes(quote.id)
-      );
-
+           (quote) => !selectedQuotes.includes(quote.id)
+         );
       setQuotes(updatedQuotes);
       setSelectedQuotes([]);
       DisableDeleteButton(true);
@@ -276,11 +266,6 @@ export const Quotes = () => {
           </li>
         ))}
       </ul>
-      {/* <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={onPageChange}
-      /> */}
 
       <Pagination
         itemsCount={quotes.length}

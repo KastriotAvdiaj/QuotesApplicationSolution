@@ -3,10 +3,12 @@ import { BooksContext } from "../../Components/Books/BooksProvider";
 import { QuotesContext } from "../../Components/Quotes/QuotesProvider";
 import { DataTable } from "../../Components/Mui/Table";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
+import QuoteEdit from "../../Components/Quotes/QuoteEdit";
 import { FaBook } from "react-icons/fa";
 import FullScreenDialog from "../../Components/Mui/FullScreenDialog";
+import QuoteForm from "../../Components/Quotes/QuoteForm";
 import { BsFillChatLeftQuoteFill } from "react-icons/bs";
-import { RiDeleteBin6Fill, RiEditFill, RiAdminFill } from "react-icons/ri";
+import { RiEditFill, RiAdminFill } from "react-icons/ri";
 import AlertDialog from "../../Components/Mui/AlertDialog";
 import { IoAddCircle } from "react-icons/io5";
 import "./AdminPanel.css";
@@ -26,9 +28,9 @@ export const AdminPanel = () => {
     console.log(selectedRowsData);
   };
 
-  //
-  //BOOK DELETION PROCESS
-  //
+  //!
+  //!BOOK DELETION PROCESS
+  //!
 
   const [confirmDelete, setConfirmDelete] = useState(false);
 
@@ -68,13 +70,13 @@ export const AdminPanel = () => {
     setAlertDialogOpen(true);
   };
 
-  //
-  //BOOK DELETION PROCESS
-  //
+  //!
+  // !BOOK DELETION PROCESS
+  //!
 
-  //
-  //BOOK CREATION PROCESS
-  //
+  //!
+  //!BOOK CREATION PROCESS
+  //!
 
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState("");
@@ -88,9 +90,37 @@ export const AdminPanel = () => {
     setMessage("A New Book Was Successfully Created!");
   };
 
-  //
-  //BOOK CREATION PROCESS
-  //
+  // !BOOK CREATION PROCESS
+
+  //? COMBINED
+
+  const handleEditButtonClick = () => {
+    if (tableContent === "books") {
+      return;
+    }
+    if (selectedRows.length < 1) {
+      console.log("select a quote to edit!");
+      return;
+    }
+    if (selectedRows.length > 1) {
+      console.log("You can only edit 1 quote at a time!");
+      return;
+    }
+    setQuoteToEdit(quotes.find((quote) => quote.id === selectedRows[0]));
+    setQuoteEditForm(true);
+  };
+
+  //? COMBINED
+
+  //! QUOTES
+
+  const [quoteToEdit, setQuoteToEdit] = useState(null);
+
+  const handleCancelEdit = () => {
+    setQuoteEditForm(false);
+  };
+
+  const [showQuoteEditForm, setQuoteEditForm] = useState(false);
 
   const [tableContent, setTableContent] = useState("books");
 
@@ -140,13 +170,53 @@ export const AdminPanel = () => {
                   onDeleteError={handleDeletionError}
                   onDeletionComplete={resetConfirmDelete}
                 />
-                <button className="editButtonAdminPage">
+                <button
+                  className="editButtonAdminPage"
+                  onClick={handleEditButtonClick}
+                >
                   Edit
                   <RiEditFill />
                 </button>
               </div>
             </div>
           </div>
+          {/* 
+
+
+
+          QUOTES COMPONENTS 
+
+
+          */}
+          {showQuoteEditForm && tableContent === "quotes" && (
+            <QuoteEdit
+              onCancel={handleCancelEdit}
+              author={quoteToEdit.authorName}
+              quote={quoteToEdit.description}
+              id={quoteToEdit.id}
+              setEditSuccessMessage={(message) => {
+                setMessage(message);
+              }}
+            />
+          )}
+
+          {/* 
+
+
+
+          QUOTES COMPONENTS 
+
+
+          */}
+
+          {/* 
+
+
+
+          BOOKS COMPONENTS 
+
+
+          */}
           <FullScreenDialog
             open={open}
             handleClose={handleClose}
@@ -159,6 +229,15 @@ export const AdminPanel = () => {
             onConfirm={handleAlertDialogConfirm}
             dialogMessage={dialogMessage}
           />
+
+          {/* 
+
+
+
+          BOOKS COMPONENTS 
+
+
+          */}
           <DataTable
             items={tableContent === "books" ? books : quotes}
             whatItem={tableContent}
