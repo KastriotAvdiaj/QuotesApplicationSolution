@@ -64,7 +64,6 @@ export const Quotes = () => {
     setShowEditForm(!showEditForm);
   };
 
-
   // .
   // THEME MEHTOD
   // .
@@ -90,8 +89,16 @@ export const Quotes = () => {
   // .
   // CLOSING THE CREATE NEW FORM
   // .
+
+  const [isClosing, setIsClosing] = useState(false);
+
   const handleCloseForm = () => {
-    setShowForm(false);
+    setIsClosing(true);
+
+    setTimeout(() => {
+      setIsClosing(false);
+      setShowForm(false);
+    }, 350);
   };
 
   // .
@@ -147,8 +154,8 @@ export const Quotes = () => {
     try {
       await deleteQuotes(selectedQuotes);
       const updatedQuotes = quotes.filter(
-           (quote) => !selectedQuotes.includes(quote.id)
-         );
+        (quote) => !selectedQuotes.includes(quote.id)
+      );
       setQuotes(updatedQuotes);
       setSelectedQuotes([]);
       DisableDeleteButton(true);
@@ -240,7 +247,11 @@ export const Quotes = () => {
         />
       )}
       {showForm && (
-        <QuoteForm onAdd={handleAddQuote} onClose={handleCloseForm} />
+        <QuoteForm
+          onAdd={handleAddQuote}
+          onClose={handleCloseForm}
+          isClosing={isClosing}
+        />
       )}
       <ul className="quotes-container">
         {currentQuotes.map((quote, index) => (

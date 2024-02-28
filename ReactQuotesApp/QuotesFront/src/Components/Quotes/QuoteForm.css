@@ -13,6 +13,15 @@
     border-left: 10px solid #f5c013;
 }
 
+.quoteAnimation{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 .quoteForm.dark{
   border-left: 10px solid #ffffff;
   background-color: #383838;

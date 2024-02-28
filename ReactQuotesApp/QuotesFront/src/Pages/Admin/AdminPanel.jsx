@@ -90,9 +90,12 @@ export const AdminPanel = () => {
     setMessage("A New Book Was Successfully Created!");
   };
 
-  // !BOOK CREATION PROCESS
+  // ! BOOK CREATION PROCESS
 
-  //? COMBINED
+  // £ QUOTE CREATE
+
+  const [showCreateQuote, setCreateQuote] = useState(false);
+  // £ QUOTE EDIT
 
   const handleEditButtonClick = () => {
     if (tableContent === "books") {
@@ -109,10 +112,6 @@ export const AdminPanel = () => {
     setQuoteToEdit(quotes.find((quote) => quote.id === selectedRows[0]));
     setQuoteEditForm(true);
   };
-
-  //? COMBINED
-
-  //! QUOTES
 
   const [quoteToEdit, setQuoteToEdit] = useState(null);
 

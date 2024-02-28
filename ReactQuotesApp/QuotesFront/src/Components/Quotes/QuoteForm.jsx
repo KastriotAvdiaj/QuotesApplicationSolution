@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useTheme } from "../Theme/ThemeContext";
 import "./QuoteForm.css";
+import { motion } from "framer-motion";
 
-const QuoteForm = ({ onAdd, onClose }) => {
+const QuoteForm = ({ onAdd, onClose, isClosing }) => {
   const { theme } = useTheme();
   const [description, setDescription] = useState("");
   const [authorName, setAuthorName] = useState("");
@@ -53,52 +54,90 @@ const QuoteForm = ({ onAdd, onClose }) => {
     setAuthorName(value);
   };
 
+  const handleClickedOutsideTheForm = (e) => {
+    if (!e.target.closest(".quoteForm, .quoteForm.dark")) {
+      onClose();
+    }
+  };
+
+  const containerVariants = {
+    hidden: {
+      y: "100vh",
+      opacity: 0,
+    },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { type: "spring", stiffness: 100 },
+    },
+    exit: {
+      y: "100vh",
+      opacity: 0,
+      transition: { ease: "easeInOut", duration: 0.35 },
+    },
+  };
+
   return (
-    <div className="quote-form-overlay">
-      <div className={theme === "dark" ? "quoteForm dark" : "quoteForm"}>
-        <h2>Add a new Quote</h2>
-        <form onSubmit={handleSubmit} className="quoteForm2">
-          <div className="textInputWrapperDiv">
-            <textarea
-              value={description}
-              onChange={handleDescriptionChange}
-              placeholder="Enter quote"
-              required
-              className={
-                theme === "dark" ? "quoteDescription dark" : "quoteDescription"
-              }
-            />
-            {descriptionError && (
-              <div className="error">{descriptionError}</div>
-            )}
-            <input
-              type="text"
-              value={authorName}
-              onChange={handleAuthorNameChange}
-              placeholder="Author's name"
-              className={theme === "dark" ? "quoteAuthor dark" : "quoteAuthor"}
-            />
-            {authorNameError && <div className="error">{authorNameError}</div>}
-          </div>
-          <div className="quoteFormButtonsDiv">
-            <button
-              type="submit"
-              className={theme === "dark" ? "addQuote dark" : "addQuote"}
-            >
-              Add
-            </button>
-            <button
-              type="button"
-              className={
-                theme === "dark" ? "cancelButton dark" : "cancelButton"
-              }
-              onClick={onClose}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
+    <div className="quote-form-overlay" onClick={handleClickedOutsideTheForm}>
+      <motion.div
+        className="quoteAnimation"
+        variants={containerVariants}
+        initial="hidden"
+        animate={isClosing ? "exit" : "visible"}
+        exit="exit"
+        onClick={handleClickedOutsideTheForm}
+      >
+        <div className={theme === "dark" ? "quoteForm dark" : "quoteForm"}>
+          <h2>Add a new Quote</h2>
+          <form onSubmit={handleSubmit} className="quoteForm2">
+            <div className="textInputWrapperDiv">
+              <textarea
+                value={description}
+                onChange={handleDescriptionChange}
+                placeholder="Enter quote"
+                required
+                className={
+                  theme === "dark"
+                    ? "quoteDescription dark"
+                    : "quoteDescription"
+                }
+              />
+              {descriptionError && (
+                <div className="error">{descriptionError}</div>
+              )}
+              <input
+                type="text"
+                value={authorName}
+                onChange={handleAuthorNameChange}
+                placeholder="Author's name"
+                className={
+                  theme === "dark" ? "quoteAuthor dark" : "quoteAuthor"
+                }
+              />
+              {authorNameError && (
+                <div className="error">{authorNameError}</div>
+              )}
+            </div>
+            <div className="quoteFormButtonsDiv">
+              <button
+                type="submit"
+                className={theme === "dark" ? "addQuote dark" : "addQuote"}
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                className={
+                  theme === "dark" ? "cancelButton dark" : "cancelButton"
+                }
+                onClick={onClose}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </motion.div>
     </div>
   );
 };
