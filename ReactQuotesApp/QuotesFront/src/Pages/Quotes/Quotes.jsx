@@ -14,6 +14,10 @@ import QuoteEdit from "../../Components/Quotes/QuoteEdit";
 import QuoteCarousel from "../../Components/Quotes/QuoteCarousel";
 import AlertDialog from "../../Components/Mui/AlertDialog";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
+import {
+  createQuote,
+  deleteQuotes,
+} from "../../Components/Quotes/QuoteService";
 import "./Quotes.css";
 
 export const Quotes = () => {
@@ -125,19 +129,8 @@ export const Quotes = () => {
   // .
   const handleAddQuote = async (newQuote) => {
     try {
-      const response = await fetch("https://localhost:7099/api/Quotes/Add", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newQuote),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add the quote.");
-      }
+      const addedQuote = await createQuote(newQuote);
       setShowForm(false);
-      const addedQuote = await response.json();
       addQuote(addedQuote);
       setSuccessMessage("You have successfully added a new quote!");
       setTimeout(() => setSuccessMessage(""), 3000);

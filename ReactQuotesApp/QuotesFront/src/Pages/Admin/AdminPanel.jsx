@@ -26,14 +26,6 @@ export const AdminPanel = () => {
     console.log(selectedRowsData);
   };
 
-
-
-
-
-
-
-
-
   //
   //BOOK DELETION PROCESS
   //
@@ -68,17 +60,17 @@ export const AdminPanel = () => {
     if (selectedRows.length === 0) {
       return;
     }
-    setDialogMessage("Are you sure you want to delete the selected book/books");
+    setDialogMessage(
+      `Are you sure you want to delete the selected book/books? With the Id/Ids: ${selectedRows.join(
+        ", "
+      )}`
+    );
     setAlertDialogOpen(true);
   };
 
-//
+  //
   //BOOK DELETION PROCESS
   //
-
-
-
-
 
   //
   //BOOK CREATION PROCESS
@@ -96,13 +88,15 @@ export const AdminPanel = () => {
     setMessage("A New Book Was Successfully Created!");
   };
 
- //
+  //
   //BOOK CREATION PROCESS
   //
 
-
-
   const [tableContent, setTableContent] = useState("books");
+
+  const handleQuotesButtonClick = () => {
+    setTableContent("quotes");
+  };
 
   return (
     <>
@@ -124,9 +118,7 @@ export const AdminPanel = () => {
                   Books <FaBook />
                 </button>
                 <button
-                  onClick={() => {
-                    setTableContent("quotes");
-                  }}
+                  onClick={handleQuotesButtonClick}
                   className={tableContent === "quotes" ? "active" : ""}
                 >
                   Quotes <BsFillChatLeftQuoteFill />

@@ -1,0 +1,118 @@
+.quoteForm{
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:fit-content;
+    padding-bottom: 3rem;
+    border-radius: 0.2rem;
+    width: 50%;
+    background-color: #f9f9f9;
+    border-left: 10px solid #f5c013;
+}
+
+.quoteForm.dark{
+  border-left: 10px solid #ffffff;
+  background-color: #383838;
+  color: white;
+}
+
+.quoteForm h2{
+  padding: 1.5rem;
+  font-size: 2rem;
+}
+
+.error{
+  font-size: small;
+  padding: 0;
+  margin: 0;
+}
+
+.quoteForm2{
+  box-sizing: border-box;
+  display: grid;
+  grid-template-rows: 70% 30%;
+  gap: 2rem;  
+  width: 60%;
+}
+
+.textInputWrapperDiv{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.quoteDescription, .quoteAuthor {
+  padding: 1rem;
+    font-size: 1.5rem;
+    margin-right: 0.5rem;
+    border-radius: 0.3rem;
+    border: 1px solid rgb(173, 173, 173);
+    border-bottom: 2px solid #ccc; 
+    outline: none;
+    width: 100%;
+    background-color: transparent; 
+  }
+
+  .quoteDescription.dark, .quoteAuthor.dark {
+    color: white;
+    }
+
+  .quoteAuthor{
+    width: 65%;
+  }
+
+  .quoteDescription:focus, .quoteAuthor:focus {
+    border-bottom: 3px solid #002fff; 
+  }
+  
+  .quoteDescription::placeholder, .quoteAuthor::placeholder {
+    color: #aaa; 
+    font-style: italic; 
+  }
+
+
+  .quoteFormButtonsDiv{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .cancelButton,
+  .addQuote{
+    color: rgb(13, 0, 133);
+    font-weight: bolder;
+    background-color: transparent;
+    padding: 0.5rem 1rem 0.5rem 1rem;
+    border: 0.1px solid #cecece;
+    border-radius: 0.2rem;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: background-color 0.2s ease-in-out;
+  }
+
+  .cancelButton.dark,
+  .addQuote.dark{
+    color: rgb(255, 255, 255);
+  }
+
+  .addQuote:active{
+    transform: scale(0.97);
+  }
+
+  .cancelButton:hover,
+  .addQuote:hover{
+    color: white;
+    background-color: #0515a3ab;
+  }
+  .addQuote{
+    width: 7rem;
+  }
+
+  .cancelButton:active{
+    transform: scale(0.97);
+  }

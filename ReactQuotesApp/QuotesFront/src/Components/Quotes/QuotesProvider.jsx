@@ -9,6 +9,7 @@ export const QuotesProvider = ({ children }) => {
   const [quotes, setQuotes] = useState([]);
 
   useEffect(() => {
+    // if (quotes.length === 0) {
     const fetchQuotes = async () => {
       try {
         const response = await fetch(
@@ -22,6 +23,7 @@ export const QuotesProvider = ({ children }) => {
     };
 
     fetchQuotes();
+    // }
   }, []);
 
   const addQuote = (newQuote) => {

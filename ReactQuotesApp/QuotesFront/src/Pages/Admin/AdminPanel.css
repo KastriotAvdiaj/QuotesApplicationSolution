@@ -84,6 +84,7 @@
 }
 
 .actionButtonsDiv button{
+    font-family: "Exo", sans-serif;
     background-color: rgb(80, 80, 80);
     transition: all 0.12s ease-in;
 }
