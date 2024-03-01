@@ -259,7 +259,7 @@ export const Books = () => {
               description={book.description}
               image={book.imageBase64}
               isSelected={selectedBookIds.includes(book.id)}
-              toggleSelect={() => toggleBookSelection(book.id)}
+              // toggleSelect={() => toggleBookSelection(book.id)} //! ENABLE THIS FOR WHEN WE WANT TO ALLOW DELETING AND EDITING WITHIN THIS PAGE
             />
           </li>
         ))}

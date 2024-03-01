@@ -11,6 +11,8 @@ import { ThemeProvider } from "./Components/Theme/ThemeContext";
 import { Login } from "./Pages/Login/Login";
 import { AuthProvider } from "./Components/AuthContext/AuthContext";
 import { AdminPanel } from "./Pages/Admin/AdminPanel";
+import { Error } from "./Pages/Error/Error";
+import { SignleBook } from "./Pages/Books/SignleBook/SignleBook";
 
 function App() {
   return (
@@ -29,6 +31,11 @@ function App() {
                     <Route path="/books" element={<Books />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
+                    <Route
+                      path="/books/singleBook/:bookId"
+                      element={<SignleBook />}
+                    />
+                    <Route path="/error" element={<Error />} />
                   </Routes>
                 </ThemeProvider>
               </BooksProvider>

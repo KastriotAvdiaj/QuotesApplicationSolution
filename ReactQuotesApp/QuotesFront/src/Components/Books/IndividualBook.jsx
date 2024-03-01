@@ -21,7 +21,7 @@ const IndividualBook = ({
   const handleClick = () => {
     // Check if isAuthenticated and toggleSelect is a function before calling it
     if (isAuthenticated && typeof toggleSelect === "function") {
-      toggleSelect(id);
+      // toggleSelect(id); //! UNCOMMENT THIS TO ALLOW SELECTING INDIVUDUAL BOOKS
     }
   };
 
