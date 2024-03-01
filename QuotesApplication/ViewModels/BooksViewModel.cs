@@ -14,8 +14,8 @@ namespace QuotesApplication.ViewModels
         public string Author { get; set; }
 
 
-        [Required]
-        public IFormFile ImageFile { get; set; }
+  
+        public IFormFile? ImageFile { get; set; }
 
     }
 }

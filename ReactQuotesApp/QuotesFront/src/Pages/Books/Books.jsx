@@ -7,6 +7,7 @@ import IndividualBook from "../../Components/Books/IndividualBook";
 import Pagination from "../../Components/Pagination/Pagination";
 import BookDeletionButton from "../../Components/Books/Delete/BookDeletionButton";
 import { BooksContext } from "../../Components/Books/BooksProvider";
+import { BookEditForm } from "../../Components/Books/Edit/BookEditForm";
 import { BiBookAdd } from "react-icons/bi";
 import AlertDialog from "../../Components/Mui/AlertDialog";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
@@ -40,7 +41,7 @@ export const Books = () => {
   const resetConfirmDelete = () => {
     setConfirmDelete(false);
   };
-  
+
   const handleAlertDialogConfirm = () => {
     setConfirmDelete(true);
     setAlertDialogOpen(false);
@@ -148,8 +149,24 @@ export const Books = () => {
     setIsSearchMode(false);
   };
 
+  const [isEditFormOpen, setEditForm] = useState(false);
+  const [bookToEdit, setBookToEdit] = useState({});
+
+  const handleEditButtonClick = () => {
+    if (selectedBookIds.length === 1) {
+      setBookToEdit(books.find((book) => book.id === selectedBookIds[0]));
+      setEditForm(!isEditFormOpen);
+      return;
+    }
+  };
+
   return (
     <div className="booksMainDiv">
+      <BookEditForm
+        bookToEdit={bookToEdit}
+        isOpen={isEditFormOpen}
+        handleVisibility={handleEditButtonClick}
+      />
       <div className="firstRowDiv">
         {isBookCreated && <SuccessMessage message={successMessage} />}
         <FullScreenDialog
@@ -190,7 +207,7 @@ export const Books = () => {
           <button className="booksButton create" onClick={handleClickOpen}>
             Add New <BiBookAdd />
           </button>
-          <button className="booksButton edit">
+          <button className="booksButton edit" onClick={handleEditButtonClick}>
             Edit <CiEdit />
           </button>
           {selectedBookIds.length > 0 && isAuthenticated ? (

@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using QuotesApplication.Data;
 using QuotesApplication.Models;
 using QuotesApplication.ViewModels;
+using System.IO;
 
 namespace QuotesApplication.Controllers
 {
@@ -68,14 +69,34 @@ namespace QuotesApplication.Controllers
 
         // PUT: api/Books/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBooks(int id, Books books)
+        public async Task<IActionResult> PutBooks(int id, [FromForm] BooksViewModel books)
         {
-            if (id != books.Id)
+            if (_context.Books == null)
             {
-                return BadRequest();
+                return BadRequest("Books context is null.");
             }
 
-            _context.Entry(books).State = EntityState.Modified;
+            var existingBook = _context.Books.Find(id);
+            if (existingBook == null)
+            {
+                return NotFound($"Book with ID {id} not found.");
+            }
+            existingBook.Title = books.Title;
+            existingBook.Author = books.Author;
+            existingBook.Description = books.Description;
+
+     
+            if (books.ImageFile != null)
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    await books.ImageFile.CopyToAsync(memoryStream);
+                    existingBook.ImageBytes = memoryStream.ToArray();
+                    existingBook.ImageBase64 = Convert.ToBase64String(existingBook.ImageBytes);
+                }
+            }
+          
+            _context.Entry(existingBook).State = EntityState.Modified;
 
             try
             {
@@ -85,7 +106,7 @@ namespace QuotesApplication.Controllers
             {
                 if (!BooksExists(id))
                 {
-                    return NotFound();
+                    return NotFound($"Book with ID {id} does not exist.");
                 }
                 else
                 {
@@ -93,7 +114,7 @@ namespace QuotesApplication.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(existingBook);
         }
 
         [HttpPost]
