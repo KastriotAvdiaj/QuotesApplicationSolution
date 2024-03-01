@@ -30,10 +30,11 @@ export const Books = () => {
   const [dialogMessage, setDialogMessage] = useState("");
 
   const openDeleteDialog = () => {
-    setDialogMessage(
-      "Are you sure you want to delete the selected book/books?"
-    );
-    setAlertDialogOpen(true);
+    setDialogMessage();
+    if (selectedBookIds.length > 0) {
+      setAlertDialogOpen(true);
+      ("Are you sure you want to delete the selected book/books?");
+    }
   };
 
   const handleAlertDialogClose = () => {
@@ -221,7 +222,7 @@ export const Books = () => {
           <button className="booksButton edit" onClick={handleEditButtonClick}>
             Edit <CiEdit />
           </button>
-          {selectedBookIds.length > 0 && isAuthenticated ? (
+          {/* {selectedBookIds.length > 0 && isAuthenticated ? (
             <BookDeletionButton
               onClick={openDeleteDialog}
               confirmDelete={confirmDelete}
@@ -232,7 +233,15 @@ export const Books = () => {
             />
           ) : (
             ""
-          )}
+          )} */}
+          <BookDeletionButton
+            onClick={openDeleteDialog}
+            confirmDelete={confirmDelete}
+            selectedBookIds={selectedBookIds}
+            onDeleteSuccess={handleDeletionSuccess}
+            onDeleteError={handleDeletionError}
+            onDeletionComplete={resetConfirmDelete}
+          />
         </div>
         <div>
           <div className="searchBarHolder">

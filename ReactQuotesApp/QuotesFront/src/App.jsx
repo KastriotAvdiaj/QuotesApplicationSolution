@@ -12,7 +12,7 @@ import { Login } from "./Pages/Login/Login";
 import { AuthProvider } from "./Components/AuthContext/AuthContext";
 import { AdminPanel } from "./Pages/Admin/AdminPanel";
 import { Error } from "./Pages/Error/Error";
-import { SignleBook } from "./Pages/Books/SignleBook/SignleBook";
+import { SignleBook } from "./Pages/Books/SignleBook/SingleBook";
 
 function App() {
   return (
