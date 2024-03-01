@@ -159,7 +159,9 @@ export const Books = () => {
       return;
     }
   };
-
+  const handleSuccessfulUpdate = () => {
+    setSuccessMessage("Book was successfully udpated.");
+  };
 
   return (
     <div className="booksMainDiv">
@@ -167,9 +169,11 @@ export const Books = () => {
         bookToEdit={bookToEdit}
         isOpen={isEditFormOpen}
         handleVisibility={handleEditButtonClick}
+        handleSuccessUpdate={handleSuccessfulUpdate}
       />
       <div className="firstRowDiv">
-        {isBookCreated && <SuccessMessage message={successMessage} />}
+        {/* {isBookCreated && <SuccessMessage message={successMessage} />} */}
+        <SuccessMessage message={successMessage} />
         <FullScreenDialog
           open={open}
           handleClose={handleClose}

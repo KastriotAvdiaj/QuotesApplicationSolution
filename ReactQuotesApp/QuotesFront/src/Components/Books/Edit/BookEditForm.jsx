@@ -8,7 +8,12 @@ import { HiSwitchHorizontal } from "react-icons/hi";
 import { BooksContext } from "../BooksProvider";
 import { updateBook } from "../BookService/BookService";
 
-export const BookEditForm = ({ isOpen, handleVisibility, bookToEdit }) => {
+export const BookEditForm = ({
+  isOpen,
+  handleVisibility,
+  bookToEdit,
+  handleSuccessUpdate,
+}) => {
   const { books, updateTheBook } = useContext(BooksContext);
 
   const handleClickedOutsideTheForm = (e) => {
@@ -88,6 +93,7 @@ export const BookEditForm = ({ isOpen, handleVisibility, bookToEdit }) => {
 
   const handleSuccessfulUpdate = () => {
     console.log("Successfully Updated the book!");
+    handleSuccessUpdate();
     setPreviewUrl(null);
     setImageWidth("200px");
     setAuthorDisabled(true);
