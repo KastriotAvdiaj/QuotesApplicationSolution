@@ -6,16 +6,8 @@ export const updateBook = async (
   bookData,
   imageFile,
   handleSuccessfulUpdate,
-  updateTheBook
 ) => {
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
-  };
+  
   const formData = new FormData();
   formData.append("title", bookData.title);
   formData.append("author", bookData.author);
@@ -32,12 +24,6 @@ export const updateBook = async (
   if (!response.ok) {
     throw new Error("Failed to update the book");
   }
-  updateTheBook({
-    id: bookData.id,
-    author: bookData.author,
-    description: bookData.description,
-    image: convertToBase64(imageFile),
-  });
   handleSuccessfulUpdate();
   return response.json();
 };

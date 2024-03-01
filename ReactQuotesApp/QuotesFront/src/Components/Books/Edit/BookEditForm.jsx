@@ -9,7 +9,7 @@ import { BooksContext } from "../BooksProvider";
 import { updateBook } from "../BookService/BookService";
 
 export const BookEditForm = ({ isOpen, handleVisibility, bookToEdit }) => {
-  const { books ,updateTheBook} = useContext(BooksContext);
+  const { books, updateTheBook } = useContext(BooksContext);
 
   const handleClickedOutsideTheForm = (e) => {
     if (!e.target.closest(".mainEditFormDiv")) {
@@ -86,10 +86,24 @@ export const BookEditForm = ({ isOpen, handleVisibility, bookToEdit }) => {
     },
   };
 
-  const handleSuccessfulUpdate = () =>{
-    console.log("Successfully Updated the book!")
+  const handleSuccessfulUpdate = () => {
+    console.log("Successfully Updated the book!");
+    setPreviewUrl(null);
+    setImageWidth("200px");
+    setAuthorDisabled(true);
+    setTitleDisabled(true);
+    setDescriptionDisabled(true);
     handleVisibility();
-  }
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(file);
+    });
+  };
 
   const handleSubmit = () => {
     if (
@@ -106,7 +120,38 @@ export const BookEditForm = ({ isOpen, handleVisibility, bookToEdit }) => {
       author: author,
       description: description,
     };
-    updateBook(bookToEdit.id, newBook, image ,handleSuccessfulUpdate,updateTheBook);
+    updateBook(
+      bookToEdit.id,
+      newBook,
+      image,
+      handleSuccessfulUpdate,
+      updateTheBook
+    );
+    if (image && activeImage) {
+      convertToBase64(image)
+        .then((base64Image) => {
+          const base64Data = base64Image.split(",")[1];
+          updateTheBook({
+            id: bookToEdit.id,
+            title: title,
+            description: description,
+            author: author,
+            image: base64Data,
+          });
+          handleSuccessfulUpdate();
+        })
+        .catch((error) => {
+          console.error("Error converting image to base64", error);
+        });
+    } else {
+      updateTheBook({
+        id: bookToEdit.id,
+        title: title,
+        description: description,
+        author: author,
+        image: bookToEdit.imageBase64,
+      });
+    }
   };
 
   const [title, setTitle] = useState("");
@@ -134,7 +179,6 @@ export const BookEditForm = ({ isOpen, handleVisibility, bookToEdit }) => {
   const [titleDisabled, setTitleDisabled] = useState(true);
   const [authorDisabled, setAuthorDisabled] = useState(true);
   const [descriptionDisabled, setDescriptionDisabled] = useState(true);
-
 
   const [image, setImage] = useState(null);
   const [activeImage, setActiveImage] = useState(true);

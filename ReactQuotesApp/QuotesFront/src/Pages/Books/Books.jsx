@@ -17,7 +17,7 @@ import { MdFormatClear } from "react-icons/md";
 import "./Books.css";
 
 export const Books = () => {
-  const { books, addBook } = useContext(BooksContext);
+  const { books, updateTheBook } = useContext(BooksContext);
   const [open, setOpen] = useState(false);
   const { isAuthenticated } = useAuth();
 
@@ -159,6 +159,7 @@ export const Books = () => {
       return;
     }
   };
+
 
   return (
     <div className="booksMainDiv">

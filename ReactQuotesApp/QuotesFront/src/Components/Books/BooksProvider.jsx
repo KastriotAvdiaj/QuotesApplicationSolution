@@ -32,8 +32,17 @@ export const BooksProvider = ({ children }) => {
   };
 
   const updateTheBook = (updatedBook) => {
+    const bookWithConvertedImage = {
+      ...updatedBook,
+      imageBase64: updatedBook.image,
+    };
+    // Remove the original `image` attribute if you don't need it anymore
+    delete bookWithConvertedImage.image;
+
     setBooks((prevBooks) =>
-      prevBooks.map((book) => (book.id === updatedBook.id ? updatedBook : book))
+      prevBooks.map((book) =>
+        book.id === bookWithConvertedImage.id ? bookWithConvertedImage : book
+      )
     );
   };
 
