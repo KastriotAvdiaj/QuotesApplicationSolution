@@ -12,6 +12,7 @@ import {
   deleteQuotes,
   createQuote,
 } from "../../Components/Quotes/QuoteService";
+import { BookEditForm } from "../../Components/Books/Edit/BookEditForm";
 import { BsFillChatLeftQuoteFill } from "react-icons/bs";
 import { RiEditFill, RiAdminFill } from "react-icons/ri";
 import AlertDialog from "../../Components/Mui/AlertDialog";
@@ -106,6 +107,24 @@ export const AdminPanel = () => {
   //!
 
   //!
+  // !BOOK UPDATE PROCESS
+  //!
+
+  const [isEditFormOpen, setIsEditForOpen] = useState(false);
+
+  const handleSuccessfulUpdate = () => {
+    setMessage("Successfully udpated the Book!");
+    setTimeout(() => setMessage(""), 3000);
+  };
+
+  const closeEditForm = () => {
+    setIsEditForOpen(false);
+  };
+  //!
+  // !BOOK UPDATE PROCESS
+  //!
+
+  //!
   //!BOOK CREATION PROCESS
   //!
 
@@ -164,6 +183,16 @@ export const AdminPanel = () => {
 
   const handleEditButtonClick = () => {
     if (tableContent === "books") {
+      if (selectedRows.length < 1) {
+        console.log("select a book to edit!");
+        return;
+      }
+      if (selectedRows.length > 1) {
+        console.log("You can only edit 1 book at a time!");
+        return;
+      }
+      setQuoteToEdit(books.find((book) => book.id === selectedRows[0]));
+      setIsEditForOpen(true);
       return;
     }
     if (selectedRows.length < 1) {
@@ -312,6 +341,14 @@ export const AdminPanel = () => {
             onConfirm={handleAlertDialogConfirm}
             dialogMessage={dialogMessage}
           />
+          {isEditFormOpen && (
+            <BookEditForm
+              bookToEdit={quoteToEdit}
+              isOpen={isEditFormOpen}
+              handleVisibility={closeEditForm}
+              handleSuccessUpdate={handleSuccessfulUpdate}
+            />
+          )}
 
           {/* 
 

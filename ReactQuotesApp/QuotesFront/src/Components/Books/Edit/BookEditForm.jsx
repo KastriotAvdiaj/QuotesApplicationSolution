@@ -119,6 +119,7 @@ export const BookEditForm = ({
       image === null
     ) {
       console.log("There were no changes detected");
+      handleVisibility();
       return;
     }
     const newBook = {

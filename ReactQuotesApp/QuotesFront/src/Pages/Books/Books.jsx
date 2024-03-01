@@ -30,7 +30,9 @@ export const Books = () => {
   const [dialogMessage, setDialogMessage] = useState("");
 
   const openDeleteDialog = () => {
-    setDialogMessage("Are you sure you want to delete the selected book/books");
+    setDialogMessage(
+      "Are you sure you want to delete the selected book/books?"
+    );
     setAlertDialogOpen(true);
   };
 
@@ -43,6 +45,8 @@ export const Books = () => {
   };
 
   const handleAlertDialogConfirm = () => {
+    setSuccessMessage("Successfully deleted selected book/books.");
+    setTimeout(() => setSuccessMessage(""), 3000);
     setConfirmDelete(true);
     setAlertDialogOpen(false);
   };
@@ -104,6 +108,7 @@ export const Books = () => {
   const handleBookCreationSuccess = () => {
     setIsBookCreated(true);
     setSuccessMessage("Successfully added a new book");
+    setTimeout(() => setSuccessMessage(""), 3000);
     handleClose();
   };
 
@@ -161,6 +166,7 @@ export const Books = () => {
   };
   const handleSuccessfulUpdate = () => {
     setSuccessMessage("Book was successfully udpated.");
+    setTimeout(() => setSuccessMessage(""), 3000);
   };
 
   return (

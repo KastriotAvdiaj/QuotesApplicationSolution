@@ -10,6 +10,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1000;
 }
 
 .bookEditOutLineDiv.hidden{
@@ -17,6 +18,7 @@
 }
 
 .mainEditFormDiv{
+  z-index: 1001;
    display: flex;
    flex-direction: column;
    align-items: center;
