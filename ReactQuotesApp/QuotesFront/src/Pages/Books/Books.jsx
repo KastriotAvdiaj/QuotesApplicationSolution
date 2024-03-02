@@ -30,10 +30,12 @@ export const Books = () => {
   const [dialogMessage, setDialogMessage] = useState("");
 
   const openDeleteDialog = () => {
-    setDialogMessage();
     if (selectedBookIds.length > 0) {
       setAlertDialogOpen(true);
-      ("Are you sure you want to delete the selected book/books?");
+      setDialogMessage(
+        "Are you sure you want to delete the selected book/books? Id/Ids : " +
+          selectedBookIds
+      );
     }
   };
 
@@ -268,7 +270,7 @@ export const Books = () => {
               description={book.description}
               image={book.imageBase64}
               isSelected={selectedBookIds.includes(book.id)}
-              // toggleSelect={() => toggleBookSelection(book.id)} //! ENABLE THIS FOR WHEN WE WANT TO ALLOW DELETING AND EDITING WITHIN THIS PAGE
+              toggleSelect={() => toggleBookSelection(book.id)} //! ENABLE THIS FOR WHEN WE WANT TO ALLOW DELETING AND EDITING WITHIN THIS PAGE
             />
           </li>
         ))}

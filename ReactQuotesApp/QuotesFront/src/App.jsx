@@ -12,7 +12,7 @@ import { Login } from "./Pages/Login/Login";
 import { AuthProvider } from "./Components/AuthContext/AuthContext";
 import { AdminPanel } from "./Pages/Admin/AdminPanel";
 import { Error } from "./Pages/Error/Error";
-import { SignleBook } from "./Pages/Books/SignleBook/SingleBook";
+import { SingleBook } from "./Pages/Books/SingleBook/SingleBook";
 
 function App() {
   return (
@@ -33,7 +33,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route
                       path="/books/singleBook/:bookId"
-                      element={<SignleBook />}
+                      element={<SingleBook />}
                     />
                     <Route path="/error" element={<Error />} />
                   </Routes>

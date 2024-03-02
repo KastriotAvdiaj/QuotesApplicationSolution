@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect } from "react";
+import { updateBook } from "./BookService/BookService";
 
 export const BooksContext = createContext();
 
@@ -32,23 +33,19 @@ export const BooksProvider = ({ children }) => {
   };
 
   const updateTheBook = (updatedBook) => {
-    const bookWithConvertedImage = {
-      ...updatedBook,
-      imageBase64: updatedBook.image,
-    };
-    // Remove the original `image` attribute if you don't need it anymore
-    delete bookWithConvertedImage.image;
-
     setBooks((prevBooks) =>
-      prevBooks.map((book) =>
-        book.id === bookWithConvertedImage.id ? bookWithConvertedImage : book
-      )
+      prevBooks.map((book) => (book.id === updatedBook.id ? updatedBook : book))
     );
   };
 
   return (
     <BooksContext.Provider
-      value={{ books, addBook, deleteSelectedBooks, updateTheBook }}
+      value={{
+        books,
+        addBook,
+        deleteSelectedBooks,
+        updateTheBook,
+      }}
     >
       {children}
     </BooksContext.Provider>

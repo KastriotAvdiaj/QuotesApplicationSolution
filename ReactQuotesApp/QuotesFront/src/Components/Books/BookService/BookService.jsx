@@ -4,10 +4,11 @@ const baseUrl = "https://localhost:7099/api/Books";
 export const updateBook = async (
   bookId,
   bookData,
-  imageFile,
-  handleSuccessfulUpdate,
+  imageFile
+  // handleSuccessfulUpdate
 ) => {
-  
+
+
   const formData = new FormData();
   formData.append("title", bookData.title);
   formData.append("author", bookData.author);
@@ -24,6 +25,6 @@ export const updateBook = async (
   if (!response.ok) {
     throw new Error("Failed to update the book");
   }
-  handleSuccessfulUpdate();
+  // handleSuccessfulUpdate();
   return response.json();
 };

@@ -113,6 +113,7 @@ export const AdminPanel = () => {
   const [isEditFormOpen, setIsEditForOpen] = useState(false);
 
   const handleSuccessfulUpdate = () => {
+    console.log("Coming from admin panel");
     setMessage("Successfully udpated the Book!");
     setTimeout(() => setMessage(""), 3000);
   };

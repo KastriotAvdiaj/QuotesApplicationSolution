@@ -14,17 +14,11 @@ export const BookEditForm = ({
   bookToEdit,
   handleSuccessUpdate,
 }) => {
-  const { books, updateTheBook } = useContext(BooksContext);
-
   const handleClickedOutsideTheForm = (e) => {
     if (!e.target.closest(".mainEditFormDiv")) {
       handleVisibility();
     }
   };
-
-  const InputFile = styled("input")({
-    display: "none",
-  });
 
   const textFieldStyles = {
     "& label.Mui-focused": {
@@ -91,115 +85,52 @@ export const BookEditForm = ({
     },
   };
 
-  const handleSuccessfulUpdate = () => {
-    console.log("Successfully Updated the book!");
-    handleSuccessUpdate();
-    setPreviewUrl(null);
-    setImageWidth("200px");
-    setAuthorDisabled(true);
-    setTitleDisabled(true);
-    setDescriptionDisabled(true);
-    handleVisibility();
-  };
+  const { books, updateTheBook } = useContext(BooksContext);
 
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(file);
-    });
-  };
-
-  const handleSubmit = () => {
-    if (
-      title === bookToEdit.title &&
-      author === bookToEdit.author &&
-      description === bookToEdit.description &&
-      image === null
-    ) {
-      console.log("There were no changes detected");
-      handleVisibility();
-      return;
-    }
-    const newBook = {
-      title: title,
-      author: author,
-      description: description,
-    };
-    updateBook(
-      bookToEdit.id,
-      newBook,
-      image,
-      handleSuccessfulUpdate,
-      updateTheBook
-    );
-    if (image && activeImage) {
-      convertToBase64(image)
-        .then((base64Image) => {
-          const base64Data = base64Image.split(",")[1];
-          updateTheBook({
-            id: bookToEdit.id,
-            title: title,
-            description: description,
-            author: author,
-            image: base64Data,
-          });
-          handleSuccessfulUpdate();
-        })
-        .catch((error) => {
-          console.error("Error converting image to base64", error);
-        });
-    } else {
-      updateTheBook({
-        id: bookToEdit.id,
-        title: title,
-        description: description,
-        author: author,
-        image: bookToEdit.imageBase64,
-      });
-    }
-  };
-
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [description, setDescription] = useState("");
+  const [disabled, setDisabled] = useState({
+    title: true,
+    author: true,
+    description: true,
+  });
 
   useEffect(() => {
-    setTitle(bookToEdit.title);
-    setAuthor(bookToEdit.author);
-    setDescription(bookToEdit.description);
+    setValue({
+      title: bookToEdit.title || "",
+      author: bookToEdit.author || "",
+      description: bookToEdit.description || "",
+    });
   }, [bookToEdit]);
 
-  const handleTitleInput = (e) => {
-    setTitle(e.target.value);
-  };
+  const [value, setValue] = useState({
+    title: "",
+    author: "",
+    description: "",
+  });
 
-  const handleAuthorInput = (e) => {
-    setAuthor(e.target.value);
-  };
-
-  const handleDescriptionInput = (e) => {
-    setDescription(e.target.value);
-  };
-
-  const [titleDisabled, setTitleDisabled] = useState(true);
-  const [authorDisabled, setAuthorDisabled] = useState(true);
-  const [descriptionDisabled, setDescriptionDisabled] = useState(true);
-
-  const [image, setImage] = useState(null);
-  const [activeImage, setActiveImage] = useState(true);
-  const [previewUrl, setPreviewUrl] = useState(null);
+  const [imageBase64, setImageBase64] = useState("");
 
   const [imageWidth, setImageWidth] = useState("200px");
 
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-      const fileURL = URL.createObjectURL(e.target.files[0]);
-      setPreviewUrl(fileURL);
-      setImageWidth("100px");
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64String = reader.result
+          .replace("data:", "")
+          .replace(/^.+,/, "");
+        setImageBase64(base64String);
+        setImageWidth("100px");
+      };
+      reader.readAsDataURL(file);
     }
+  };
+
+  const toggleDisabledField = (fieldName) => {
+    setDisabled((prevState) => ({
+      ...prevState,
+      [fieldName]: !prevState[fieldName],
+    }));
   };
 
   return (
@@ -217,17 +148,12 @@ export const BookEditForm = ({
                 id="outlined-basic"
                 multiline //default value doesn't work unless we add this to all of them
                 variant="outlined"
+                value={value.title}
+                disabled={disabled.title}
                 placeholder="Title"
-                disabled={titleDisabled}
-                value={title}
                 sx={textFieldStyles}
-                onChange={handleTitleInput}
               />
-              <button
-                onClick={() => {
-                  setTitleDisabled(!titleDisabled);
-                }}
-              >
+              <button onClick={() => toggleDisabledField("title")}>
                 <GrEdit />
               </button>
             </div>
@@ -235,18 +161,13 @@ export const BookEditForm = ({
               <TextField
                 id="outlined-basic"
                 multiline
+                value={value.author}
                 placeholder="Author"
-                disabled={authorDisabled}
-                value={author}
                 variant="outlined"
+                disabled={disabled.author}
                 sx={textFieldStyles}
-                onChange={handleAuthorInput}
               />
-              <button
-                onClick={() => {
-                  setAuthorDisabled(!authorDisabled);
-                }}
-              >
+              <button onClick={() => toggleDisabledField("author")}>
                 <GrEdit />
               </button>
             </div>
@@ -255,18 +176,13 @@ export const BookEditForm = ({
                 id="outlined-textarea"
                 multiline
                 maxRows={4}
+                value={value.description}
+                disabled={disabled.description}
                 placeholder="Description"
-                disabled={descriptionDisabled}
-                value={description || ""}
                 variant="outlined"
                 sx={textFieldStyles}
-                onChange={handleDescriptionInput}
               />
-              <button
-                onClick={() => {
-                  setDescriptionDisabled(!descriptionDisabled);
-                }}
-              >
+              <button onClick={() => toggleDisabledField("description")}>
                 <GrEdit />
               </button>
             </div>
@@ -275,34 +191,24 @@ export const BookEditForm = ({
                 <img
                   src={`data:image/jpeg;base64,${bookToEdit.imageBase64}`}
                   alt="Book Cover"
-                  className={activeImage ? "" : "imageViewInEdit active"}
-                  style={{ width: imageWidth }} // Adjust styling as necessary
+                  className="imageViewInEdit"
+                  style={{ width: imageWidth }}
                 />
               )}
-              {previewUrl && (
-                <>
-                  <button
-                    className="switchImageButton"
-                    onClick={() => {
-                      setActiveImage(!activeImage);
-                    }}
-                  >
-                    <HiSwitchHorizontal />
-                  </button>
-                  <img
-                    src={previewUrl}
-                    alt="Preview"
-                    className={activeImage ? "imageViewInEdit active" : ""}
-                    style={{ width: imageWidth }}
-                  />
-                </>
+              {imageBase64 && (
+                <img
+                  src={`data:image/jpeg;base64,${imageBase64}`}
+                  alt="Book Cover"
+                  className="imageViewInEdit"
+                  style={{ width: imageWidth }}
+                />
               )}
               <input
                 type="file"
                 id="imageUpload"
                 accept="image/*"
                 style={{ display: "none" }}
-                onChange={handleImageChange} // Function to handle file selection
+                onChange={handleFileChange}
               />
               <label htmlFor="imageUpload" className="imageUploadButton">
                 <IoCloudUploadSharp /> Upload Image
@@ -310,7 +216,7 @@ export const BookEditForm = ({
             </div>
           </div>
           <div className="editBookFormButtonsDiv">
-            <button onClick={handleSubmit}>Save</button>
+            <button>Save</button>
             <button onClick={handleVisibility}>Close</button>
           </div>
         </div>
