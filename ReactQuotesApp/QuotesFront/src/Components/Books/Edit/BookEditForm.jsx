@@ -7,7 +7,6 @@ import { IoCloudUploadSharp } from "react-icons/io5";
 import { HiSwitchHorizontal } from "react-icons/hi";
 import { BooksContext } from "../BooksProvider";
 import { updateBook } from "../BookService/BookService";
-
 export const BookEditForm = ({
   isOpen,
   handleVisibility,
@@ -108,11 +107,12 @@ export const BookEditForm = ({
   });
 
   const [imageBase64, setImageBase64] = useState("");
-
   const [imageWidth, setImageWidth] = useState("200px");
+  const [imageFile, setImageFile] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    setImageFile(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -131,6 +131,11 @@ export const BookEditForm = ({
       ...prevState,
       [fieldName]: !prevState[fieldName],
     }));
+  };
+
+  const handleRemoveImage = () => {
+    setImageBase64(null);
+    setImageWidth("200px");
   };
 
   return (
@@ -188,20 +193,43 @@ export const BookEditForm = ({
             </div>
             <div className="imageDisplayAndChange">
               {bookToEdit.imageBase64 && (
-                <img
-                  src={`data:image/jpeg;base64,${bookToEdit.imageBase64}`}
-                  alt="Book Cover"
-                  className="imageViewInEdit"
-                  style={{ width: imageWidth }}
-                />
+                <>
+                  <div className="imageContainer" style={{ width: imageWidth }}>
+                    {/* {imageBase64 && <h4>Old Image</h4>} */}
+                    <img
+                      src={`data:image/jpeg;base64,${bookToEdit.imageBase64}`}
+                      alt="Book Cover"
+                      style={{ width: imageWidth }}
+                      className="imageViewInEdit"
+                    />
+                    <div
+                      onClick={handleRemoveImage}
+                      className={
+                        imageBase64 ? "imageOverlay" : "imageOverlay hidden"
+                      }
+                    >
+                      <span className="overlayText">Use Old Image</span>
+                    </div>
+                  </div>
+                </>
               )}
               {imageBase64 && (
-                <img
-                  src={`data:image/jpeg;base64,${imageBase64}`}
-                  alt="Book Cover"
-                  className="imageViewInEdit"
-                  style={{ width: imageWidth }}
-                />
+                <>
+                  <div className="imageContainer" style={{ width: imageWidth }}>
+                    <img
+                      src={`data:image/jpeg;base64,${imageBase64}`}
+                      alt="New Book Cover"
+                      className="imageViewInEdit"
+                      style={{ width: imageWidth }}
+                    />
+                    <button
+                      onClick={handleRemoveImage}
+                      className="removeImageButton"
+                    >
+                      x
+                    </button>
+                  </div>
+                </>
               )}
               <input
                 type="file"

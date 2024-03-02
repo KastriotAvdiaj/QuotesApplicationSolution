@@ -61,7 +61,7 @@ namespace QuotesApplication.Areas.User.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(10), // Adjust expiration as necessary
+                expires: DateTime.Now.AddMinutes(100), // Adjust expiration as necessary
                 signingCredentials: credentials
             );
 

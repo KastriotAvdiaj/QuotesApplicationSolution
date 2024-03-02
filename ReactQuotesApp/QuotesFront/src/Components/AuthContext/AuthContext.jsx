@@ -13,7 +13,7 @@ export const AuthProvider = ({ children }) => {
   });
   const login = (token) => {
     const now = new Date();
-    const expirationTime = new Date(now.getTime() + 1000 * 60 * 10); //10 minutes
+    const expirationTime = new Date(now.getTime() + 1000 * 60 * 100); //10 minutes
     localStorage.setItem("token", token);
     localStorage.setItem("expirationTime", expirationTime.toISOString());
     setIsAuthenticated(true);
