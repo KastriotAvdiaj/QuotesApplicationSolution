@@ -34,7 +34,15 @@ export const BooksProvider = ({ children }) => {
 
   const updateTheBook = (updatedBook) => {
     setBooks((prevBooks) =>
-      prevBooks.map((book) => (book.id === updatedBook.id ? updatedBook : book))
+      prevBooks.map((book) => {
+        if (book.id === updatedBook.id) {
+          if (!updatedBook.imageBase64) {
+            return { ...updatedBook, imageBase64: book.imageBase64 };
+          }
+          return updatedBook;
+        }
+        return book;
+      })
     );
   };
 

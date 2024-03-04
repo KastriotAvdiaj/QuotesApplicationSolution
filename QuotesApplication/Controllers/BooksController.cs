@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using QuotesApplication.Data;
 using QuotesApplication.Models;
 using QuotesApplication.ViewModels;
@@ -39,8 +40,8 @@ namespace QuotesApplication.Controllers
                     Id = book.Id,
                     Title = book.Title,
                     Description = book.Description,
-                    Author=book.Author,
-                ImageBase64 = book.ImageBytes != null ? Convert.ToBase64String(book.ImageBytes) : null,
+                    Author = book.Author,
+                    ImageBase64 = book.ImageBytes != null ? Convert.ToBase64String(book.ImageBytes) : null,
                 };
 
                 bookDTOs.Add(bookDTO);
@@ -53,10 +54,10 @@ namespace QuotesApplication.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Books>> GetBooks(int id)
         {
-          if (_context.Books == null)
-          {
-              return NotFound();
-          }
+            if (_context.Books == null)
+            {
+                return NotFound();
+            }
             var books = await _context.Books.FindAsync(id);
 
             if (books == null)
@@ -69,33 +70,32 @@ namespace QuotesApplication.Controllers
 
         // PUT: api/Books/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBooks(int id, [FromForm] BooksViewModel books)
+        public async Task<IActionResult> PutBooks([FromBody] BookEditViewModel books)
         {
             if (_context.Books == null)
             {
                 return BadRequest("Books context is null.");
             }
 
-            var existingBook = _context.Books.Find(id);
+            var existingBook = _context.Books.Find(books.Id);
             if (existingBook == null)
             {
-                return NotFound($"Book with ID {id} not found.");
+                return NotFound($"Book with ID {books.Id} not found.");
             }
             existingBook.Title = books.Title;
             existingBook.Author = books.Author;
             existingBook.Description = books.Description;
 
-     
-            if (books.ImageFile != null)
+
+            if (!string.IsNullOrWhiteSpace(books.imageBase64))
             {
-                using (var memoryStream = new MemoryStream())
-                {
-                    await books.ImageFile.CopyToAsync(memoryStream);
-                    existingBook.ImageBytes = memoryStream.ToArray();
-                    existingBook.ImageBase64 = Convert.ToBase64String(existingBook.ImageBytes);
-                }
+                existingBook.ImageBytes = ConvertBase64ToBytes(books.imageBase64);
             }
-          
+            else
+            {
+                existingBook.ImageBytes = existingBook.ImageBytes;
+            }
+
             _context.Entry(existingBook).State = EntityState.Modified;
 
             try
@@ -104,9 +104,9 @@ namespace QuotesApplication.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!BooksExists(id))
+                if (!BooksExists(books.Id))
                 {
-                    return NotFound($"Book with ID {id} does not exist.");
+                    return NotFound($"Book with ID {books.Id} does not exist.");
                 }
                 else
                 {
@@ -168,17 +168,38 @@ namespace QuotesApplication.Controllers
             {
                 return NotFound("No books found with the provided IDs.");
             }
-            
-                _context.Books.RemoveRange(booksToDelete);
-                _context.SaveChanges();
 
-                return Ok($"Books with the IDs [{string.Join(", ", ids)}] were successfully deleted!");
-           
+            _context.Books.RemoveRange(booksToDelete);
+            _context.SaveChanges();
+
+            return Ok($"Books with the IDs [{string.Join(", ", ids)}] were successfully deleted!");
+
         }
 
         private bool BooksExists(int id)
         {
             return (_context.Books?.Any(e => e.Id == id)).GetValueOrDefault();
         }
+
+        public static byte[] ConvertBase64ToBytes(string base64String)
+        {
+            // Check if the base64 string contains a data URL scheme and strip it out.
+            int indexOfComma = base64String.IndexOf(',');
+            if (indexOfComma != -1)
+            {
+                // Assume the data URL scheme is present and strip it out.
+                base64String = base64String.Substring(indexOfComma + 1);
+            }
+
+            try
+            {
+                return Convert.FromBase64String(base64String);
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine($"Invalid base64 string format: {e.Message}");
+                throw new Exception(e.Message);
+            }
+        }
     }
-}
+    }

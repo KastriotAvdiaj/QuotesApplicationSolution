@@ -106,13 +106,18 @@ export const BookEditForm = ({
     description: "",
   });
 
+  const handleChange = (field) => (event) => {
+    setValue((prev) => ({
+      ...prev,
+      [field]: event.target.value,
+    }));
+  };
+
   const [imageBase64, setImageBase64] = useState("");
   const [imageWidth, setImageWidth] = useState("200px");
-  const [imageFile, setImageFile] = useState(null);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    setImageFile(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -138,6 +143,80 @@ export const BookEditForm = ({
     setImageWidth("200px");
   };
 
+  const [errors, setErrors] = useState({
+    title: "",
+    author: "",
+    description: "",
+  });
+
+  const [updateStatus, setUpdateStatus] = useState({ success: false });
+
+  const handleFormSubmit = async () => {
+    let errorFound = false;
+
+    if (!value.title.trim()) {
+      errors.title = "Title is required";
+      errorFound = true;
+    } else if (value.title.length > 40) {
+      errors.title = "Title cannot exceed 40 characters";
+      errorFound = true;
+    }
+
+    if (!value.author.trim()) {
+      errors.author = "Author is required";
+      errorFound = true;
+    } else if (value.author.length > 35) {
+      errors.author = "Author cannot exceed 35 characters";
+      errorFound = true;
+    }
+
+    if (value.description.length > 200) {
+      errors.description = "Description cannot exceed 200 characters";
+      errorFound = true;
+    }
+
+    if (errorFound) {
+      setErrors(errors);
+      console.error("Validation errors:", errors);
+      return;
+    }
+
+    const bookData = {
+      id: bookToEdit.id,
+      title: value.title,
+      author: value.author,
+      description: value.description,
+      imageBase64: imageBase64,
+    };
+
+    const changesMade =
+      bookData.title !== bookToEdit.title ||
+      bookData.author !== bookToEdit.author ||
+      bookData.description !== bookToEdit.description ||
+      (bookData.imageBase64 && bookData.imageBase64 !== bookToEdit.imageBase64);
+
+    if (!changesMade) {
+      alert("No changes detected.");
+      return;
+    }
+
+    try {
+      await updateBook(bookData);
+      alert("Book updated successfully!");
+      setUpdateStatus({ success: true });
+      setValue({
+        title: "",
+        author: "",
+        description: "",
+      });
+      updateTheBook(bookData);
+      setImageBase64("");
+      handleVisibility();
+      setImageWidth("200px");
+    } catch (error) {
+      console.error("Error updating the book:", error);
+    }
+  };
   return (
     <>
       <div
@@ -157,6 +236,8 @@ export const BookEditForm = ({
                 disabled={disabled.title}
                 placeholder="Title"
                 sx={textFieldStyles}
+                onChange={handleChange("title")}
+                error={!!errors.title}
               />
               <button onClick={() => toggleDisabledField("title")}>
                 <GrEdit />
@@ -171,6 +252,8 @@ export const BookEditForm = ({
                 variant="outlined"
                 disabled={disabled.author}
                 sx={textFieldStyles}
+                onChange={handleChange("author")}
+                error={!!errors.author}
               />
               <button onClick={() => toggleDisabledField("author")}>
                 <GrEdit />
@@ -186,6 +269,8 @@ export const BookEditForm = ({
                 placeholder="Description"
                 variant="outlined"
                 sx={textFieldStyles}
+                onChange={handleChange("description")}
+                error={!!errors.description}
               />
               <button onClick={() => toggleDisabledField("description")}>
                 <GrEdit />
@@ -244,7 +329,7 @@ export const BookEditForm = ({
             </div>
           </div>
           <div className="editBookFormButtonsDiv">
-            <button>Save</button>
+            <button onClick={handleFormSubmit}>Save</button>
             <button onClick={handleVisibility}>Close</button>
           </div>
         </div>
