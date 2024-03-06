@@ -1,4 +1,5 @@
 .mainIndividualBookDiv {
+    position: relative;
     cursor: pointer;
     font-family: "Inter", sans-serif;
     width: 330px;
@@ -9,7 +10,14 @@
     border-radius: 4px;
     padding: 10px;
     margin: 5px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    background-image: repeating-conic-gradient(rgb(51, 51, 51) 0deg 90deg,
+    rgb(39, 39, 39) 90deg 180deg);
+    background-size: 6px 6px;
+    box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.12), 2px 4px 6px rgba(0, 0, 0, 0.24);
+}
+
+.mainIndividualBookDiv:hover {
+    box-shadow: 0px 0px 15px rgba(255, 0, 0, 1);
 }
 
 .bookTitle{
@@ -23,6 +31,7 @@
 }
 
 .individualBookImages {
+    position: relative;
     height: 120px; 
     object-fit: contain; 
     border-radius: 4px;
@@ -42,6 +51,8 @@
 }
 
 .selected {
+    background-image: repeating-conic-gradient(rgb(54, 24, 24) 0deg 90deg,
+    #300f0f7c 90deg 180deg);
     background-color: #e935357c; 
   }
   

@@ -1,0 +1,79 @@
+.singleBookMainDiv{
+    height: 100vh;
+    width: calc(100vw -15rem);
+    box-sizing: border-box;
+}
+
+.bookDisplayDiv{
+    width: fit-content;
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.bookDisplayDiv img{
+    width: 400px;
+    box-shadow: 5px 5px 0px 0px rgba(91,91,85,1),
+10px 10px 0px 0px rgba(103,106,99,0.6),
+15px 15px 0px 0px rgba(112, 114, 110, 0.4),
+20px 20px 0px 0px rgba(124,125,124,0.2),
+25px 25px 0px 0px rgba(106,106,105,0.1);
+}
+.bookDetails{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 300px;
+    padding: 2rem;
+    background-color: rgb(32, 32, 32);
+    border-radius: 1rem;
+    box-shadow: 13px 11px 10px rgb(15, 15, 15);
+}
+
+.bookDetails p{
+    margin: 0.2rem;
+}
+
+.singleBookAuthor{
+    color: rgb(255, 203, 33);
+    font-size: 1.3rem;
+    padding-bottom: 1rem;
+}
+
+.singleBookTitle{
+    font-size: 1.7rem;
+    font-weight: bold;
+}
+.singleBookDescription{
+    padding-top: 1rem;
+    font-size: 1.2rem;
+}
+
+.summarizationText{
+    padding-top: 1rem;
+}
+
+.singleBookEditButton{
+    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: center;
+    cursor: pointer;
+    border-radius: 0.2rem;
+    background-color: rgb(63, 63, 63);
+    color: white;
+    padding: 0.5rem 0;
+    font-size: 1.2rem;
+}
+
+.singleBookEditButton:hover{
+    background-color: rgb(49, 48, 48);
+}
+
+.singleBookEditButton:active{
+    transform: scale(0.97);
+}

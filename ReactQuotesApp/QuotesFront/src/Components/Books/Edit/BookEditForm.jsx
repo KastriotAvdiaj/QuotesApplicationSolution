@@ -170,7 +170,7 @@ export const BookEditForm = ({
       errorFound = true;
     }
 
-    if (value.description.length > 200) {
+    if (value.description.length > 220) {
       errors.description = "Description cannot exceed 200 characters";
       errorFound = true;
     }

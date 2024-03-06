@@ -122,7 +122,7 @@ export const Quotes = () => {
   // PAGINATION LOGIC
   // .
   const [currentPage, setCurrentPage] = useState(1);
-  const quotesPerPage = 10;
+  const quotesPerPage = 9;
   const totalPages = Math.ceil(quotes.length / quotesPerPage);
   const lastQuoteIndex = currentPage * quotesPerPage;
   const firstQuoteIndex = lastQuoteIndex - quotesPerPage;

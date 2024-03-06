@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../AuthContext/AuthContext";
 import "./IndividualBook.css";
+import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const IndividualBook = ({
   id,
@@ -13,16 +15,18 @@ const IndividualBook = ({
   toggleSelect,
 }) => {
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const handleImageDragStart = (e) => {
     e.preventDefault();
   };
 
   const handleClick = () => {
-    // Check if isAuthenticated and toggleSelect is a function before calling it
-    if (isAuthenticated && typeof toggleSelect === "function") {
-      toggleSelect(id); //! UNCOMMENT THIS TO ALLOW SELECTING INDIVUDUAL BOOKS
-    }
+    navigate(`/books/singleBook/${id}`);
+
+    // if (isAuthenticated && typeof toggleSelect === "function") {
+    //   toggleSelect(id); //! UNCOMMENT THIS TO ALLOW SELECTING INDIVUDUAL BOOKS
+    // }
   };
 
   return (
