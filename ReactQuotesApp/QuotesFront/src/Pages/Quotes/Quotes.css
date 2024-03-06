@@ -98,7 +98,7 @@
 
   .quotes-container {
     display: grid;
-    grid-template-columns: repeat(5, 1fr); 
+    grid-template-columns: repeat(3, 1fr); 
     gap: 0rem; 
     align-items: start; 
   }
@@ -115,30 +115,23 @@
 
   @media (max-width: 1570px) {
     .quotes-container {
-      grid-template-columns: repeat(4, 1fr); 
-    }
-  }
-
-  @media (max-width: 1377px) {
-    .quotes-container {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-
-  @media (max-width: 1101px) {
-    .quotes-container {
       grid-template-columns: repeat(2, 1fr); 
     }
+    .quote{
+    font-size: 12.5px;  
+    }
   }
 
-  @media (max-width: 822px) {
+
+  @media (max-width: 1029px) {
     .quotes-container {
       grid-template-columns: repeat(1, 1fr); 
     }
     .quote{
-      width: 400px;
-    }
+      font-size: 11.5px;  
+      }
   }
+
 
   .imageAndTextContainer {
     border-radius: 0.4rem;

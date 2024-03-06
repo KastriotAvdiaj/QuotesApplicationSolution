@@ -221,29 +221,17 @@ export const Books = () => {
           <button className="booksButton create" onClick={handleClickOpen}>
             Add New <BiBookAdd />
           </button>
-          <button className="booksButton edit" onClick={handleEditButtonClick}>
-            Edit <CiEdit />
-          </button>
-          {/* {selectedBookIds.length > 0 && isAuthenticated ? (
-            <BookDeletionButton
-              onClick={openDeleteDialog}
-              confirmDelete={confirmDelete}
-              selectedBookIds={selectedBookIds}
-              onDeleteSuccess={handleDeletionSuccess}
-              onDeleteError={handleDeletionError}
-              onDeletionComplete={resetConfirmDelete}
-            />
-          ) : (
-            ""
-          )} */}
-          <BookDeletionButton
+          {/* <button className="booksButton edit" onClick={handleEditButtonClick}> 
+            Edit <CiEdit /> //! UnComment These if you want to edit the book within the books page
+          </button> */} 
+          {/* <BookDeletionButton //! UnComment These if you want to delete the book within the books page
             onClick={openDeleteDialog}
             confirmDelete={confirmDelete}
             selectedBookIds={selectedBookIds}
             onDeleteSuccess={handleDeletionSuccess}
             onDeleteError={handleDeletionError}
             onDeletionComplete={resetConfirmDelete}
-          />
+          /> */}
         </div>
         <div>
           <div className="searchBarHolder">

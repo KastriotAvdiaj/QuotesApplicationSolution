@@ -344,7 +344,7 @@ export const AdminPanel = () => {
           />
           {isEditFormOpen && (
             <BookEditForm
-              bookToEdit={quoteToEdit}
+              bookToEdit={quoteToEdit} // it works like this because the naming is bad
               isOpen={isEditFormOpen}
               handleVisibility={closeEditForm}
               handleSuccessUpdate={handleSuccessfulUpdate}

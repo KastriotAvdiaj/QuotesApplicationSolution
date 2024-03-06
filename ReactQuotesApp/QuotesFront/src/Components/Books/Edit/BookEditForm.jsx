@@ -84,7 +84,7 @@ export const BookEditForm = ({
     },
   };
 
-  const { books, updateTheBook } = useContext(BooksContext);
+  const { updateTheBook } = useContext(BooksContext);
 
   const [disabled, setDisabled] = useState({
     title: true,
@@ -197,22 +197,29 @@ export const BookEditForm = ({
 
     if (!changesMade) {
       alert("No changes detected.");
+      handleVisibility();
       return;
     }
 
     try {
       await updateBook(bookData);
-      alert("Book updated successfully!");
+      // alert("Book updated successfully!");
       setUpdateStatus({ success: true });
       setValue({
         title: "",
         author: "",
         description: "",
       });
+      setDisabled({
+        title: true,
+        author: true,
+        description: true,
+      });
       updateTheBook(bookData);
       setImageBase64("");
       handleVisibility();
       setImageWidth("200px");
+      handleSuccessUpdate();
     } catch (error) {
       console.error("Error updating the book:", error);
     }
