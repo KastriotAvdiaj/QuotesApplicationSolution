@@ -22,6 +22,9 @@ const IndividualBook = ({
   };
 
   const handleClick = () => {
+    if (isRandom) {
+      return;
+    }
     navigate(`/books/singleBook/${id}`);
 
     // if (isAuthenticated && typeof toggleSelect === "function") {

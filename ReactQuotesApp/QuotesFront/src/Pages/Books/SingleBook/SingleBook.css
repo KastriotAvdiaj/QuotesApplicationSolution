@@ -77,3 +77,56 @@
 .singleBookEditButton:active{
     transform: scale(0.97);
 }
+
+.deleteSinlgeBookButton{
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 1rem 1rem 0 0;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 0.2rem;
+    color: white;
+    background-color: rgb(255, 0, 0);
+}
+
+.deleteSinlgeBookButton:hover{
+    background-color: rgb(177, 4, 4);
+}
+
+.deleteSinlgeBookButton:active{
+    transform: scale(0.97);
+}
+
+.otherBookInformationDiv{
+    margin-left: 1rem;
+}
+
+.topExtraInfParagraph{
+    font-size: 2.2rem;
+}
+
+.newNoteButton{
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    border: none;
+    color: white;
+    background: rgb(118, 118, 192);
+    border-radius: 0.2rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+}
+
+.newNoteButton:hover{
+    border: 1px solid rgb(255, 255, 255);
+}
+
+.newNoteButton:active{
+    transform: scale(0.97);
+}
+

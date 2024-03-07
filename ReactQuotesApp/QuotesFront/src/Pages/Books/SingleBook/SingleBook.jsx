@@ -6,6 +6,7 @@ import Divider from "@mui/material/Divider";
 import { RiEdit2Fill } from "react-icons/ri";
 import { BookEditForm } from "../../../Components/Books/Edit/BookEditForm";
 import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessage";
+import { MdOutlineNoteAdd } from "react-icons/md";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -75,6 +76,19 @@ export const SingleBook = () => {
           src={`data:image/png;base64,${book.imageBase64}`}
           alt={book.title}
         />
+        <div className="otherBookInformationDiv">
+          <p className="topExtraInfParagraph">More book related information</p>
+          <p>There isn't anything on this book yet.</p>
+          <Divider
+            variant="fullWidth"
+            component="p"
+            sx={{ backgroundColor: "gray" }}
+          />
+          <button className="newNoteButton">
+            <MdOutlineNoteAdd />
+            Add a note
+          </button>
+        </div>
         <BookEditForm
           bookToEdit={book}
           isOpen={isEditFormOpen}
@@ -83,6 +97,7 @@ export const SingleBook = () => {
         />
         <SuccessMessage message={message} />
       </div>
+      <button className="deleteSinlgeBookButton">Delete</button>
     </div>
   );
 };

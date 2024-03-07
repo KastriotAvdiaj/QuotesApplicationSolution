@@ -9,7 +9,7 @@ body{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 0.2rem;
+  border-radius: 6rem;
   margin: 2rem;
   padding: 0.5rem;
   border-left: 6px solid #f5c013; 
@@ -50,6 +50,7 @@ body{
   }
   
   .quote-description {
+    margin-left: 0.5rem;
     font-style: italic;
     flex: 0 1 80%;
   }
@@ -62,7 +63,7 @@ body{
     right: 0;
     text-align: right;
     margin-top: 4rem;
-    margin-right: 1rem;
+    margin-right: 1.7rem;
     font-weight: bold;
     flex: 0 1 20%;
   }
