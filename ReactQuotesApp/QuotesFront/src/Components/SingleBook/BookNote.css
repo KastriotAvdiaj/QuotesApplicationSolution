@@ -7,6 +7,7 @@
     display:grid;
     flex-direction: column;
     width: 700px;
+    overflow: hidden;
 }
 
 .bookNoteMainWrapperDiv p,
@@ -36,3 +37,14 @@
     font-weight: bold;
     width: fit-content;
 }
+
+.noteHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+  }
+  
+  .noteHeader h5 {
+    flex-grow: 1;
+  }

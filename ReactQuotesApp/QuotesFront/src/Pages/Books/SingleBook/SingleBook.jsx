@@ -105,26 +105,6 @@ export const SingleBook = () => {
             src={`data:image/png;base64,${book.imageBase64}`}
             alt={book.title}
           />
-          <div className="otherBookInformationDiv">
-            <p className="topExtraInfParagraph">
-              More book related information
-            </p>
-            {bookNotes && bookNotes.length > 0 ? (
-              bookNotes.map((note) => <BookNote key={note.id} note={note} />)
-            ) : (
-              <p>There isn't anything on this book yet.</p>
-            )}
-
-            <Divider
-              variant="fullWidth"
-              component="p"
-              sx={{ backgroundColor: "gray" }}
-            />
-            <button className="newNoteButton" onClick={handleFormVisibility}>
-              <MdOutlineNoteAdd />
-              Add a note
-            </button>
-          </div>
           <BookEditForm
             bookToEdit={book}
             isOpen={isEditFormOpen}
@@ -132,6 +112,24 @@ export const SingleBook = () => {
             handleSuccessUpdate={handleSuccessfulUpdate}
           />
           <SuccessMessage message={message} />
+        </div>
+        <div className="otherBookInformationDiv">
+          <p className="topExtraInfParagraph">Book Notes</p>
+          {bookNotes && bookNotes.length > 0 ? (
+            bookNotes.map((note) => <BookNote key={note.id} note={note} />)
+          ) : (
+            <p>There isn't anything on this book yet.</p>
+          )}
+
+          <Divider
+            variant="fullWidth"
+            component="p"
+            sx={{ backgroundColor: "gray" }}
+          />
+          <button className="newNoteButton" onClick={handleFormVisibility}>
+            <MdOutlineNoteAdd />
+            Add a note
+          </button>
         </div>
         <button className="deleteSinlgeBookButton">Delete</button>
       </div>

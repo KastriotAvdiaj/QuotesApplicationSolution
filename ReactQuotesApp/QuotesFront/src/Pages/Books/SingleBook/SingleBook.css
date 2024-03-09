@@ -2,6 +2,7 @@
     height: 100vh;
     width: calc(100vw -15rem);
     box-sizing: border-box;
+    display: flex;
 }
 
 .bookDisplayDiv{
@@ -14,7 +15,8 @@
 }
 
 .bookDisplayDiv img{
-    width: 400px;
+    /* width: 400px; */
+    height: 560px;
     box-shadow: 5px 5px 0px 0px rgba(91,91,85,1),
 10px 10px 0px 0px rgba(103,106,99,0.6),
 15px 15px 0px 0px rgba(112, 114, 110, 0.4),
@@ -26,6 +28,7 @@
     justify-content: space-between;
     flex-direction: column;
     width: 300px;
+    height: 500px;
     padding: 2rem;
     background-color: rgb(32, 32, 32);
     border-radius: 1rem;
@@ -82,7 +85,7 @@
     position: absolute;
     top: 0;
     right: 0;
-    margin: 1rem 1rem 0 0;
+    margin: 1rem 2rem 0 0;
     cursor: pointer;
     padding: 0.5rem 1rem;
     font-size: 1.2rem;
@@ -100,11 +103,9 @@
     transform: scale(0.97);
 }
 
-.otherBookInformationDiv{
-    margin-left: 1rem;
-}
 
 .topExtraInfParagraph{
+    color: white;
     font-size: 2.2rem;
 }
 
@@ -130,3 +131,9 @@
     transform: scale(0.97);
 }
 
+.otherBookInformationDiv{
+    height: fit-content;
+    padding-bottom: 2rem;
+    margin-left: 2rem;
+
+}
