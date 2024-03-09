@@ -4,8 +4,14 @@ import "./NewNote.css";
 import { IoMdClose } from "react-icons/io";
 import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import { postBookNote } from "../../Pages/Books/SingleBook/SingleBookService";
 
-export const NewNote = ({ isOpen, handleFormVisibility, bookTitle }) => {
+export const NewNote = ({
+  isOpen,
+  handleFormVisibility,
+  bookTitle,
+  bookId,
+}) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [title, setTitle] = useState("");
   const [note, setNote] = useState("");
@@ -30,6 +36,30 @@ export const NewNote = ({ isOpen, handleFormVisibility, bookTitle }) => {
 
   const handleInsideClick = (e) => {
     e.stopPropagation();
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const BookNote = {
+        Title: title,
+        Note: note,
+        Page: page,
+        Color: selectedColor,
+      };
+
+      // Call the service function to post the note
+      await postBookNote(bookId, BookNote);
+
+      setTitle("");
+      setNote("");
+      setPage("");
+      setSelectedColor("");
+
+      handleFormVisibility();
+    } catch (error) {
+      console.error("Error posting book note:", error);
+    }
   };
 
   return (
@@ -95,7 +125,9 @@ export const NewNote = ({ isOpen, handleFormVisibility, bookTitle }) => {
             type="number"
           />
         </div>
-        <button className="newNoteAddButton">Add</button>
+        <button onClick={handleSubmit} className="newNoteAddButton">
+          Add
+        </button>
       </div>
     </div>
   );

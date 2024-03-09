@@ -83,8 +83,8 @@ namespace QuotesApplication.Controllers
         }
 
         // POST: api/BookNotes
-        [HttpPost]
-        public async Task<ActionResult<BookNote>> PostBookNote(int bookId, BookNoteViewModel bookNoteVM)
+        [HttpPost("{bookId}")]
+        public async Task<ActionResult<BookNote>> PostBookNote(int bookId, [FromBody] BookNoteViewModel bookNoteVM)
         {
 
             if (!ModelState.IsValid)

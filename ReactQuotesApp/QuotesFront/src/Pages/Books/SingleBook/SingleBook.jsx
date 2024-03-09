@@ -8,6 +8,8 @@ import { BookEditForm } from "../../../Components/Books/Edit/BookEditForm";
 import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessage";
 import { MdOutlineNoteAdd } from "react-icons/md";
 import { NewNote } from "../../../Components/SingleBook/NewNote";
+import { getBookNotes } from "./SingleBookService";
+import { BookNote } from "../../../Components/BookNotes/BookNote";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -17,6 +19,20 @@ export const SingleBook = () => {
   const [isEditFormOpen, setEditFormOpen] = useState(false);
   const [message, setMessage] = useState("");
   const [isNewNoteOpen, setNewNoteVisibility] = useState(false);
+  const [bookNotes, setBookNotes] = useState([]);
+
+  useEffect(() => {
+    const fetchBookNotes = async () => {
+      try {
+        const notes = await getBookNotes();
+        setBookNotes(notes);
+      } catch (error) {
+        console.error("Error fetching book notes:", error);
+      }
+    };
+
+    fetchBookNotes();
+  }, [bookId]);
 
   const handleFormVisibility = () => {
     setNewNoteVisibility(!isNewNoteOpen);
@@ -58,6 +74,7 @@ export const SingleBook = () => {
         isOpen={isNewNoteOpen}
         handleFormVisibility={handleFormVisibility}
         bookTitle={book.title}
+        bookId={book.id}
       />
       <div className="singleBookMainDiv">
         <div className="bookDisplayDiv">
@@ -92,7 +109,12 @@ export const SingleBook = () => {
             <p className="topExtraInfParagraph">
               More book related information
             </p>
-            <p>There isn't anything on this book yet.</p>
+            {bookNotes && bookNotes.length > 0 ? (
+              bookNotes.map((note) => <BookNote key={note.id} note={note} />)
+            ) : (
+              <p>There isn't anything on this book yet.</p>
+            )}
+
             <Divider
               variant="fullWidth"
               component="p"
