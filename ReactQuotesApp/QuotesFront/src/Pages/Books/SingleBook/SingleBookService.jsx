@@ -35,3 +35,17 @@ export const getBookNotes = async () => {
     throw e;
   }
 };
+
+export const getBookNotesById = async (bookId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/BookNotes/GetBookNotesByBookId/${bookId}`,
+      {}
+    );
+
+    return response.json();
+  } catch (e) {
+    console.error("Failed to fetch book notes", e.message);
+    throw e;
+  }
+};

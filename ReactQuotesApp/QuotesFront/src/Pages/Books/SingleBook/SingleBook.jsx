@@ -8,8 +8,8 @@ import { BookEditForm } from "../../../Components/Books/Edit/BookEditForm";
 import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessage";
 import { MdOutlineNoteAdd } from "react-icons/md";
 import { NewNote } from "../../../Components/SingleBook/NewNote";
-import { getBookNotes } from "./SingleBookService";
-import { BookNote } from "../../../Components/BookNotes/BookNote";
+import { getBookNotesById } from "./SingleBookService";
+import { BookNote } from "../../../Components/SingleBook/BookNote";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -24,7 +24,7 @@ export const SingleBook = () => {
   useEffect(() => {
     const fetchBookNotes = async () => {
       try {
-        const notes = await getBookNotes();
+        const notes = await getBookNotesById(bookId);
         setBookNotes(notes);
       } catch (error) {
         console.error("Error fetching book notes:", error);

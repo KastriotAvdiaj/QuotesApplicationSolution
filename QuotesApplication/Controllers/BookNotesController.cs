@@ -35,13 +35,13 @@ namespace QuotesApplication.Controllers
 
         // GET: api/BookNotes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<BookNote>> GetBookNote(int id)
+        public async Task<ActionResult<IEnumerable<BookNote>>> GetBookNotesByBookId(int id)
         {
           if (_context.BookNotes == null)
           {
               return NotFound();
           }
-            var bookNote = await _context.BookNotes.FindAsync(id);
+            var bookNote = await _context.BookNotes.Where(p => p.BookId == id).ToListAsync();
 
             if (bookNote == null)
             {
