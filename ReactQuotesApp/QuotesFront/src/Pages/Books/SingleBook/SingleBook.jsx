@@ -7,6 +7,7 @@ import { RiEdit2Fill } from "react-icons/ri";
 import { BookEditForm } from "../../../Components/Books/Edit/BookEditForm";
 import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessage";
 import { MdOutlineNoteAdd } from "react-icons/md";
+import { NewNote } from "../../../Components/SingleBook/NewNote";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -15,6 +16,11 @@ export const SingleBook = () => {
   const [loading, setLoading] = useState(true);
   const [isEditFormOpen, setEditFormOpen] = useState(false);
   const [message, setMessage] = useState("");
+  const [isNewNoteOpen, setNewNoteVisibility] = useState(false);
+
+  const handleFormVisibility = () => {
+    setNewNoteVisibility(!isNewNoteOpen);
+  };
 
   const closeEditForm = () => {
     setEditFormOpen(false);
@@ -47,57 +53,66 @@ export const SingleBook = () => {
   }
 
   return (
-    <div className="singleBookMainDiv">
-      <div className="bookDisplayDiv">
-        <div className="bookDetails">
-          <div>
-            <p className="singleBookTitle">"{book.title}"</p>
-            <p className="singleBookAuthor">by {book.author}</p>
+    <>
+      <NewNote
+        isOpen={isNewNoteOpen}
+        handleFormVisibility={handleFormVisibility}
+        bookTitle={book.title}
+      />
+      <div className="singleBookMainDiv">
+        <div className="bookDisplayDiv">
+          <div className="bookDetails">
+            <div>
+              <p className="singleBookTitle">"{book.title}"</p>
+              <p className="singleBookAuthor">by {book.author}</p>
+              <Divider
+                variant="middle"
+                component="p"
+                sx={{ backgroundColor: "gray" }}
+              />
+              <p className="summarizationText">Summarization</p>
+              <p className="singleBookDescription">{book.description}</p>
+            </div>
+            <button
+              className="singleBookEditButton"
+              onClick={() => {
+                setEditFormOpen(true);
+              }}
+            >
+              {" "}
+              <RiEdit2Fill />
+              Edit
+            </button>
+          </div>
+          <img
+            src={`data:image/png;base64,${book.imageBase64}`}
+            alt={book.title}
+          />
+          <div className="otherBookInformationDiv">
+            <p className="topExtraInfParagraph">
+              More book related information
+            </p>
+            <p>There isn't anything on this book yet.</p>
             <Divider
-              variant="middle"
+              variant="fullWidth"
               component="p"
               sx={{ backgroundColor: "gray" }}
             />
-            <p className="summarizationText">Summarization</p>
-            <p className="singleBookDescription">{book.description}</p>
+            <button className="newNoteButton" onClick={handleFormVisibility}>
+              <MdOutlineNoteAdd />
+              Add a note
+            </button>
           </div>
-          <button
-            className="singleBookEditButton"
-            onClick={() => {
-              setEditFormOpen(true);
-            }}
-          >
-            {" "}
-            <RiEdit2Fill />
-            Edit
-          </button>
-        </div>
-        <img
-          src={`data:image/png;base64,${book.imageBase64}`}
-          alt={book.title}
-        />
-        <div className="otherBookInformationDiv">
-          <p className="topExtraInfParagraph">More book related information</p>
-          <p>There isn't anything on this book yet.</p>
-          <Divider
-            variant="fullWidth"
-            component="p"
-            sx={{ backgroundColor: "gray" }}
+          <BookEditForm
+            bookToEdit={book}
+            isOpen={isEditFormOpen}
+            handleVisibility={closeEditForm}
+            handleSuccessUpdate={handleSuccessfulUpdate}
           />
-          <button className="newNoteButton">
-            <MdOutlineNoteAdd />
-            Add a note
-          </button>
+          <SuccessMessage message={message} />
         </div>
-        <BookEditForm
-          bookToEdit={book}
-          isOpen={isEditFormOpen}
-          handleVisibility={closeEditForm}
-          handleSuccessUpdate={handleSuccessfulUpdate}
-        />
-        <SuccessMessage message={message} />
+        <button className="deleteSinlgeBookButton">Delete</button>
       </div>
-      <button className="deleteSinlgeBookButton">Delete</button>
-    </div>
+    </>
   );
 };

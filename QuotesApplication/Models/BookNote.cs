@@ -12,6 +12,8 @@ namespace QuotesApplication.Models
 
         public string? Title { get; set; }
 
+        public string Color { get; set; }
+
         public int BookId { get; set; }
 
         [ForeignKey("BookId")]

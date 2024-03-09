@@ -113,6 +113,7 @@ namespace QuotesApplication.Controllers
                 Title = bookNoteVM.Title,
                 Note = bookNoteVM.Note,
                 BookId = bookId,
+                Color = bookNoteVM.Color,
                 /*Book = book,*/
             };
             _context.BookNotes.Add(bookNote);
