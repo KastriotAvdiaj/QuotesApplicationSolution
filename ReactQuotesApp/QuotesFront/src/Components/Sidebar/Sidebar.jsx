@@ -46,6 +46,15 @@ export const Sidebar = () => {
             </NavLink>
           </li>
           <li>
+            <NavLink to="/quotes2">
+              Quotes2
+              <div>
+                <BiSolidQuoteSingleLeft />
+                <BiSolidQuoteSingleRight />
+              </div>
+            </NavLink>
+          </li>
+          <li>
             <NavLink to="/books">
               Books <FaBook />
             </NavLink>

@@ -102,6 +102,7 @@ export const SingleBook = () => {
             </button>
           </div>
           <img
+          className="singleBookImage"
             src={`data:image/png;base64,${book.imageBase64}`}
             alt={book.title}
           />

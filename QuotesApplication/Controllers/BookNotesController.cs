@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using QuotesApplication.Data;
 using QuotesApplication.Models;
 using QuotesApplication.ViewModels;
@@ -116,6 +117,10 @@ namespace QuotesApplication.Controllers
                 Color = bookNoteVM.Color,
                 /*Book = book,*/
             };
+            if(bookNote.Title.IsNullOrEmpty())
+            {
+                    bookNote.Title = "Quote From the Book";
+            }
             _context.BookNotes.Add(bookNote);
             await _context.SaveChangesAsync();
 

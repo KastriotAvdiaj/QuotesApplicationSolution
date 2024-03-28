@@ -14,7 +14,7 @@
     color: white;
 }
 
-.bookDisplayDiv img{
+.singleBookImage{
     /* width: 400px; */
     height: 560px;
     box-shadow: 5px 5px 0px 0px rgba(91,91,85,1),
@@ -132,7 +132,8 @@
 }
 
 .otherBookInformationDiv{
-    height: fit-content;
+    max-height: 600px;
+    /* height: fit-content; */
     padding-bottom: 2rem;
     margin-left: 2rem;
 

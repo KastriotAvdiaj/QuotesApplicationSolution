@@ -9,7 +9,7 @@ body{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-radius: 6rem;
+  border-radius: 2rem;
   margin: 2rem;
   padding: 0.5rem;
   border-left: 6px solid #f5c013; 

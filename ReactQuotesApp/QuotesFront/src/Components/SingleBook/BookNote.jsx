@@ -45,7 +45,7 @@ export const BookNote = ({ note }) => {
         {isCollapsed ? <IoIosArrowDown /> : <IoIosArrowUp />}{" "}
       </div>
       <Divider sx={{ backgroundColor: "black" }} variant="middle" />
-      {!isCollapsed && ( 
+      {!isCollapsed && (
         <>
           <p className="noteParagraph">{note.note}</p>
           <p className="pageParagraph">Page - {note.page}</p>

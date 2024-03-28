@@ -13,6 +13,7 @@ import { AuthProvider } from "./Components/AuthContext/AuthContext";
 import { AdminPanel } from "./Pages/Admin/AdminPanel";
 import { Error } from "./Pages/Error/Error";
 import { SingleBook } from "./Pages/Books/SingleBook/SingleBook";
+import { Quotes2 } from "./Pages/Quotes2/Quotes2";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/" element={<Home />} />
                     <Route path="/admin" element={<AdminPanel />} />
                     <Route path="/quotes" element={<Quotes />} />
+                    <Route path="/quotes2" element={<Quotes2 />} />
                     <Route path="/books" element={<Books />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
