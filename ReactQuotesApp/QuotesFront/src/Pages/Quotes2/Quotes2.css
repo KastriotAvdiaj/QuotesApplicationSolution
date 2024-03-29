@@ -1,0 +1,23 @@
+.quotes2Ul {
+    margin-top: 10rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .quotes2Li {
+    display: block;
+    width: 50%;
+  }
+
+  .quotes2Li.odd{
+    margin-left: 5rem;
+  }
+
+  .quotes2Li.even{
+    margin-right: 5rem;
+  }
+  
+  

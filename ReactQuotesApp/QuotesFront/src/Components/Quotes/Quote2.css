@@ -1,0 +1,26 @@
+.quote2Container{
+    min-width: 500px;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    /* border: 1px solid rgb(124, 123, 123); */
+    border-radius: 1rem;
+    margin-bottom: 4rem;
+    padding: 1rem;
+}
+
+.quote2-description{
+    color: rgb(247, 229, 179);
+    padding: 0;
+    margin: 2rem 0 0.5rem 0;
+    align-self: flex-start;
+    font-size: 2rem;
+    /* font-family: "Edu NSW ACT Foundation", cursive; */
+    /* font-family: "Pacifico", cursive; */
+    font-family: "Indie Flower", cursive;
+    font-style: italic;
+}
+
+.quote2-author{
+    font-size: 1.3rem;
+}
