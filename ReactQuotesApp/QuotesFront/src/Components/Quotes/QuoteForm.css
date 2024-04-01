@@ -55,7 +55,7 @@
 }
 
 .quoteDescription, .quoteAuthor {
-  padding: 1rem;
+    padding: 1rem;
     font-size: 1.5rem;
     margin-right: 0.5rem;
     border-radius: 0.3rem;
@@ -64,6 +64,11 @@
     outline: none;
     width: 100%;
     background-color: transparent; 
+  }
+
+  .quoteDescription{
+    min-height: 100px;
+    resize: vertical;
   }
 
   .quoteDescription.dark, .quoteAuthor.dark {
