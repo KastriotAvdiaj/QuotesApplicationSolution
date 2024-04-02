@@ -12,6 +12,7 @@ export const Quotes2 = () => {
   const [numberOfQuotesToShow, setNumberOfQuotesToShow] = useState(7);
   const [incrementBy, setIncrementBy] = useState(5);
   const [buttonClicked, setButtonClicked] = useState(0);
+  const totalQuotes = quotes.length;
 
   useEffect(() => {
     setDisplayedQuotes(quotes.slice(0, numberOfQuotesToShow));
@@ -33,10 +34,17 @@ export const Quotes2 = () => {
 
   return (
     <>
+      <p className="totalQuotes">Total Quotes : {totalQuotes}</p>
+
       <div className="mainQuotes2Div">
         <ul className="quotes2Ul">
           {displayedQuotes.map((quote, index) => (
-            <FadeInListItem key={quote.id} index={index} quote={quote} />
+            <FadeInListItem
+              key={quote.id}
+              index={index}
+              quote={quote}
+              totalQuotes={totalQuotes}
+            />
           ))}
         </ul>
 
@@ -86,16 +94,18 @@ const FadeInListItem = ({ index, quote }) => {
   }, []);
 
   return (
-    <li
-      ref={ref}
-      className={index % 2 === 0 ? "quotes2Li even" : "quotes2Li odd"}
-    >
-      <Quote2
-        index={index}
-        description={quote.description}
-        authorName={quote.authorName}
-      ></Quote2>
-      <Divider sx={{ backgroundColor: "gray", height: "1px" }} />
-    </li>
+    <>
+      <li
+        ref={ref}
+        className={index % 2 === 0 ? "quotes2Li even" : "quotes2Li odd"}
+      >
+        <Quote2
+          index={index}
+          description={quote.description}
+          authorName={quote.authorName}
+        ></Quote2>
+        <Divider sx={{ backgroundColor: "gray", height: "1px" }} />
+      </li>
+    </>
   );
 };
