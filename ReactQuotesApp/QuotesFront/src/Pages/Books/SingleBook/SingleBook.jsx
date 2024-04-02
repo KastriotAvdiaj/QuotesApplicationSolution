@@ -21,6 +21,14 @@ export const SingleBook = () => {
   const [isNewNoteOpen, setNewNoteVisibility] = useState(false);
   const [bookNotes, setBookNotes] = useState([]);
 
+  const [bookNotesToShow, setBookNotesToShow] = useState(5);
+  const [displayedNotes, setDisplayedNotes] = useState([]);
+  const incrementBy = 3;
+
+  useEffect(() => {
+    setDisplayedNotes(bookNotes.slice(0, bookNotesToShow));
+  }, [bookNotes, bookNotesToShow]);
+
   useEffect(() => {
     const fetchBookNotes = async () => {
       try {
@@ -102,7 +110,7 @@ export const SingleBook = () => {
             </button>
           </div>
           <img
-          className="singleBookImage"
+            className="singleBookImage"
             src={`data:image/png;base64,${book.imageBase64}`}
             alt={book.title}
           />
@@ -117,7 +125,7 @@ export const SingleBook = () => {
         <div className="otherBookInformationDiv">
           <p className="topExtraInfParagraph">Book Notes</p>
           {bookNotes && bookNotes.length > 0 ? (
-            bookNotes.map((note) => <BookNote key={note.id} note={note} />)
+            displayedNotes.map((note) => <BookNote key={note.id} note={note} />)
           ) : (
             <p>There isn't anything on this book yet.</p>
           )}

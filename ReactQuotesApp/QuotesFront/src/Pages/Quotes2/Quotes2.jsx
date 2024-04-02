@@ -39,20 +39,21 @@ export const Quotes2 = () => {
             <FadeInListItem key={quote.id} index={index} quote={quote} />
           ))}
         </ul>
-        {numberOfQuotesToShow < quotes.length && (
-          <div className="quotes2ButtonDiv">
+
+        <div className="quotes2ButtonDiv">
+          {numberOfQuotesToShow < quotes.length && (
             <button className="loadMoreButton" onClick={loadMoreQuotes}>
               Load More
               <TfiReload />
             </button>
-            {buttonClicked > 0 && (
-              <button className="loadMoreButton" onClick={showLessQuotes}>
-                Show Less
-                <TfiUpload />
-              </button>
-            )}
-          </div>
-        )}
+          )}
+          {buttonClicked > 0 && (
+            <button className="loadMoreButton" onClick={showLessQuotes}>
+              Show Less
+              <TfiUpload />
+            </button>
+          )}
+        </div>
       </div>
     </>
   );
