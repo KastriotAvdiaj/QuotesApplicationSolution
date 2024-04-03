@@ -10,7 +10,7 @@ import { MdOutlineNoteAdd } from "react-icons/md";
 import { NewNote } from "../../../Components/SingleBook/NewNote";
 import { getBookNotesById } from "./SingleBookService";
 import { SiCodereview } from "react-icons/si";
-
+import { useNavigate } from "react-router-dom";
 import { BookNote } from "../../../Components/SingleBook/BookNote";
 
 export const SingleBook = () => {
@@ -27,6 +27,8 @@ export const SingleBook = () => {
   const [displayedNotes, setDisplayedNotes] = useState([]);
   const incrementBy = 3;
   const remainingNotes = bookNotes.length - displayedNotes.length;
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setDisplayedNotes(bookNotes.slice(0, bookNotesToShow));
@@ -62,7 +64,9 @@ export const SingleBook = () => {
   };
 
   const handleViewAllButtonClick = () => {
-    return <Navigate to={`/${encodeURIComponent(book.title)}/Notes`} />;
+    const cleanedBookTitle = book.title.replace(/\s/g, "");
+    console.log(cleanedBookTitle);
+    navigate(`/${cleanedBookTitle}/Notes`);
   };
 
   const handleSuccessfulUpdate = () => {

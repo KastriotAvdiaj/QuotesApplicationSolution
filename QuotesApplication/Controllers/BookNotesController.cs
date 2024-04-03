@@ -38,10 +38,10 @@ namespace QuotesApplication.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<IEnumerable<BookNote>>> GetBookNotesByBookId(int id)
         {
-          if (_context.BookNotes == null)
-          {
-              return NotFound();
-          }
+            if (_context.BookNotes == null)
+            {
+                return NotFound();
+            }
             var bookNote = await _context.BookNotes.Where(p => p.BookId == id).ToListAsync();
 
             if (bookNote == null)
@@ -50,6 +50,32 @@ namespace QuotesApplication.Controllers
             }
 
             return bookNote;
+        }
+
+        [HttpGet("{title}")]
+        public async Task<ActionResult<IEnumerable<BookNote>>> GetBookNotesByBookTitle(string title)
+        {
+            if (_context.BookNotes == null)
+            {
+                return NotFound();
+            }
+
+            // Find the book by title
+            var book = await _context.Books.FirstOrDefaultAsync(b => b.Title == title);
+            if (book == null)
+            {
+                return NotFound("Book not found");
+            }
+
+            // Retrieve book notes based on book ID
+            var bookNotes = await _context.BookNotes.Where(p => p.BookId == book.Id).ToListAsync();
+
+            if (bookNotes == null || bookNotes.Count == 0)
+            {
+                return NotFound("No Book Notes Found For this Book");
+            }
+
+            return bookNotes;
         }
 
         // PUT: api/BookNotes/5
