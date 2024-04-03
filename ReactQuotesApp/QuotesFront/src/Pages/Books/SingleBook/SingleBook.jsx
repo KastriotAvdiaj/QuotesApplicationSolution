@@ -63,6 +63,12 @@ export const SingleBook = () => {
     setEditFormOpen(false);
   };
 
+  const updateBookNotes = (newNote) => {
+    setBookNotes((prevNotes) => [...prevNotes, newNote]);
+    setMessage("Successfully added a new note");
+    setTimeout(() => setMessage(""), 3000);
+  };
+
   const handleViewAllButtonClick = () => {
     const cleanedBookTitle = book.title.replace(/\s/g, "");
     console.log(cleanedBookTitle);
@@ -94,6 +100,7 @@ export const SingleBook = () => {
         handleFormVisibility={handleFormVisibility}
         bookTitle={book.title}
         bookId={book.id}
+        updateBookNotes={updateBookNotes}
       />
       <div className="singleBookMainDiv">
         <div className="bookDisplayDiv">

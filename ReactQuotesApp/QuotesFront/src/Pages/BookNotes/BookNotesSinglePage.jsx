@@ -20,7 +20,8 @@ export const BookNotesSinglePage = () => {
 
   return (
     <div className="mainBookNotesSinglePageDiv">
-      {normalTitle}
+      <p className="singleBookTitleParagrapgh"> "{normalTitle}" </p>
+      <p className="notesParagraph">Notes : </p>
       {bookNotes.map((note) => (
         <BookNote key={note.id} note={note} />
       ))}

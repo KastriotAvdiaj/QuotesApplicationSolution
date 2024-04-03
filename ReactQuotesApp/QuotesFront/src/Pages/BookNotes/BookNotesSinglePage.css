@@ -1,0 +1,23 @@
+.mainBookNotesSinglePageDiv{
+    margin-top: 5rem;
+    height: 100vh;
+    width: calc(100vw- 15rem);
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.singleBookTitleParagrapgh{
+    margin-top: 0;
+    font-size: 2rem;
+    color: white;
+    font-weight: bolder;
+    margin-bottom: 0;
+}
+
+.notesParagraph{
+    font-size: 2rem;
+    color: white;
+    font-weight: bolder;
+    margin-top: 0;
+}

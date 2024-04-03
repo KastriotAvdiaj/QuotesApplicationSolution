@@ -11,6 +11,7 @@ export const NewNote = ({
   handleFormVisibility,
   bookTitle,
   bookId,
+  updateBookNotes,
 }) => {
   const [selectedColor, setSelectedColor] = useState("");
   const [title, setTitle] = useState("");
@@ -49,8 +50,9 @@ export const NewNote = ({
       };
 
       // Call the service function to post the note
-      await postBookNote(bookId, BookNote);
+      const newNote = await postBookNote(bookId, BookNote);
 
+      updateBookNotes(newNote);
       setTitle("");
       setNote("");
       setPage("");
