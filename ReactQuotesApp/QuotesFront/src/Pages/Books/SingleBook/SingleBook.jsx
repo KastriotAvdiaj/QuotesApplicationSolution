@@ -9,6 +9,8 @@ import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessag
 import { MdOutlineNoteAdd } from "react-icons/md";
 import { NewNote } from "../../../Components/SingleBook/NewNote";
 import { getBookNotesById } from "./SingleBookService";
+import { SiCodereview } from "react-icons/si";
+
 import { BookNote } from "../../../Components/SingleBook/BookNote";
 
 export const SingleBook = () => {
@@ -24,6 +26,7 @@ export const SingleBook = () => {
   const [bookNotesToShow, setBookNotesToShow] = useState(5);
   const [displayedNotes, setDisplayedNotes] = useState([]);
   const incrementBy = 3;
+  const remainingNotes = bookNotes.length - displayedNotes.length;
 
   useEffect(() => {
     setDisplayedNotes(bookNotes.slice(0, bookNotesToShow));
@@ -42,12 +45,24 @@ export const SingleBook = () => {
     fetchBookNotes();
   }, [bookId]);
 
+  useEffect(() => {
+    if (books.length) {
+      const foundBook = books.find((b) => b.id === Number(bookId));
+      setBook(foundBook);
+      setLoading(false);
+    }
+  }, [bookId, books]);
+
   const handleFormVisibility = () => {
     setNewNoteVisibility(!isNewNoteOpen);
   };
 
   const closeEditForm = () => {
     setEditFormOpen(false);
+  };
+
+  const handleViewAllButtonClick = () => {
+    return <Navigate to={`/${encodeURIComponent(book.title)}/Notes`} />;
   };
 
   const handleSuccessfulUpdate = () => {
@@ -59,14 +74,6 @@ export const SingleBook = () => {
     // If bookId is not numeric, redirect to a custom error page or home
     return <Navigate to="/error" replace />;
   }
-
-  useEffect(() => {
-    if (books.length) {
-      const foundBook = books.find((b) => b.id === Number(bookId));
-      setBook(foundBook);
-      setLoading(false);
-    }
-  }, [bookId, books]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -125,11 +132,25 @@ export const SingleBook = () => {
         <div className="otherBookInformationDiv">
           <p className="topExtraInfParagraph">Book Notes</p>
           {bookNotes && bookNotes.length > 0 ? (
-            displayedNotes.map((note) => <BookNote key={note.id} note={note} />)
+            <>
+              {displayedNotes.map((note) => (
+                <BookNote key={note.id} note={note} />
+              ))}
+              {remainingNotes > 0 && (
+                <div className="remainingNotes">
+                  <p>There are {remainingNotes} more notes for this book.</p>
+                  <button
+                    className="viewAllButton"
+                    onClick={handleViewAllButtonClick}
+                  >
+                    View all <SiCodereview />
+                  </button>
+                </div>
+              )}
+            </>
           ) : (
             <p>There isn't anything on this book yet.</p>
           )}
-
           <Divider
             variant="fullWidth"
             component="p"

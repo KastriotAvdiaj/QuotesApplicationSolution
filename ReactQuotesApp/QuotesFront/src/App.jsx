@@ -14,6 +14,7 @@ import { AdminPanel } from "./Pages/Admin/AdminPanel";
 import { Error } from "./Pages/Error/Error";
 import { SingleBook } from "./Pages/Books/SingleBook/SingleBook";
 import { Quotes2 } from "./Pages/Quotes2/Quotes2";
+import { BookNotesSinglePage } from "./Pages/BookNotes/BookNotesSinglePage";
 
 function App() {
   return (
@@ -33,6 +34,11 @@ function App() {
                     <Route path="/books" element={<Books />} />
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
+                    <Route
+                      path="/:bookName/Notes"
+                      element={<BookNotesSinglePage />}
+                    />
+
                     <Route
                       path="/books/singleBook/:bookId"
                       element={<SingleBook />}

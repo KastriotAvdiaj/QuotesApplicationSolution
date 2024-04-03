@@ -136,5 +136,32 @@
     /* height: fit-content; */
     padding-bottom: 2rem;
     margin-left: 2rem;
+}
 
+.remainingNotes{
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.viewAllButton{
+    cursor: pointer;
+    border-radius: 0.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding:0.5rem 1rem ;
+    border: none;
+    color: white;
+    font-size: 0.9rem;
+    background-color: rgb(0, 38, 255);
+}
+
+.viewAllButton:hover{
+    background-color: rgb(10, 10, 179);
+}
+
+.viewAllButton:active{
+    transform: scale(0.98);
 }
