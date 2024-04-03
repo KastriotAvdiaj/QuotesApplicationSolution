@@ -30,13 +30,36 @@
 .pageParagraph{
     box-shadow: 1px 1px 9px rgba(29, 29, 29, 0.705);
     background-color: aliceblue;
-    justify-self: end;
     color: black;
     padding: 0.3rem 0.6rem !important;
     border-radius: 0.4rem;
     font-size: 15px;
     font-weight: bold;
     width: fit-content;
+}
+
+.deleteNoteButton{
+  box-shadow: 1px 1px 9px rgba(29, 29, 29, 0.705);
+  cursor: pointer;
+  border: none;
+  border-radius: 0.3rem;
+  background-color: rgb(255, 12, 12);
+  color: white;
+  padding: 0.3rem 0.7rem;
+}
+
+.deleteNoteButton:hover{
+  background-color: rgb(180, 19, 19);
+}
+
+.deleteNoteButton:active{
+  transform: scale(0.96);
+}
+
+.pageAndDeleteButtonDiv{
+  display: flex;
+  gap: 1rem;
+  justify-self: end;
 }
 
 .noteHeader {

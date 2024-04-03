@@ -2,8 +2,12 @@ import React, { useState } from "react";
 import "./BookNote.css";
 import { Divider } from "@mui/material";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { RiDeleteBin6Fill } from "react-icons/ri";
+import { useAuth } from "../../Components/AuthContext/AuthContext";
 
 export const BookNote = ({ note }) => {
+  const { isAuthenticated } = useAuth();
+
   let backgroundColor;
 
   switch (note.color) {
@@ -48,7 +52,16 @@ export const BookNote = ({ note }) => {
       {!isCollapsed && (
         <>
           <p className="noteParagraph">{note.note}</p>
-          <p className="pageParagraph">Page - {note.page}</p>
+          <div className="pageAndDeleteButtonDiv">
+            {isAuthenticated && (
+              <button className="deleteNoteButton">
+                {" "}
+                <RiDeleteBin6Fill />
+              </button>
+            )}
+
+            <p className="pageParagraph">Page - {note.page}</p>
+          </div>
         </>
       )}
     </div>
