@@ -13,6 +13,7 @@ import { SiCodereview } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { BookNote } from "../../../Components/SingleBook/BookNote";
 import AlertDialog from "../../../Components/Mui/AlertDialog";
+import { EditNote } from "../../../Components/SingleBook/EditNote";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -25,10 +26,17 @@ export const SingleBook = () => {
   const [bookNotes, setBookNotes] = useState([]);
   const [isBookNoteDialogOpen, setBookNoteDialogOpen] = useState(false);
 
+  const [bookNoteToEdit, setBookNoteToEdit] = useState(null);
+  const [editBookNote, setEditBookNote] = useState(false);
+
   const [bookNotesToShow, setBookNotesToShow] = useState(5);
   const [displayedNotes, setDisplayedNotes] = useState([]);
   const remainingNotes = bookNotes.length - displayedNotes.length;
 
+  const openEditingBookNote = (note) => {
+    setBookNoteToEdit(note);
+    setEditBookNote(true);
+  };
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -57,7 +65,11 @@ export const SingleBook = () => {
   }, [bookId, books]);
 
   const handleFormVisibility = () => {
-    setNewNoteVisibility(!isNewNoteOpen);
+    if (isNewNoteOpen) {
+      setNewNoteVisibility(!isNewNoteOpen);
+    } else {
+      setEditBookNote(!editBookNote);
+    }
   };
 
   const closeEditForm = () => {
@@ -123,6 +135,16 @@ export const SingleBook = () => {
 
   return (
     <>
+      {editBookNote && (
+        <EditNote
+          isOpen={editBookNote}
+          bookNote={bookNoteToEdit}
+          handleFormVisibility={handleFormVisibility}
+        bookTitle={book.title}
+
+        />
+      )}
+
       <AlertDialog
         isOpen={isBookNoteDialogOpen}
         dialogMessage={dialogMessage}
@@ -186,6 +208,7 @@ export const SingleBook = () => {
                   confirmDelete={deleteBooknote}
                   successDeletion={successDeletion}
                   openAlertDialog={openAlertDialog}
+                  openEditingBookNote={openEditingBookNote}
                 />
               ))}
               {remainingNotes > 0 && (

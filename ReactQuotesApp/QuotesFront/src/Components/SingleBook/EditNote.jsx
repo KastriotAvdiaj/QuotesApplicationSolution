@@ -4,19 +4,43 @@ import "./NewNote.css";
 import { IoMdClose } from "react-icons/io";
 import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
-import { postBookNote } from "../../Pages/Books/SingleBook/SingleBookService";
 
-export const NewNote = ({
+export const EditNote = ({
   isOpen,
   handleFormVisibility,
-  bookTitle,
-  bookId,
+  bookNote,
   updateBookNotes,
+  bookTitle,
 }) => {
-  const [selectedColor, setSelectedColor] = useState("");
-  const [title, setTitle] = useState("");
-  const [note, setNote] = useState("");
-  const [page, setPage] = useState("");
+  let backgroundColor;
+
+  switch (bookNote.color) {
+    case "Blue":
+      backgroundColor = "#C8D8F3";
+      break;
+    case "Yellow":
+      backgroundColor = "#F2F6B8";
+      break;
+    case "Purple":
+      backgroundColor = "#FAC5F8";
+      break;
+    case "Green":
+      backgroundColor = "#CEFAC5";
+      break;
+    case "Red":
+      backgroundColor = "#FAC5C5";
+      break;
+    default:
+      backgroundColor = bookNote.color ? bookNote.color : "#C8D8F3";
+  }
+
+  const [selectedColor, setSelectedColor] = useState(bookNote.color);
+  const [title, setTitle] = useState(bookNote.title);
+  const [note, setNote] = useState(bookNote.note);
+  const [page, setPage] = useState(bookNote.page);
+
+  console.log(bookNote);
+  console.log(bookNote.color);
 
   const handleColorChange = (color) => {
     setSelectedColor(color);
@@ -49,7 +73,7 @@ export const NewNote = ({
         Color: selectedColor,
       };
 
-      const newNote = await postBookNote(bookId, BookNote);
+      //   const newNote = await postBookNote(bookId, BookNote);
 
       updateBookNotes(newNote);
       setTitle("");
@@ -69,9 +93,12 @@ export const NewNote = ({
       onClick={handleFormVisibility}
     >
       <div className="newNoteContainerDiv" onClick={handleInsideClick}>
-        <div className="newNoteTopBar">
-          <p>
-            New Note for "
+        <div
+          className="newNoteTopBar"
+          style={{ backgroundColor: `${backgroundColor}` }}
+        >
+          <p style={{ color: "black" }}>
+            Update Note for "
             <span style={{ fontWeight: "bold" }}>{bookTitle}</span>"
           </p>
           <button
@@ -97,7 +124,10 @@ export const NewNote = ({
               value={title}
               onChange={handleTitleChange}
             />
-            <SelectList onColorChange={handleColorChange} />
+            <SelectList
+              selectedColor={selectedColor}
+              onColorChange={handleColorChange}
+            />
           </div>
           <TextField
             id="outlined-note"

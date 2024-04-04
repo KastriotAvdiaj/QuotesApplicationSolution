@@ -39,7 +39,7 @@
 }
 
 .deleteNoteButton{
-  box-shadow: 1px 1px 9px rgba(29, 29, 29, 0.705);
+  /* box-shadow: 1px 1px 9px rgba(29, 29, 29, 0.705); */
   cursor: pointer;
   border: none;
   border-radius: 0.3rem;
@@ -48,11 +48,29 @@
   padding: 0.3rem 0.7rem;
 }
 
+.editBookNoteButton{
+  /* box-shadow: 1px 1px 9px rgba(29, 29, 29, 0.705); */
+  display: flex;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.7rem;
+  border-radius: 0.3rem;
+  background-color: rgb(0, 132, 255);
+}
+
+.editBookNoteButton:hover{
+  background-color: rgb(18, 107, 190);
+}
+
 .deleteNoteButton:hover{
   background-color: rgb(180, 19, 19);
 }
 
-.deleteNoteButton:active{
+.deleteNoteButton:active ,
+.editBookNoteButton:active{
   transform: scale(0.96);
 }
 

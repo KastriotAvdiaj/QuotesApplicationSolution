@@ -5,12 +5,14 @@ import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import { deleteBookNoteById } from "../../Pages/Books/SingleBook/SingleBookService";
+import { MdEditSquare } from "react-icons/md";
 
 export const BookNote = ({
   note,
   successDeletion,
   openAlertDialog,
   confirmDelete,
+  openEditingBookNote,
 }) => {
   const { isAuthenticated } = useAuth();
   const [noteID, setNoteID] = useState(null);
@@ -20,6 +22,10 @@ export const BookNote = ({
       handleDelete(noteID);
     }
   }, [confirmDelete, noteID]);
+
+  const openEdit = (note) => {
+    openEditingBookNote(note);
+  };
 
   let backgroundColor;
 
@@ -83,14 +89,23 @@ export const BookNote = ({
           <p className="noteParagraph">{note.note}</p>
           <div className="pageAndDeleteButtonDiv">
             {isAuthenticated && (
-              <button
-                className="deleteNoteButton"
-                // onClick={() => handleDeleteButtonClick(note.id)}
-                onClick={() => handleDeleteClick(note.id)}
-              >
-                {" "}
-                <RiDeleteBin6Fill />
-              </button>
+              <>
+                <button
+                  className="deleteNoteButton"
+                  onClick={() => handleDeleteClick(note.id)}
+                >
+                  {" "}
+                  <RiDeleteBin6Fill />
+                </button>
+                <button
+                  className="editBookNoteButton"
+                  onClick={() => {
+                    openEdit(note);
+                  }}
+                >
+                  <MdEditSquare />
+                </button>
+              </>
             )}
 
             <p className="pageParagraph">Page - {note.page}</p>
