@@ -80,6 +80,14 @@ export const SingleBook = () => {
     setTimeout(() => setMessage(""), 3000);
   };
 
+  const successDeletion = (deletedNoteId) => {
+    const updatedBookNotes = bookNotes.filter(
+      (note) => note.id !== deletedNoteId
+    );
+    setMessage("Successfully Deleted BookNote");
+    setBookNotes(updatedBookNotes);
+  };
+
   if (!/^\d+$/.test(bookId)) {
     // If bookId is not numeric, redirect to a custom error page or home
     return <Navigate to="/error" replace />;
@@ -145,7 +153,11 @@ export const SingleBook = () => {
           {bookNotes && bookNotes.length > 0 ? (
             <>
               {displayedNotes.map((note) => (
-                <BookNote key={note.id} note={note} />
+                <BookNote
+                  key={note.id}
+                  note={note}
+                  successDeletion={successDeletion}
+                />
               ))}
               {remainingNotes > 0 && (
                 <div className="remainingNotes">

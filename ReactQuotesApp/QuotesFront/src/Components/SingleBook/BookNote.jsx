@@ -4,8 +4,9 @@ import { Divider } from "@mui/material";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
+import { deleteBookNoteById } from "../../Pages/Books/SingleBook/SingleBookService";
 
-export const BookNote = ({ note }) => {
+export const BookNote = ({ note, successDeletion }) => {
   const { isAuthenticated } = useAuth();
 
   let backgroundColor;
@@ -36,6 +37,17 @@ export const BookNote = ({ note }) => {
     setIsCollapsed(!isCollapsed);
   };
   const [isCollapsed, setIsCollapsed] = useState(true);
+
+  const handleDeleteButtonClick = async (noteId) => {
+    try {
+      const response = await deleteBookNoteById(noteId);
+      if (response) {
+        successDeletion(noteId);
+      }
+    } catch (e) {
+      console.error("Failed to delete book note:", e);
+    }
+  };
   return (
     <div
       className="bookNoteMainWrapperDiv"
@@ -54,7 +66,10 @@ export const BookNote = ({ note }) => {
           <p className="noteParagraph">{note.note}</p>
           <div className="pageAndDeleteButtonDiv">
             {isAuthenticated && (
-              <button className="deleteNoteButton">
+              <button
+                className="deleteNoteButton"
+                onClick={() => handleDeleteButtonClick(note.id)}
+              >
                 {" "}
                 <RiDeleteBin6Fill />
               </button>

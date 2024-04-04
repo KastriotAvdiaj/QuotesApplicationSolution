@@ -1,4 +1,3 @@
-
 export const postBookNote = async (bookId, BookNote) => {
   try {
     const response = await fetch(
@@ -61,6 +60,24 @@ export const getBookNotesByTitle = async (bookTitle) => {
     return response.json();
   } catch (e) {
     console.error("Failed to fetch book notes", e.message);
+    throw e;
+  }
+};
+
+export const deleteBookNoteById = async (bookId) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/BookNotes/DeleteBookNote/${bookId}`,
+      { method: "DELETE" }
+    );
+
+    if (response.ok) {
+      return true;
+    } else {
+      throw new Error(`Failed to delete book note: ${response.statusText}`);
+    }
+  } catch (e) {
+    console.error("Failed to delete book notes", e.message);
     throw e;
   }
 };

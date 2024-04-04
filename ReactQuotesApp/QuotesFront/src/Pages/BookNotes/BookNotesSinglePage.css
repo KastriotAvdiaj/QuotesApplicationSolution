@@ -21,3 +21,14 @@
     font-weight: bolder;
     margin-top: 0;
 }
+
+.bookNoteAndIndexDiv{
+    font-size: larger;
+    color: white;
+    display: flex;
+    gap: 1rem;
+}
+
+.bookNoteIndex{
+    font-weight: bolder;
+}
