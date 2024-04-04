@@ -6,7 +6,7 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import { deleteBookNoteById } from "../../Pages/Books/SingleBook/SingleBookService";
 
-export const BookNote = ({ note, successDeletion }) => {
+export const BookNote = ({ note, successDeletion, openAlertDialog }) => {
   const { isAuthenticated } = useAuth();
 
   let backgroundColor;
@@ -38,6 +38,10 @@ export const BookNote = ({ note, successDeletion }) => {
   };
   const [isCollapsed, setIsCollapsed] = useState(true);
 
+  const handleDelete = () => {
+    openAlertDialog();
+  };
+
   const handleDeleteButtonClick = async (noteId) => {
     try {
       const response = await deleteBookNoteById(noteId);
@@ -68,7 +72,8 @@ export const BookNote = ({ note, successDeletion }) => {
             {isAuthenticated && (
               <button
                 className="deleteNoteButton"
-                onClick={() => handleDeleteButtonClick(note.id)}
+                // onClick={() => handleDeleteButtonClick(note.id)}
+                onClick={() => handleDelete()}
               >
                 {" "}
                 <RiDeleteBin6Fill />

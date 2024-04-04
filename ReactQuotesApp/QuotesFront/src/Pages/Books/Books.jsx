@@ -21,6 +21,8 @@ export const Books = () => {
   const [open, setOpen] = useState(false);
   const { isAuthenticated } = useAuth();
 
+  const [dialogTitle, setDialogTitle] = useState("");
+
   const [isBookCreated, setIsBookCreated] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [randomBooks, setRandomBooks] = useState([]);
@@ -32,6 +34,7 @@ export const Books = () => {
   const openDeleteDialog = () => {
     if (selectedBookIds.length > 0) {
       setAlertDialogOpen(true);
+      setDialogTitle("Delete selected book/books?");
       setDialogMessage(
         "Are you sure you want to delete the selected book/books? Id/Ids : " +
           selectedBookIds
@@ -193,6 +196,7 @@ export const Books = () => {
           onClose={handleAlertDialogClose}
           onConfirm={handleAlertDialogConfirm}
           dialogMessage={dialogMessage}
+          dialogTitle={dialogTitle}
         />
         <div className="sideDiv right">
           <h2>
@@ -223,7 +227,7 @@ export const Books = () => {
           </button>
           {/* <button className="booksButton edit" onClick={handleEditButtonClick}> 
             Edit <CiEdit /> //! UnComment These if you want to edit the book within the books page
-          </button> */} 
+          </button> */}
           {/* <BookDeletionButton //! UnComment These if you want to delete the book within the books page
             onClick={openDeleteDialog}
             confirmDelete={confirmDelete}

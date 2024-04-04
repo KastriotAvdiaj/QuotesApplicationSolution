@@ -32,12 +32,15 @@ export const Quotes = () => {
   const [checkboxDisplay, setCheckboxDisplay] = useState("none");
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const { isAuthenticated } = useAuth();
+
   const [dialogMessage, setDialogMessage] = useState("");
+  const [dialogTitle, setDialogTitle] = useState("");
 
   const [isAlertDialogOpen, setIsAlertDialogOpen] = useState(false);
 
   const openDeleteDialog = () => {
     setDialogMessage("Are you sure you want to delete selected quote/quotes?");
+    setDialogTitle("Delete selected quote/quotes?");
     setIsAlertDialogOpen(true);
   };
 
@@ -183,7 +186,6 @@ export const Quotes = () => {
   // CHECKING THE BORDER OF THE QUOTES AND UPDATING IT
   // .
   const whiteOrBlackBorder = theme === "dark" ? "white" : "#092396";
-
   return (
     <div className="quotesMainDiv">
       <div className="imageAndTextContainer">
@@ -209,6 +211,7 @@ export const Quotes = () => {
         onClose={() => setIsAlertDialogOpen(false)}
         onConfirm={performDelete}
         dialogMessage={dialogMessage}
+        dialogTitle={dialogTitle}
       />
       <SuccessMessage message={successMessage} />
       <div className="buttonContainer">

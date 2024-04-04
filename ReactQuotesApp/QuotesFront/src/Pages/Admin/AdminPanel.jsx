@@ -29,6 +29,8 @@ export const AdminPanel = () => {
 
   const [selectedRows, setSelectedRows] = useState([]);
 
+  const [dialogTitle, setDialogTitle] = useState("");
+
   const handleSelectedRows = (selectedRowsData) => {
     setSelectedRows(selectedRowsData);
   };
@@ -86,6 +88,7 @@ export const AdminPanel = () => {
       return;
     }
     if (tableContent === "quotes") {
+      setDialogTitle("Delete selected quote/quotes?");
       setDialogMessage(
         `Are you sure you want to delete the selected quote/quotes? With the Id/Ids: ${selectedRows.join(
           ", "
@@ -94,6 +97,7 @@ export const AdminPanel = () => {
       setAlertDialogOpen(true);
       return;
     }
+    setDialogTitle("Delete selected book/books?");
     setDialogMessage(
       `Are you sure you want to delete the selected book/books? With the Id/Ids: ${selectedRows.join(
         ", "
@@ -341,6 +345,7 @@ export const AdminPanel = () => {
             onClose={handleDialogClose}
             onConfirm={handleAlertDialogConfirm}
             dialogMessage={dialogMessage}
+            dialogTitle={dialogTitle}
           />
           {isEditFormOpen && (
             <BookEditForm

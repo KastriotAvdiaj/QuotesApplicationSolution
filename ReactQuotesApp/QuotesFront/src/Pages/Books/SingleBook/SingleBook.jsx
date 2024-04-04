@@ -12,6 +12,7 @@ import { getBookNotesById } from "./SingleBookService";
 import { SiCodereview } from "react-icons/si";
 import { useNavigate } from "react-router-dom";
 import { BookNote } from "../../../Components/SingleBook/BookNote";
+import AlertDialog from "../../../Components/Mui/AlertDialog";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -22,10 +23,10 @@ export const SingleBook = () => {
   const [message, setMessage] = useState("");
   const [isNewNoteOpen, setNewNoteVisibility] = useState(false);
   const [bookNotes, setBookNotes] = useState([]);
+  const [isBookNoteDialogOpen, setBookNoteDialogOpen] = useState(false);
 
   const [bookNotesToShow, setBookNotesToShow] = useState(5);
   const [displayedNotes, setDisplayedNotes] = useState([]);
-  const incrementBy = 3;
   const remainingNotes = bookNotes.length - displayedNotes.length;
 
   const navigate = useNavigate();
@@ -101,8 +102,13 @@ export const SingleBook = () => {
     return <Navigate to="/error" replace />;
   }
 
+  const openAlertDialog = () => {
+    setBookNoteDialogOpen(!isBookNoteDialogOpen);
+  };
+
   return (
     <>
+      <AlertDialog isOpen={isBookNoteDialogOpen} />
       <NewNote
         isOpen={isNewNoteOpen}
         handleFormVisibility={handleFormVisibility}
@@ -157,6 +163,7 @@ export const SingleBook = () => {
                   key={note.id}
                   note={note}
                   successDeletion={successDeletion}
+                  openAlertDialog={openAlertDialog}
                 />
               ))}
               {remainingNotes > 0 && (

@@ -11,7 +11,9 @@ export default function AlertDialog({
   onClose,
   onConfirm,
   dialogMessage,
+  dialogTitle,
 }) {
+  console.log(dialogTitle);
   return (
     <React.Fragment>
       <Dialog
@@ -26,9 +28,7 @@ export default function AlertDialog({
           },
         }}
       >
-        <DialogTitle id="alert-dialog-title">
-          {"Delete selected quote/quotes?"}
-        </DialogTitle>
+        <DialogTitle id="alert-dialog-title">{dialogTitle}</DialogTitle>
         <DialogContent>
           <DialogContentText
             id="alert-dialog-description"
