@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./BookNote.css";
 import { Divider } from "@mui/material";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -6,8 +6,20 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import { deleteBookNoteById } from "../../Pages/Books/SingleBook/SingleBookService";
 
-export const BookNote = ({ note, successDeletion, openAlertDialog }) => {
+export const BookNote = ({
+  note,
+  successDeletion,
+  openAlertDialog,
+  confirmDelete,
+}) => {
   const { isAuthenticated } = useAuth();
+  const [noteID, setNoteID] = useState(null);
+
+  useEffect(() => {
+    if (confirmDelete && noteID) {
+      handleDelete(noteID);
+    }
+  }, [confirmDelete, noteID]);
 
   let backgroundColor;
 
@@ -38,11 +50,12 @@ export const BookNote = ({ note, successDeletion, openAlertDialog }) => {
   };
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  const handleDelete = () => {
-    openAlertDialog();
+  const handleDeleteClick = (noteId) => {
+    setNoteID(noteId);
+    openAlertDialog(noteId);
   };
 
-  const handleDeleteButtonClick = async (noteId) => {
+  const handleDelete = async (noteId) => {
     try {
       const response = await deleteBookNoteById(noteId);
       if (response) {
@@ -73,7 +86,7 @@ export const BookNote = ({ note, successDeletion, openAlertDialog }) => {
               <button
                 className="deleteNoteButton"
                 // onClick={() => handleDeleteButtonClick(note.id)}
-                onClick={() => handleDelete()}
+                onClick={() => handleDeleteClick(note.id)}
               >
                 {" "}
                 <RiDeleteBin6Fill />

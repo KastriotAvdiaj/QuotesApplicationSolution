@@ -89,6 +89,25 @@ export const SingleBook = () => {
     setBookNotes(updatedBookNotes);
   };
 
+  const [dialogMessage, setDialogMessage] = useState("");
+  const [dialogTitle, setDialogTitle] = useState("");
+  const openAlertDialog = (noteId) => {
+    setDialogMessage(
+      "Are you sure you want to delete this book note with the ID : " + noteId
+    );
+    setDialogTitle("Delete selected Book Note");
+    setBookNoteDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setBookNoteDialogOpen(false);
+  };
+
+  const [deleteBooknote, setDeleteBookNote] = useState(false);
+
+  const handleConfirmDelete = () => {
+    setDeleteBookNote(true);
+  };
   if (!/^\d+$/.test(bookId)) {
     // If bookId is not numeric, redirect to a custom error page or home
     return <Navigate to="/error" replace />;
@@ -102,13 +121,15 @@ export const SingleBook = () => {
     return <Navigate to="/error" replace />;
   }
 
-  const openAlertDialog = () => {
-    setBookNoteDialogOpen(!isBookNoteDialogOpen);
-  };
-
   return (
     <>
-      <AlertDialog isOpen={isBookNoteDialogOpen} />
+      <AlertDialog
+        isOpen={isBookNoteDialogOpen}
+        dialogMessage={dialogMessage}
+        dialogTitle={dialogTitle}
+        onClose={handleCloseDialog}
+        onConfirm={handleConfirmDelete}
+      />
       <NewNote
         isOpen={isNewNoteOpen}
         handleFormVisibility={handleFormVisibility}
@@ -162,6 +183,7 @@ export const SingleBook = () => {
                 <BookNote
                   key={note.id}
                   note={note}
+                  confirmDelete={deleteBooknote}
                   successDeletion={successDeletion}
                   openAlertDialog={openAlertDialog}
                 />

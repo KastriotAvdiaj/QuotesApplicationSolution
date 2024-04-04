@@ -13,7 +13,7 @@ export default function AlertDialog({
   dialogMessage,
   dialogTitle,
 }) {
-  console.log(dialogTitle);
+  // console.log(dialogTitle);
   return (
     <React.Fragment>
       <Dialog
