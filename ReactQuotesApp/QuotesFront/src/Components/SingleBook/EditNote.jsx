@@ -4,12 +4,13 @@ import "./NewNote.css";
 import { IoMdClose } from "react-icons/io";
 import { TextField } from "@mui/material";
 import InputAdornment from "@mui/material/InputAdornment";
+import { editBookNoteById } from "../../Pages/Books/SingleBook/SingleBookService";
 
 export const EditNote = ({
   isOpen,
   handleFormVisibility,
   bookNote,
-  updateBookNotes,
+  updateBookNote,
   bookTitle,
 }) => {
   let backgroundColor;
@@ -39,9 +40,6 @@ export const EditNote = ({
   const [note, setNote] = useState(bookNote.note);
   const [page, setPage] = useState(bookNote.page);
 
-  console.log(bookNote);
-  console.log(bookNote.color);
-
   const handleColorChange = (color) => {
     setSelectedColor(color);
   };
@@ -66,24 +64,28 @@ export const EditNote = ({
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const BookNote = {
-        Title: title,
-        Note: note,
-        Page: page,
-        Color: selectedColor,
+      const editedBookNote = {
+        id: bookNote.id,
+        title: title,
+        note: note,
+        page: page,
+        color: selectedColor,
       };
 
-      //   const newNote = await postBookNote(bookId, BookNote);
+      const success = await editBookNoteById(editedBookNote);
 
-      updateBookNotes(newNote);
-      setTitle("");
-      setNote("");
-      setPage("");
-      setSelectedColor("");
-
-      handleFormVisibility();
+      if (success) {
+        updateBookNote(editedBookNote);
+        setTitle("");
+        setNote("");
+        setPage("");
+        setSelectedColor("");
+        handleFormVisibility();
+      } else {
+        console.error("Failed to update book note.");
+      }
     } catch (error) {
-      console.error("Error posting book note:", error);
+      console.error("Error updating book note:", error);
     }
   };
 
@@ -157,7 +159,7 @@ export const EditNote = ({
           />
         </div>
         <button onClick={handleSubmit} className="newNoteAddButton">
-          Add
+          Save
         </button>
       </div>
     </div>

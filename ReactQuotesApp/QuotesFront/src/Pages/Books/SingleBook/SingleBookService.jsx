@@ -81,3 +81,28 @@ export const deleteBookNoteById = async (bookId) => {
     throw e;
   }
 };
+
+export const editBookNoteById = async (newBookNote) => {
+  console.log(newBookNote);
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/BookNotes/PutBookNote/${newBookNote.id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newBookNote),
+      }
+    );
+
+    if (response.ok) {
+      return true;
+    } else {
+      throw new Error(`Failed to edit book note: ${response.statusText}`);
+    }
+  } catch (e) {
+    console.error("Failed to edit book note", e.message);
+    throw e;
+  }
+};

@@ -46,7 +46,7 @@
 }
 
 .newNoteCloseButton:hover{
-    background-color: rgb(151, 94, 168);
+    background-color: rgb(94, 111, 168);
 }
 
 .newNoteCloseButton:active{
@@ -54,7 +54,6 @@
 }
 
 .newNoteTopBar{
-    background-color: rgb(93, 32, 104);
     display: flex;
     justify-content: space-between;
     align-items: center;

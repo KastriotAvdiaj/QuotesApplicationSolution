@@ -69,8 +69,8 @@ export const NewNote = ({
       onClick={handleFormVisibility}
     >
       <div className="newNoteContainerDiv" onClick={handleInsideClick}>
-        <div className="newNoteTopBar">
-          <p>
+        <div className="newNoteTopBar" style={{ backgroundColor: "#C8D8F3" }}>
+          <p style={{ color: "black" }}>
             New Note for "
             <span style={{ fontWeight: "bold" }}>{bookTitle}</span>"
           </p>
@@ -122,7 +122,6 @@ export const NewNote = ({
             }}
             value={page}
             onChange={handlePageChange}
-            // Setting type as number
             type="number"
           />
         </div>

@@ -19,6 +19,7 @@
     "@mui/x-data-grid": "^6.19.5",
     "aos": "^2.3.4",
     "framer-motion": "^11.0.5",
+    "ldrs": "^1.0.1",
     "mkcert": "^3.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

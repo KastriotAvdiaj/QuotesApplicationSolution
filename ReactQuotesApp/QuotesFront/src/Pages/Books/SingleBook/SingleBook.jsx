@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 import { BookNote } from "../../../Components/SingleBook/BookNote";
 import AlertDialog from "../../../Components/Mui/AlertDialog";
 import { EditNote } from "../../../Components/SingleBook/EditNote";
+import { infinity } from "ldrs";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -32,6 +33,8 @@ export const SingleBook = () => {
   const [bookNotesToShow, setBookNotesToShow] = useState(5);
   const [displayedNotes, setDisplayedNotes] = useState([]);
   const remainingNotes = bookNotes.length - displayedNotes.length;
+
+  infinity.register();
 
   const openEditingBookNote = (note) => {
     setBookNoteToEdit(note);
@@ -65,11 +68,11 @@ export const SingleBook = () => {
   }, [bookId, books]);
 
   const handleFormVisibility = () => {
-    if (isNewNoteOpen) {
-      setNewNoteVisibility(!isNewNoteOpen);
-    } else {
-      setEditBookNote(!editBookNote);
-    }
+    setNewNoteVisibility(!isNewNoteOpen);
+  };
+
+  const handleEditFormVisibility = () => {
+    setEditBookNote(!editBookNote);
   };
 
   const closeEditForm = () => {
@@ -79,6 +82,20 @@ export const SingleBook = () => {
   const updateBookNotes = (newNote) => {
     setBookNotes((prevNotes) => [...prevNotes, newNote]);
     setMessage("Successfully added a new note");
+    setTimeout(() => setMessage(""), 3000);
+  };
+
+  const updateBookNote = (updatedNote) => {
+    setBookNotes((prevNotes) => {
+      const updatedNotes = prevNotes.map((note) => {
+        if (note.id === updatedNote.id) {
+          return { ...updatedNote };
+        }
+        return note;
+      });
+      return updatedNotes;
+    });
+    setMessage("Successfully updated the note");
     setTimeout(() => setMessage(""), 3000);
   };
 
@@ -126,7 +143,26 @@ export const SingleBook = () => {
   }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return (
+      <div
+        style={{
+          height: "100vh",
+          width: `calc(100vw - 15rem)`,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <l-infinity
+          size="250"
+          stroke="15"
+          stroke-length="0.2"
+          bg-opacity="0.1"
+          speed="1.8"
+          color="white"
+        ></l-infinity>
+      </div>
+    );
   }
 
   if (!book) {
@@ -139,9 +175,9 @@ export const SingleBook = () => {
         <EditNote
           isOpen={editBookNote}
           bookNote={bookNoteToEdit}
-          handleFormVisibility={handleFormVisibility}
-        bookTitle={book.title}
-
+          handleFormVisibility={handleEditFormVisibility}
+          bookTitle={book.title}
+          updateBookNote={updateBookNote}
         />
       )}
 
@@ -159,6 +195,26 @@ export const SingleBook = () => {
         bookId={book.id}
         updateBookNotes={updateBookNotes}
       />
+      {loading && (
+        <div
+          style={{
+            height: "100vh",
+            width: `calc(100vw - 15rem)`,
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <l-infinity
+            size="250"
+            stroke="15"
+            stroke-length="0.2"
+            bg-opacity="0.1"
+            speed="1.8"
+            color="white"
+          ></l-infinity>
+        </div>
+      )}
       <div className="singleBookMainDiv">
         <div className="bookDisplayDiv">
           <div className="bookDetails">
@@ -231,7 +287,12 @@ export const SingleBook = () => {
             component="p"
             sx={{ backgroundColor: "gray" }}
           />
-          <button className="newNoteButton" onClick={handleFormVisibility}>
+          <button
+            className="newNoteButton"
+            onClick={() => {
+              handleFormVisibility();
+            }}
+          >
             <MdOutlineNoteAdd />
             Add a note
           </button>

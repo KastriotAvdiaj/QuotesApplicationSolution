@@ -81,14 +81,21 @@ namespace QuotesApplication.Controllers
         // PUT: api/BookNotes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBookNote(int id, BookNote bookNote)
+        public async Task<IActionResult> PutBookNote(int id,[FromBody] BookNoteViewModel bookNote)
         {
-            if (id != bookNote.Id)
+            var oldBookNote = await _context.BookNotes.FindAsync(id);
+
+            if (id != oldBookNote.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(bookNote).State = EntityState.Modified;
+            oldBookNote.Title = bookNote.Title;
+            oldBookNote.Note = bookNote.Note;
+            oldBookNote.Page = bookNote.Page;   
+            oldBookNote.Color = bookNote.Color;
+
+            _context.Entry(oldBookNote).State = EntityState.Modified;
 
             try
             {
