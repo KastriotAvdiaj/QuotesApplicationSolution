@@ -56,6 +56,15 @@ namespace QuotesApplication.Areas.User.Controllers
                 return BadRequest(ModelState);
             }
 
+            const int roleId = 2;
+
+            var role = _context.Roles.FirstOrDefault(r => r.Id == roleId);
+
+            if (role == null)
+            {
+                return BadRequest("Role not found");
+            }
+
             var newUser = new ApplicationUser
             {
                 Id = Guid.NewGuid().ToString(),
@@ -63,14 +72,29 @@ namespace QuotesApplication.Areas.User.Controllers
                 Email = user.Email,
                 NormalizedUsername = user.Username.ToUpper(),
                 NormalizedEmail = user.Email.ToUpper(),
+                Role = role,
             };
             newUser.PasswordHash = _passwordHasher.HashPassword(newUser, user.Password);
 
+            try
+            {
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
 
-            _context.Users.Add(newUser);
-            await _context.SaveChangesAsync();
+                var loginData = new LoginDto
+                {
+                    Email = user.Email,
+                    Password = user.Password
+                };
 
-            return Ok(newUser);
+                await SignIn(loginData);
+
+                return Ok(newUser);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"An error occurred while saving the user: {ex.Message}");
+            }
         }
 
         /*.

@@ -10,6 +10,7 @@ import { MdPerson } from "react-icons/md";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { RiAdminFill } from "react-icons/ri";
+import { FaCircleUser } from "react-icons/fa6";
 
 export const Sidebar = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -57,6 +58,12 @@ export const Sidebar = () => {
           <li>
             <NavLink to="/books">
               Books <FaBook />
+            </NavLink>
+          </li>
+
+          <li>
+            <NavLink to="/admin/users">
+              Users <FaCircleUser />
             </NavLink>
           </li>
         </ul>

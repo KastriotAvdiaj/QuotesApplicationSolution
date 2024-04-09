@@ -70,6 +70,7 @@ export const Signup = () => {
       );
       if (!response.ok) {
         setSignupError("There was an error signing up.");
+        console.log(response);
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
