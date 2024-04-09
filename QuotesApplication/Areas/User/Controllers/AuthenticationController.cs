@@ -73,6 +73,7 @@ namespace QuotesApplication.Areas.User.Controllers
                 NormalizedUsername = user.Username.ToUpper(),
                 NormalizedEmail = user.Email.ToUpper(),
                 Role = role,
+                RoleName = role.Role,
             };
             newUser.PasswordHash = _passwordHasher.HashPassword(newUser, user.Password);
 
@@ -81,13 +82,13 @@ namespace QuotesApplication.Areas.User.Controllers
                 _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
 
-                var loginData = new LoginDto
+               /* var loginData = new LoginDto
                 {
                     Email = user.Email,
                     Password = user.Password
                 };
 
-                await SignIn(loginData);
+                await SignIn(loginData);*/
 
                 return Ok(newUser);
             }

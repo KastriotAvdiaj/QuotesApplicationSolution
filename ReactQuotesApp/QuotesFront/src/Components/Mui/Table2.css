@@ -1,0 +1,36 @@
+.table-container {
+    margin-top: 20px;
+    color: white;
+  }
+  
+  .table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+  }
+  
+  .table th,
+  .table td {
+    padding: 8px;
+    border: 1px solid #ffffff;
+    text-align: left;
+  }
+  
+  .table th {
+    background-color: #000000;
+  }
+  .table tbody tr:nth-child(even) {
+    background-color: #4e4c4c;
+  }
+  
+  .table tbody tr:hover {
+    background-color: #535353;
+  }
+  
+  .sort-desc:after {
+    content: " ▼";
+  }
+  
+  .sort-asc:after {
+    content: " ▲";
+  }

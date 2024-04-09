@@ -29,6 +29,7 @@ namespace QuotesApplication.Areas.User.Models
 
         public Roles Role { get; set; }
 
+        public string RoleName { get; set; }
 
     }
 }

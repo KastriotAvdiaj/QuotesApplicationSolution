@@ -1,5 +1,6 @@
 import { Route, BrowserRouter, Routes } from "react-router-dom";
 import "./App.css";
+import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js";
 import { Sidebar } from "./Components/Sidebar/Sidebar";
 import { Quotes } from "./Pages/Quotes/Quotes";
 import { Books } from "./Pages/Books/Books";
@@ -15,7 +16,7 @@ import { Error } from "./Pages/Error/Error";
 import { SingleBook } from "./Pages/Books/SingleBook/SingleBook";
 import { Quotes2 } from "./Pages/Quotes2/Quotes2";
 import { BookNotesSinglePage } from "./Pages/BookNotes/BookNotesSinglePage";
-import { Users } from "./Pages/Admin/Users/Users";
+import Users from "./Pages/Admin/Users/Users.jsx";
 
 function App() {
   return (
