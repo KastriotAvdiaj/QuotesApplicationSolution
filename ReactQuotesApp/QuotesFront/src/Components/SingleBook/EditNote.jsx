@@ -72,17 +72,28 @@ export const EditNote = ({
         color: selectedColor,
       };
 
-      const success = await editBookNoteById(editedBookNote);
+      const changesMade =
+        editedBookNote.title !== bookNote.title ||
+        editedBookNote.note !== bookNote.note ||
+        editedBookNote.page !== bookNote.page ||
+        editedBookNote.color !== bookNote.color;
 
-      if (success) {
-        updateBookNote(editedBookNote);
-        setTitle("");
-        setNote("");
-        setPage("");
-        setSelectedColor("");
-        handleFormVisibility();
+      if (changesMade) {
+        const success = await editBookNoteById(editedBookNote);
+
+        if (success) {
+          updateBookNote(editedBookNote);
+          setTitle("");
+          setNote("");
+          setPage("");
+          setSelectedColor("");
+          handleFormVisibility();
+        } else {
+          console.error("Failed to update book note.");
+        }
       } else {
-        console.error("Failed to update book note.");
+        console.log("No changes made, skipping update.");
+        handleFormVisibility();
       }
     } catch (error) {
       console.error("Error updating book note:", error);

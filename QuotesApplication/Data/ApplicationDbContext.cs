@@ -16,5 +16,7 @@ namespace QuotesApplication.Data
         public DbSet<QuotesApplication.Models.Books>? Books { get; set; }
 
         public DbSet<BookNote> BookNotes { get; set; }
+
+        public DbSet<Roles> Roles { get; set; }
     }
 }

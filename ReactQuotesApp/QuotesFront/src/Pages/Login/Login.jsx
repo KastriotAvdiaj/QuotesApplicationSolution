@@ -12,6 +12,7 @@ export const Login = () => {
 
   const [email, setEmail] = useState("kaloti.avdiaj@gmail.com");
   const [password, setPassword] = useState("Kastriot!23");
+  const [error, setError] = useState("");
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const navigate = useNavigate();
 
@@ -82,6 +83,7 @@ export const Login = () => {
         console.log("Login Successful:", data);
         navigate("/");
       } else {
+        setError("Email or password incorrect!");
         console.error("Login Failed:", response.status);
       }
     } catch (error) {
@@ -155,6 +157,7 @@ export const Login = () => {
                       placeholder="Enter your password"
                       required
                     />
+                    {error && <p className="error">{error}</p>}
                     <p className="accountPrompt">
                       Don't have an account?{" "}
                       <NavLink to="/signup">Sign up</NavLink>
