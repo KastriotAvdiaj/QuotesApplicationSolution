@@ -23,10 +23,13 @@ const Users = () => {
     { Header: "Username", accessor: "username" },
     { Header: "Email", accessor: "email" },
     { Header: "Role", accessor: "roleName" },
-    { Header: "Email Verified", accessor: "emailVerified" },
+    {
+      Header: "Email Verified",
+      accessor: "emailVerified",
+      Cell: ({ value }) => (value ? "True" : "False"),
+    },
   ];
 
-  console.log(users);
   return (
     <div>
       <h2>Users</h2>
