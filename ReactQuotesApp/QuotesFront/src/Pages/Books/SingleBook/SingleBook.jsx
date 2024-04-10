@@ -116,6 +116,7 @@ export const SingleBook = () => {
     );
     setMessage("Successfully Deleted BookNote");
     setBookNotes(updatedBookNotes);
+    setDeleteBookNote(false);
   };
 
   const [dialogMessage, setDialogMessage] = useState("");
