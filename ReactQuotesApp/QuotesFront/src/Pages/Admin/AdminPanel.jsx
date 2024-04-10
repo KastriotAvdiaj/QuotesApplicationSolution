@@ -20,6 +20,7 @@ import { IoAddCircle } from "react-icons/io5";
 import "./AdminPanel.css";
 import { NavLink } from "react-router-dom";
 import BookDeletionButton from "../../Components/Books/Delete/BookDeletionButton";
+import { FaCircleUser } from "react-icons/fa6";
 import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
 
 export const AdminPanel = () => {
@@ -247,12 +248,21 @@ export const AdminPanel = () => {
                 >
                   Books <FaBook />
                 </button>
+
                 <button
                   onClick={handleQuotesButtonClick}
                   className={tableContent === "quotes" ? "active" : ""}
                 >
                   Quotes <BsFillChatLeftQuoteFill />
                 </button>
+                <NavLink
+                  to="/admin/users
+                "
+                >
+                  <button>
+                    Users <FaCircleUser />
+                  </button>
+                </NavLink>
               </div>
               <div className="actionButtonsDiv">
                 <button
