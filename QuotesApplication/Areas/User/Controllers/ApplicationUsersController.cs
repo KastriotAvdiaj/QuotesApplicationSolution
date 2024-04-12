@@ -7,7 +7,7 @@ using QuotesApplication.Data;
 
 namespace QuotesApplication.Areas.User.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ApplicationUsersController : ControllerBase
     {
@@ -137,7 +137,8 @@ namespace QuotesApplication.Areas.User.Controllers
                 }
             }
 
-            return CreatedAtAction("GetApplicationUser", new { id = newUser.Id }, newUser);
+            return Ok(newUser);
+            /*return CreatedAtAction("GetApplicationUser", new { id = newUser.Id }, newUser);*/
         }
 
         // DELETE: api/ApplicationUsers/5

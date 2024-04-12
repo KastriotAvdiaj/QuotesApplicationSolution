@@ -7,7 +7,7 @@ import {
 } from "react-table";
 import "./Table2.css";
 
-const Table2 = ({ columns, data }) => {
+const Table2 = ({ columns, data, handleNewUserForm, totalUsers }) => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const {
@@ -64,7 +64,14 @@ const Table2 = ({ columns, data }) => {
           placeholder="Search..."
         />
         <div className="actionButtonsWrapper">
-          <button className="usersActionButtons">Create</button>
+          <button
+            className="usersActionButtons"
+            onClick={() => {
+              handleNewUserForm();
+            }}
+          >
+            Create
+          </button>
           <button className="usersActionButtons">Delete</button>
         </div>
       </div>
@@ -182,6 +189,7 @@ const Table2 = ({ columns, data }) => {
             </option>
           ))}
         </select>
+        <span>Total Users : {totalUsers} </span>
       </div>
     </div>
   );

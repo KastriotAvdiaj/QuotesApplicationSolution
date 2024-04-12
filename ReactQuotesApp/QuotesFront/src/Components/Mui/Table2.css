@@ -2,7 +2,6 @@
     margin-top: 20px;
     color: white;
     width:100%;
-
   }
   
   .table {
@@ -10,6 +9,8 @@
     min-width: 1400px;
     border-collapse: collapse;
     margin-top: 1rem;
+    margin-bottom: 1rem;
+    font-family: "Dosis", sans-serif;
   }
   
   .table th,

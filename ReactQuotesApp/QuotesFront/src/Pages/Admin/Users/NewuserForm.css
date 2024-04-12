@@ -1,0 +1,112 @@
+.mainNewUserFormDiv{
+ width: 500px;
+ color: white;
+ background-color: rgb(77, 75, 75);
+ padding: 1rem 3rem 2rem 2rem;
+ display: flex;
+ justify-content: center;
+ flex-direction: column;
+align-items: center;
+border-radius: 0.5rem;
+}
+
+.mainNewUserFormDiv h2{
+    margin-bottom: 3rem;
+}
+
+.form-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  /* CSS for the overlay */
+  .overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    z-index: 999;
+  }
+  
+  .user-form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    border: none;
+  }
+  
+  .form-field {
+    margin-bottom: 20px;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-input {
+    background-color: transparent;
+    width: 250px;
+    padding: 8px;
+    color: white;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .error-message {
+    position: absolute;
+    color: red;
+  }
+  
+  .submit-button, .cancel-button {
+    padding: 10px 20px;
+    color: white;
+    border: none;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .submit-button{
+    background-color: #3a93f3;
+  }
+  
+  .cancel-button{
+    background-color: #d66373;
+  }
+
+  .cancel-button:hover{
+    background-color: #ca4254;
+  }
+  .submit-button:hover {
+    background-color: #126ac9;
+  }
+  
+
+  .form-container {
+    display: none;
+  }
+  
+ 
+  .form-container.active {
+    display: block;
+  }
+
+  .userNewFormButtonDiv{
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
