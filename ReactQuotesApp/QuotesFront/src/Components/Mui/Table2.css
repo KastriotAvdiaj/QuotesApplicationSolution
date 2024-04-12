@@ -99,9 +99,15 @@
     transform: scale(0.97);
   }
 
+  .pagination *:not(.numberedPages){
+    padding: 0.5rem;
+    font-size: 0.9rem;
+    border-radius: 0.2rem;
+    border:none;
+  }
+
   .pagination button{
     cursor: pointer;
-    padding: 0.5rem;
     font-size: 1rem;
     border: none;
     margin-top: 0.5rem;
@@ -117,6 +123,5 @@
 
   .optionUsers{
     border: none;
-    font-size: 1rem;
     color: rgb(0, 0, 0);
   }

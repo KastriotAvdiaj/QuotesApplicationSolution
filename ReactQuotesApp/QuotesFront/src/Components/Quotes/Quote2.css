@@ -15,9 +15,11 @@
     margin: 2rem 0 0.5rem 0;
     align-self: flex-start;
     font-size: 2rem;
+    font-family: "Tilt Neon", sans-serif;
+  font-optical-sizing: auto;
     /* font-family: "Edu NSW ACT Foundation", cursive; */
     /* font-family: "Pacifico", cursive; */
-    font-family: "Indie Flower", cursive;
+    /* font-family: "Indie Flower", cursive; */
     font-style: italic;
 }
 

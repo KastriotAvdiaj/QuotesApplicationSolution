@@ -1,5 +1,10 @@
 import React, { useState } from "react";
-import { useTable, useSortBy, useGlobalFilter, usePagination } from "react-table";
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  usePagination,
+} from "react-table";
 import "./Table2.css";
 
 const Table2 = ({ columns, data }) => {
@@ -21,7 +26,7 @@ const Table2 = ({ columns, data }) => {
     canPreviousPage,
     pageOptions,
     pageSize,
-    setPageSize
+    setPageSize,
   } = useTable(
     {
       columns,
@@ -143,15 +148,12 @@ const Table2 = ({ columns, data }) => {
         <button onClick={() => nextPage()} disabled={!canNextPage}>
           {">"}
         </button>{" "}
-        <button
-          onClick={() => gotoPage(pageCount - 1)}
-          disabled={!canNextPage}
-        >
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
           {">>"}
         </button>{" "}
-        <span>
+        <span className="numberedPages">
           Page{" "}
-          <strong>
+          <strong className="numberedPages">
             {state.pageIndex + 1} of {pageOptions.length}
           </strong>{" "}
         </span>
