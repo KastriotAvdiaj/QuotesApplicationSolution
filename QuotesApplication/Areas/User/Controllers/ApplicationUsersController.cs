@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuotesApplication.Areas.User.Models;
+using QuotesApplication.Areas.User.ViewModels;
 using QuotesApplication.Data;
 
 namespace QuotesApplication.Areas.User.Controllers
@@ -11,10 +12,12 @@ namespace QuotesApplication.Areas.User.Controllers
     public class ApplicationUsersController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly PasswordHasher<ApplicationUser> _passwordHasher;
 
         public ApplicationUsersController(ApplicationDbContext context)
         {
             _context = context;
+            _passwordHasher = new PasswordHasher<ApplicationUser>();
         }
 
         // GET: api/ApplicationUsers
@@ -67,7 +70,7 @@ namespace QuotesApplication.Areas.User.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ApplicationUserExists(id))
+                if (!ApplicationUserExists(id, applicationUser.Username, applicationUser.Email))
                 {
                     return NotFound();
                 }
@@ -83,20 +86,48 @@ namespace QuotesApplication.Areas.User.Controllers
         // POST: api/ApplicationUsers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<ApplicationUser>> PostApplicationUser(ApplicationUser applicationUser)
+        public async Task<ActionResult<ApplicationUser>> PostApplicationUser(NewUserViewModel applicationUser)
         {
-          if (_context.Users == null)
-          {
-              return Problem("Entity set 'ApplicationDbContext.Users'  is null.");
-          }
-            _context.Users.Add(applicationUser);
+            if (_context.Users == null)
+            {
+                return Problem("Entity set 'ApplicationDbContext.Users'  is null.");
+            }
+
+            const int roleId = 2;
+
+            var role = _context.Roles.FirstOrDefault(r => r.Id == roleId);
+
+            if (role == null)
+            {
+                return BadRequest("Role not found");
+            }
+
+            if (ApplicationUserExists("", applicationUser.Username, applicationUser.Email))
+            {
+                return Conflict();
+            }
+
+            var newUser = new ApplicationUser
+            {
+                Id = Guid.NewGuid().ToString(),
+                Username = applicationUser.Username,
+                NormalizedUsername = applicationUser.Username.ToUpper(),
+                Email = applicationUser.Email,
+                NormalizedEmail = applicationUser.Email.ToUpper(),
+                Role = role,
+                RoleName = role.Role,
+
+            };
+            newUser.PasswordHash = _passwordHasher.HashPassword(newUser, applicationUser.Password);
+
+            _context.Users.Add(newUser);
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException)
             {
-                if (ApplicationUserExists(applicationUser.Id))
+                if (ApplicationUserExists(newUser.Id, applicationUser.Username,applicationUser.Email))
                 {
                     return Conflict();
                 }
@@ -106,7 +137,7 @@ namespace QuotesApplication.Areas.User.Controllers
                 }
             }
 
-            return CreatedAtAction("GetApplicationUser", new { id = applicationUser.Id }, applicationUser);
+            return CreatedAtAction("GetApplicationUser", new { id = newUser.Id }, newUser);
         }
 
         // DELETE: api/ApplicationUsers/5
@@ -126,12 +157,17 @@ namespace QuotesApplication.Areas.User.Controllers
             _context.Users.Remove(applicationUser);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
-        private bool ApplicationUserExists(string id)
+        private bool ApplicationUserExists(string id, string username, string email)
         {
-            return (_context.Users?.Any(e => e.Id == id)).GetValueOrDefault();
+            if (_context.Users == null)
+            {
+                return false;
+            }
+
+            return _context.Users.Any(e => e.Id == id || e.Username == username || e.Email == email);
         }
     }
 }
