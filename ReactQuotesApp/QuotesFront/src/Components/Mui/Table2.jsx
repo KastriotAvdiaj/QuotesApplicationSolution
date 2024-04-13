@@ -7,7 +7,13 @@ import {
 } from "react-table";
 import "./Table2.css";
 
-const Table2 = ({ columns, data, handleNewUserForm, totalUsers }) => {
+const Table2 = ({
+  columns,
+  data,
+  handleNewUserForm,
+  totalUsers,
+  deleteSelectedUsers,
+}) => {
   const [selectedRows, setSelectedRows] = useState([]);
 
   const {
@@ -72,7 +78,14 @@ const Table2 = ({ columns, data, handleNewUserForm, totalUsers }) => {
           >
             Create
           </button>
-          <button className="usersActionButtons">Delete</button>
+          <button
+            className="usersActionButtons"
+            onClick={() => {
+              deleteSelectedUsers(selectedRows);
+            }}
+          >
+            Delete
+          </button>
         </div>
       </div>
       <table {...getTableProps()} className="table table-bordered">
@@ -84,7 +97,7 @@ const Table2 = ({ columns, data, handleNewUserForm, totalUsers }) => {
                 onChange={(e) => {
                   const isChecked = e.target.checked;
                   if (isChecked) {
-                    const allRowIds = page.map((row) => row.id);
+                    const allRowIds = data.map((row) => row.id);
                     setSelectedRows(allRowIds);
                   } else {
                     setSelectedRows([]);
@@ -119,7 +132,7 @@ const Table2 = ({ columns, data, handleNewUserForm, totalUsers }) => {
         <tbody {...getTableBodyProps()}>
           {page.map((row) => {
             prepareRow(row);
-            const isSelected = isRowSelected(row.id);
+            const isSelected = isRowSelected(row.original.id);
             return (
               <tr
                 {...row.getRowProps()}
@@ -129,8 +142,8 @@ const Table2 = ({ columns, data, handleNewUserForm, totalUsers }) => {
                 <td>
                   <input
                     type="checkbox"
-                    onChange={() => toggleRowSelection(row.id)}
-                    checked={isRowSelected(row.id)}
+                    onChange={() => toggleRowSelection(row.original.id)}
+                    checked={isRowSelected(row.original.id)}
                   />
                 </td>
                 {row.cells.map((cell) => {

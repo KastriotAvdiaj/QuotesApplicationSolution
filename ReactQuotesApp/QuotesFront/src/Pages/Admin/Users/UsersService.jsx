@@ -26,13 +26,31 @@ export const createUser = async (user) => {
       const userData = await response.json();
       return userData;
     } else {
-      throw new Error('Failed to create user');
+      throw new Error("Failed to create user");
     }
   } catch (e) {
     console.log(e);
   }
 };
 
-export const deleteUsers = async () =>{
-  
-}
+export const deleteUsers = async (ids) => {
+  try {
+    const response = await fetch(
+      "https://localhost:7099/api/ApplicationUsers/DeleteApplicationUsers",
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(ids),
+      }
+    );
+    if (response.ok) {
+      return response;
+    } else {
+      throw new Error("Failed to delete users");
+    }
+  } catch (e) {
+    console.log(e);
+  }
+};

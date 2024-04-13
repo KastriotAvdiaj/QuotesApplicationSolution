@@ -142,23 +142,25 @@ namespace QuotesApplication.Areas.User.Controllers
         }
 
         // DELETE: api/ApplicationUsers/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteApplicationUser(string id)
+        [HttpDelete]
+        public async Task<IActionResult> DeleteApplicationUsers([FromBody] string[] ids)
         {
-            if (_context.Users == null)
+            if (ids == null || ids.Length == 0)
             {
-                return NotFound();
-            }
-            var applicationUser = await _context.Users.FindAsync(id);
-            if (applicationUser == null)
-            {
-                return NotFound();
+                return BadRequest("IDs cannot be null or empty");
             }
 
-            _context.Users.Remove(applicationUser);
+            var usersToDelete = await _context.Users.Where(u => ids.Contains(u.Id)).ToListAsync();
+
+            if (usersToDelete == null || usersToDelete.Count == 0)
+            {
+                return NotFound("No users found with the provided IDs");
+            }
+
+            _context.Users.RemoveRange(usersToDelete);
             await _context.SaveChangesAsync();
 
-            return Ok();
+            return Ok("Users deleted successfully");
         }
 
         private bool ApplicationUserExists(string id, string username, string email)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Table2 from "../../../Components/Mui/Table2";
-import { GetUsers } from "./UsersService";
+import { GetUsers, deleteUsers } from "./UsersService";
 import { FaInfoCircle } from "react-icons/fa";
 import "./Users.css";
 import { NewUserForm } from "./NewUserForm";
@@ -13,7 +13,7 @@ const Users = () => {
   const [showNewUserForm, setNewUserForm] = useState(false);
   const { isAuthenticated } = useAuth();
   const [successMessage, setSuccessMessage] = useState("");
-  const totalUsers = users.length;
+  const [totalUsers, setTotalUsers] = useState(0);
   const handleNewUserForm = () => {
     setNewUserForm(!showNewUserForm);
   };
@@ -22,11 +22,16 @@ const Users = () => {
     setSuccessMessage("Successfully created a new user!");
     setTimeout(() => setSuccessMessage(""), 3000);
     setUsers((prevUsers) => [...prevUsers, newUser]);
+    setTotalUsers(totalUsers + 1);
   };
 
   useEffect(() => {
     fetchUsers();
   }, []);
+
+  useEffect(() => {
+    setTotalUsers(users.length);
+  }, [users]);
 
   const fetchUsers = async () => {
     try {
@@ -34,6 +39,20 @@ const Users = () => {
       setUsers(usersData);
     } catch (error) {
       console.error("Error fetching users:", error);
+    }
+  };
+
+  const deleteSelectedUsers = async (ids) => {
+    try {
+      await deleteUsers(ids);
+      setSuccessMessage("Successfully deleted user/users!");
+      setTimeout(() => setSuccessMessage(""), 3000);
+      setUsers((prevUsers) =>
+        prevUsers.filter((user) => !ids.includes(user.id))
+      );
+      console.log("Success");
+    } catch (e) {
+      console.error("Error deleting users:", error);
     }
   };
 
@@ -93,6 +112,7 @@ const Users = () => {
             data={users}
             handleNewUserForm={handleNewUserForm}
             totalUsers={totalUsers}
+            deleteSelectedUsers={deleteSelectedUsers}
           />
         </div>
       ) : (
