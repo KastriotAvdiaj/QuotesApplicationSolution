@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   useTable,
   useSortBy,
@@ -6,6 +6,8 @@ import {
   usePagination,
 } from "react-table";
 import "./Table2.css";
+import { useNavigate } from "react-router-dom";
+import Alert from "@mui/material/Alert";
 
 const Table2 = ({
   columns,
@@ -15,6 +17,7 @@ const Table2 = ({
   deleteSelectedUsers,
 }) => {
   const [selectedRows, setSelectedRows] = useState([]);
+  const navigate = useNavigate();
 
   const {
     getTableProps,
@@ -56,9 +59,26 @@ const Table2 = ({
     });
   };
 
+  const [isAlertOpen, setAlertOpen] = useState(false);
   const handleEditUser = () => {
-    
+    if (selectedRows.length === 1) {
+      const selectedUserId = selectedRows[0];
+      navigate(`/admin/users/editUser/${selectedUserId}`); // Use navigate to redirect
+    } else {
+      setAlertOpen(true);
+      setTimeout(() => setAlertOpen(false), 1500);
+    }
   };
+
+  useEffect(() => {
+    if (isAlertOpen) {
+      const timer = setTimeout(() => {
+        setAlertOpen(false);
+      }, 1500);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isAlertOpen]);
 
   const isRowSelected = (id) => {
     return selectedRows.includes(id);
@@ -66,6 +86,22 @@ const Table2 = ({
 
   return (
     <div className="table-container">
+      <div
+        className={`alert-container ${
+          isAlertOpen ? "alert-fade" : "alert-hidden"
+        }`}
+      >
+        {isAlertOpen && (
+          <Alert
+            variant="filled"
+            severity="warning"
+            className={`alert-positioned`}
+          >
+            Select a User To Edit!
+          </Alert>
+        )}
+      </div>
+
       <div className="searchbarAndActionButtonsWrapper">
         <input
           type="text"
@@ -90,7 +126,9 @@ const Table2 = ({
           >
             Delete
           </button>
-          <button className="usersActionButtons">Edit</button>
+          <button className="usersActionButtons" onClick={handleEditUser}>
+            Edit
+          </button>
         </div>
       </div>
       <table {...getTableProps()} className="table table-bordered">

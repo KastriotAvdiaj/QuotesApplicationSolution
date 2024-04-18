@@ -126,3 +126,32 @@
     border: none;
     color: rgb(0, 0, 0);
   }
+
+  .alert-container {
+    position: relative;
+  }
+  
+  .alert-fade {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+  }
+  
+  .alert-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+  .alert-positioned {
+    width: 98%;
+    font-size: 1.4rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5rem;
+    box-shadow:2px 6px 8px rgb(0,0,0,0.4) ;
+    position: absolute; 
+    left: 50%; 
+    transform: translateX(-50%); 
+    z-index: 999; 
+  }
