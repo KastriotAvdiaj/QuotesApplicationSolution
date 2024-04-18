@@ -56,6 +56,10 @@ const Table2 = ({
     });
   };
 
+  const handleEditUser = () => {
+    
+  };
+
   const isRowSelected = (id) => {
     return selectedRows.includes(id);
   };
@@ -86,6 +90,7 @@ const Table2 = ({
           >
             Delete
           </button>
+          <button className="usersActionButtons">Edit</button>
         </div>
       </div>
       <table {...getTableProps()} className="table table-bordered">

@@ -16,7 +16,7 @@ import { Error } from "./Pages/Error/Error";
 import { SingleBook } from "./Pages/Books/SingleBook/SingleBook";
 import { Quotes2 } from "./Pages/Quotes2/Quotes2";
 import { BookNotesSinglePage } from "./Pages/BookNotes/BookNotesSinglePage";
-import Users from "./Pages/Admin/Users/Users.jsx";
+import Users, { EditUser } from "./Pages/Admin/Users/Users.jsx";
 
 function App() {
   return (
@@ -37,7 +37,10 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/admin/users" element={<Users />} />
-
+                    <Route
+                      path="/admin/users/editUser:userId"
+                      element={<EditUser />}
+                    />
                     <Route
                       path="/:bookName/Notes"
                       element={<BookNotesSinglePage />}
