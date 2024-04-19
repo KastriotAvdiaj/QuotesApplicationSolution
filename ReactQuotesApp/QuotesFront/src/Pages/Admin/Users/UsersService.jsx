@@ -54,3 +54,15 @@ export const deleteUsers = async (ids) => {
     console.log(e);
   }
 };
+
+export const GetUser = async (id) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/ApplicationUsers/GetApplicationUser/${id}`
+    );
+    const userData = await response.json();
+    return userData;
+  } catch (e) {
+    console.log(e);
+  }
+};
