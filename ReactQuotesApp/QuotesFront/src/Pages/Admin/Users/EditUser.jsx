@@ -4,6 +4,13 @@ import { useAuth } from "../../../Components/AuthContext/AuthContext";
 import { GetUser, deleteUsers } from "./UsersService";
 import "./EditUser.css";
 import { NavLink } from "react-router-dom";
+import {
+  MenuItem,
+  Select,
+  FormControl,
+  InputLabel,
+  Button,
+} from "@mui/material";
 
 export const EditUser = () => {
   let { userId } = useParams();
@@ -44,7 +51,6 @@ export const EditUser = () => {
     fetchUser();
   }, [userId]);
 
-  //! Settting the user values since using the same useEffect as fetchuser doesn't work
   useEffect(() => {
     setUserValues({
       Username: user.username,
@@ -77,7 +83,6 @@ export const EditUser = () => {
                     isEnabled ? "userInformation disabled" : "userInformation"
                   }
                 >
-                  {/* {user.username} */}
                   <input
                     type="text"
                     name="Username"
@@ -86,26 +91,14 @@ export const EditUser = () => {
                     disabled={isEnabled}
                   />
                 </p>
-                <p
-                  className={
-                    isEnabled ? "userInformation disabled" : "userInformation"
-                  }
-                >
-                  {/* {user.normalizedUsername} */}
-                  <input
-                    type="text"
-                    name="NormalizedUsername"
-                    value={userValues.NormalizedUsername}
-                    onChange={handleInputChange}
-                    disabled={isEnabled}
-                  />
+                <p className="userInformation disabled">
+                  {userValues.NormalizedUsername}
                 </p>
                 <p
                   className={
                     isEnabled ? "userInformation disabled" : "userInformation"
                   }
                 >
-                  {/* {user.email} */}
                   <input
                     type="text"
                     name="Email"
@@ -114,45 +107,42 @@ export const EditUser = () => {
                     disabled={isEnabled}
                   />
                 </p>
-                <p
-                  className={
-                    isEnabled ? "userInformation disabled" : "userInformation"
-                  }
-                >
-                  {/* {user.normalizedEmail} */}
-                  <input
-                    type="text"
-                    name="NormalizedEmail"
-                    value={userValues.NormalizedEmail}
-                    onChange={handleInputChange}
-                    disabled={isEnabled}
-                  />
+                <p className="userInformation disabled">
+                  {userValues.NormalizedEmail}
                 </p>
-                <p
-                  className={
-                    isEnabled ? "userInformation disabled" : "userInformation"
-                  }
-                >
-                  {/* {user.roleName} */}
-                  <input
-                    type="text"
-                    name="Role"
-                    value={userValues.Role}
-                    onChange={handleInputChange}
-                    disabled={isEnabled}
-                  />
-                </p>
-                <button
-                  onClick={handleEnabledButtonClick}
-                  className="enableEditingButton"
-                >
-                  {isEnabled ? "Enable" : "Disable"} Editing
-                </button>
+                <div className="selectAndEnableButtonDiv">
+                  <FormControl
+                    className={
+                      isEnabled ? "userInformation disabled" : "userInformation"
+                    }
+                  >
+                    <Select
+                      value={userValues.Role}
+                      onChange={handleInputChange}
+                      name="Role"
+                      disabled={isEnabled}
+                    >
+                      <MenuItem value="Admin">Admin</MenuItem>
+                      <MenuItem value="User">User</MenuItem>
+                    </Select>
+                  </FormControl>
+
+                  <button
+                    onClick={handleEnabledButtonClick}
+                    className="enableEditingButton"
+                  >
+                    {isEnabled ? "Enable" : "Disable"} Editing
+                  </button>
+                </div>
               </div>
             </div>
             <div className="editUsersButtonDiv">
-              <button>Save Changes</button>
-              <button>Discard Changes</button>
+              <Button variant="contained" color="primary">
+                Save Changes
+              </Button>
+              <Button variant="contained" color="secondary">
+                Discard Changes
+              </Button>
             </div>
           </div>
         </>
@@ -163,7 +153,9 @@ export const EditUser = () => {
           </p>
           <NavLink to="/login">
             {" "}
-            <button className="loginButtonAdmin">Login</button>
+            <Button variant="contained" color="primary">
+              Login
+            </Button>
           </NavLink>
         </div>
       )}

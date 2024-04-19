@@ -66,3 +66,20 @@ export const GetUser = async (id) => {
     console.log(e);
   }
 };
+
+export const UpdateUser = async (id, newUserData) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/ApplicationUsers/PutApplicationUser/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newUserData),
+      }
+    );
+  } catch (e) {
+    console.log(e);
+  }
+};
