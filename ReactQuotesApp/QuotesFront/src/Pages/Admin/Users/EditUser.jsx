@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../Components/AuthContext/AuthContext";
-import { GetUser, deleteUsers } from "./UsersService";
+import { GetUser, deleteUsers, updateUser } from "./UsersService";
 import "./EditUser.css";
-import { NavLink } from "react-router-dom";
+import Alert from "@mui/material/Alert";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
   MenuItem,
   Select,
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 
 export const EditUser = () => {
+  const navigate = useNavigate();
   let { userId } = useParams();
   const [user, setUser] = useState({});
   const { isAuthenticated } = useAuth();
@@ -23,8 +25,9 @@ export const EditUser = () => {
     NormalizedEmail: "",
     Role: "",
   });
-
+  const [originalUserValues, setOriginalUserValues] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
+  const [isAlertOpen, setAlertOpen] = useState(false);
 
   const handleEnabledButtonClick = () => {
     setIsEnabled(!isEnabled);
@@ -47,24 +50,68 @@ export const EditUser = () => {
         console.error("Error fetching user:", error);
       }
     };
-
     fetchUser();
   }, [userId]);
 
   useEffect(() => {
-    setUserValues({
-      Username: user.username,
-      NormalizedUsername: user.normalizedUsername,
-      Email: user.email,
-      NormalizedEmail: user.normalizedEmail,
-      Role: user.roleName,
-    });
+    if (Object.keys(user).length > 0) {
+      setUserValues({
+        Username: user.username,
+        NormalizedUsername: user.normalizedUsername,
+        Email: user.email,
+        NormalizedEmail: user.normalizedEmail,
+        Role: user.roleName,
+      });
+      setOriginalUserValues({
+        Username: user.username,
+        NormalizedUsername: user.normalizedUsername,
+        Email: user.email,
+        NormalizedEmail: user.normalizedEmail,
+        Role: user.roleName,
+      });
+    }
   }, [user]);
+
+  const onDiscard = () => {
+    navigate("/admin/users");
+  };
+
+  const saveChanges = async () => {
+    const hasChanges =
+      JSON.stringify(userValues) !== JSON.stringify(originalUserValues);
+    if (hasChanges) {
+      const response = await updateUser(userId, userValues);
+      if (response.ok) {
+        setAlertOpen(true);
+        setIsEnabled(true);
+        setTimeout(() => {
+          setAlertOpen(false);
+        }, 2000);
+      }
+    } else {
+      console.log("No changes to save.");
+    }
+  };
+
+  useEffect(() => {
+    console.log("userValues:", userValues);
+  }, [userValues]);
 
   return (
     <>
       {isAuthenticated ? (
         <>
+          {isAlertOpen && (
+            <Alert
+              variant="filled"
+              severity="success"
+              className={`alert-positioned`}
+              sx={{ width: "80%", boxShadow: "-5px 8px 2px rgb(0,0,0,0.6)" }}
+            >
+              Successfully Updated User!
+            </Alert>
+          )}
+
           <h2 className="editUserh2">Edit User</h2>
           <div className="mainEditUsersDiv">
             <div className="editUserContainer">
@@ -137,10 +184,10 @@ export const EditUser = () => {
               </div>
             </div>
             <div className="editUsersButtonDiv">
-              <Button variant="contained" color="primary">
+              <Button variant="contained" color="primary" onClick={saveChanges}>
                 Save Changes
               </Button>
-              <Button variant="contained" color="secondary">
+              <Button variant="contained" color="secondary" onClick={onDiscard}>
                 Discard Changes
               </Button>
             </div>

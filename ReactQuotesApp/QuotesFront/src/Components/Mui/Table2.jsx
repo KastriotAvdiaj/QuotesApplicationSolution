@@ -96,6 +96,7 @@ const Table2 = ({
             variant="filled"
             severity="warning"
             className={`alert-positioned`}
+            sx={{ width: "80%", boxShadow: "-5px 8px 2px rgb(0,0,0,0.6)" }}
           >
             Select a User To Edit!
           </Alert>

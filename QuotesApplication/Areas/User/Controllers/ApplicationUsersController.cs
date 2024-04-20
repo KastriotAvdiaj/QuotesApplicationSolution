@@ -75,7 +75,9 @@ namespace QuotesApplication.Areas.User.Controllers
             }
 
             user.Username = updatedUserData.Username;
+            user.NormalizedUsername = updatedUserData.Username.ToUpper();
             user.Email = updatedUserData.Email;
+            user.NormalizedEmail = updatedUserData.Email.ToUpper();
             user.Role = role; 
             user.RoleName = updatedUserData.Role;
 

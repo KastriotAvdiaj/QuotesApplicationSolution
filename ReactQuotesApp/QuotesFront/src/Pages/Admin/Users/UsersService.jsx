@@ -67,7 +67,7 @@ export const GetUser = async (id) => {
   }
 };
 
-export const UpdateUser = async (id, newUserData) => {
+export const updateUser = async (id, newUserData) => {
   try {
     const response = await fetch(
       `https://localhost:7099/api/ApplicationUsers/PutApplicationUser/${id}`,
@@ -79,6 +79,7 @@ export const UpdateUser = async (id, newUserData) => {
         body: JSON.stringify(newUserData),
       }
     );
+    return response;
   } catch (e) {
     console.log(e);
   }
