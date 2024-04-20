@@ -52,17 +52,35 @@ namespace QuotesApplication.Areas.User.Controllers
         // PUT: api/ApplicationUsers/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutApplicationUser(string id, ApplicationUser applicationUser)
+        public async Task<IActionResult> PutApplicationUser(string id,[FromBody] UpdateUserViewModel updatedUserData)
         {
-            if (id != applicationUser.Id)
+            if (id == null)
             {
                 return BadRequest();
             }
 
-            var hasher = new PasswordHasher<ApplicationUser>();
-            applicationUser.PasswordHash = hasher.HashPassword(applicationUser, applicationUser.PasswordHash);
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return BadRequest();
+            }
 
-            _context.Entry(applicationUser).State = EntityState.Modified;
+            /*var hasher = new PasswordHasher<ApplicationUser>();*/
+            /*applicationUser.PasswordHash = hasher.HashPassword(applicationUser, applicationUser.PasswordHash);*/
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Role == updatedUserData.Role);
+            if (role == null)
+            {
+               
+                return BadRequest("Specified role does not exist.");
+            }
+
+            user.Username = updatedUserData.Username;
+            user.Email = updatedUserData.Email;
+            user.Role = role; 
+            user.RoleName = updatedUserData.Role;
+
+            _context.Entry(user).State = EntityState.Modified;
+
 
             try
             {
@@ -70,7 +88,7 @@ namespace QuotesApplication.Areas.User.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!ApplicationUserExists(id, applicationUser.Username, applicationUser.Email))
+                if (!ApplicationUserExists(id))
                 {
                     return NotFound();
                 }
@@ -80,7 +98,12 @@ namespace QuotesApplication.Areas.User.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
+        }
+
+        private bool ApplicationUserExists(string id)
+        {
+            return _context.Users.Any(e => e.Id == id);
         }
 
         // POST: api/ApplicationUsers

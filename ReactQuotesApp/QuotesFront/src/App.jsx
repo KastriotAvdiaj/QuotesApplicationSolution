@@ -18,6 +18,7 @@ import { Quotes2 } from "./Pages/Quotes2/Quotes2";
 import { BookNotesSinglePage } from "./Pages/BookNotes/BookNotesSinglePage";
 import Users from "./Pages/Admin/Users/Users.jsx";
 import { EditUser } from "./Pages/Admin/Users/EditUser.jsx";
+import { Roles } from "./Pages/Roles/Roles.jsx";
 
 function App() {
   return (
@@ -38,6 +39,8 @@ function App() {
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/admin/users" element={<Users />} />
+                    <Route path="/admin/roles" element={<Roles />} />
+
                     <Route
                       path="/admin/users/editUser/:userId"
                       element={<EditUser />}
