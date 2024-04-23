@@ -84,3 +84,21 @@ export const updateUser = async (id, newUserData) => {
     console.log(e);
   }
 };
+
+export const updateUserPassword = async (id, newPassword) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/ApplicationUsers/ChangeUsersPassword/${id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newPassword),
+      }
+    );
+    return response;
+  } catch (e) {
+    console.log(e);
+  }
+};

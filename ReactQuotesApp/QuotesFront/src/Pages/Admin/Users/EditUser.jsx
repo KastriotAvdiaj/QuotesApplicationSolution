@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../Components/AuthContext/AuthContext";
-import { GetUser, deleteUsers, updateUser } from "./UsersService";
+import {
+  GetUser,
+  deleteUsers,
+  updateUser,
+  updateUserPassword,
+} from "./UsersService";
 import { getRoles } from "../../Roles/RolesService";
+import { RiLockPasswordFill } from "react-icons/ri";
 import "./EditUser.css";
 import Alert from "@mui/material/Alert";
+import ChangePassword from "./ChangePassword";
 import { NavLink, useNavigate } from "react-router-dom";
 import {
   MenuItem,
@@ -31,6 +38,11 @@ export const EditUser = () => {
   const [isEnabled, setIsEnabled] = useState(true);
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
+
+  const handleCloseChangePassword = () => {
+    setChangePassword(false);
+  };
 
   const handleEnabledButtonClick = () => {
     setIsEnabled(!isEnabled);
@@ -123,6 +135,10 @@ export const EditUser = () => {
             </Alert>
           )}
 
+          {changePassword && (
+            <ChangePassword onClose={handleCloseChangePassword} />
+          )}
+
           <h2 className="editUserh2">Edit User</h2>
           <div className="mainEditUsersDiv">
             <div className="editUserContainer">
@@ -193,6 +209,14 @@ export const EditUser = () => {
                     className="enableEditingButton"
                   >
                     {isEnabled ? "Enable" : "Disable"} Editing
+                  </button>
+                  <button
+                    className="enableEditingButton password"
+                    onClick={() => {
+                      setChangePassword(true);
+                    }}
+                  >
+                    <RiLockPasswordFill /> Change Password
                   </button>
                 </div>
               </div>
