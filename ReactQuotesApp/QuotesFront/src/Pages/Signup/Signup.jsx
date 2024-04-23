@@ -178,6 +178,7 @@ export const Signup = () => {
       setPasswordError(passwordErrors.join("\n"));
       return false;
     }
+    setPasswordError("");
 
     if (!confirmPassword.trim()) {
       setConfirmPasswordError("Please confirm your password.");
@@ -206,6 +207,8 @@ export const Signup = () => {
         return false;
       }
       setPasswordError("");
+      setConfirmPasswordError("");
+
       return true;
     } catch (error) {
       console.error("Error validating password:", error);
