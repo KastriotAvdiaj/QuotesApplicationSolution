@@ -11,11 +11,11 @@ export const Login = () => {
   const { login, logout } = useAuth();
 
   const [email, setEmail] = useState("kaloti.avdiaj@gmail.com");
-  const [password, setPassword] = useState("Kastriot!23");
+  const [password, setPassword] = useState("Kastriot!234");
   const [error, setError] = useState("");
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const navigate = useNavigate();
-
+  
   const [username, setUsername] = useState("");
 
   const handleUsername = (name) => {

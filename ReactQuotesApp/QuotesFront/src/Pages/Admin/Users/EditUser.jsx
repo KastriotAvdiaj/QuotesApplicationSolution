@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../../Components/AuthContext/AuthContext";
 import { GetUser, deleteUsers, updateUser } from "./UsersService";
+import { getRoles } from "../../Roles/RolesService";
 import "./EditUser.css";
 import Alert from "@mui/material/Alert";
 import { NavLink, useNavigate } from "react-router-dom";
@@ -9,13 +10,14 @@ import {
   MenuItem,
   Select,
   FormControl,
-  InputLabel,
   Button,
+  CircularProgress,
 } from "@mui/material";
 
 export const EditUser = () => {
   const navigate = useNavigate();
   let { userId } = useParams();
+  const [roles, setRoles] = useState([]);
   const [user, setUser] = useState({});
   const { isAuthenticated } = useAuth();
   const [userValues, setUserValues] = useState({
@@ -28,6 +30,7 @@ export const EditUser = () => {
   const [originalUserValues, setOriginalUserValues] = useState({});
   const [isEnabled, setIsEnabled] = useState(true);
   const [isAlertOpen, setAlertOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleEnabledButtonClick = () => {
     setIsEnabled(!isEnabled);
@@ -45,6 +48,8 @@ export const EditUser = () => {
     const fetchUser = async () => {
       try {
         const userData = await GetUser(userId);
+        const rolesData = await getRoles();
+        setRoles(rolesData);
         setUser(userData);
       } catch (error) {
         console.error("Error fetching user:", error);
@@ -80,22 +85,23 @@ export const EditUser = () => {
     const hasChanges =
       JSON.stringify(userValues) !== JSON.stringify(originalUserValues);
     if (hasChanges) {
+      setIsLoading(true);
       const response = await updateUser(userId, userValues);
       if (response.ok) {
-        setAlertOpen(true);
+        setTimeout(() => {
+          setAlertOpen(true);
+        }, 1000);
         setIsEnabled(true);
         setTimeout(() => {
           setAlertOpen(false);
-        }, 2000);
+          navigate("/admin/users");
+          setIsLoading(false);
+        }, 2500);
       }
     } else {
       console.log("No changes to save.");
     }
   };
-
-  useEffect(() => {
-    console.log("userValues:", userValues);
-  }, [userValues]);
 
   return (
     <>
@@ -106,7 +112,12 @@ export const EditUser = () => {
               variant="filled"
               severity="success"
               className={`alert-positioned`}
-              sx={{ width: "80%", boxShadow: "-5px 8px 2px rgb(0,0,0,0.6)" }}
+              sx={{
+                width: "30%",
+                boxShadow: "-3px 8px 8px rgb(0,0,0,0.6)",
+                marginTop: "35rem",
+                fontSize: "1rem",
+              }}
             >
               Successfully Updated User!
             </Alert>
@@ -169,8 +180,11 @@ export const EditUser = () => {
                       name="Role"
                       disabled={isEnabled}
                     >
-                      <MenuItem value="Admin">Admin</MenuItem>
-                      <MenuItem value="User">User</MenuItem>
+                      {roles.map((role) => (
+                        <MenuItem key={role.id} value={role.role}>
+                          {role.role}
+                        </MenuItem>
+                      ))}
                     </Select>
                   </FormControl>
 
@@ -184,8 +198,17 @@ export const EditUser = () => {
               </div>
             </div>
             <div className="editUsersButtonDiv">
-              <Button variant="contained" color="primary" onClick={saveChanges}>
-                Save Changes
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={saveChanges}
+                sx={{ width: "150px" }}
+              >
+                {isLoading ? (
+                  <CircularProgress size={24} color="inherit" />
+                ) : (
+                  "Save Changes"
+                )}
               </Button>
               <Button variant="contained" color="secondary" onClick={onDiscard}>
                 Discard Changes

@@ -44,13 +44,15 @@ const Users = () => {
 
   const deleteSelectedUsers = async (ids) => {
     try {
-      await deleteUsers(ids);
-      setSuccessMessage("Successfully deleted user/users!");
-      setTimeout(() => setSuccessMessage(""), 3000);
-      setUsers((prevUsers) =>
-        prevUsers.filter((user) => !ids.includes(user.id))
-      );
-      console.log("Success");
+      const response = await deleteUsers(ids);
+      if (response.ok) {
+        setSuccessMessage("Successfully deleted user/users!");
+        setTimeout(() => setSuccessMessage(""), 3000);
+        setUsers((prevUsers) =>
+          prevUsers.filter((user) => !ids.includes(user.id))
+        );
+        console.log("Success");
+      }
     } catch (e) {
       console.error("Error deleting users:", error);
     }

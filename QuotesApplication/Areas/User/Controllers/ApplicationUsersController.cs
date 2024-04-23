@@ -65,8 +65,7 @@ namespace QuotesApplication.Areas.User.Controllers
                 return BadRequest();
             }
 
-            /*var hasher = new PasswordHasher<ApplicationUser>();*/
-            /*applicationUser.PasswordHash = hasher.HashPassword(applicationUser, applicationUser.PasswordHash);*/
+            
             var role = await _context.Roles.SingleOrDefaultAsync(r => r.Role == updatedUserData.Role);
             if (role == null)
             {
@@ -100,6 +99,21 @@ namespace QuotesApplication.Areas.User.Controllers
                 }
             }
 
+            return Ok();
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> ChangeUsersPassword (string id,string password)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null)
+            {
+                return BadRequest("User not found");
+            }
+            
+            var hasher = new PasswordHasher<ApplicationUser>();
+            user.PasswordHash = hasher.HashPassword(user, password);
+            await _context.SaveChangesAsync();
             return Ok();
         }
 
