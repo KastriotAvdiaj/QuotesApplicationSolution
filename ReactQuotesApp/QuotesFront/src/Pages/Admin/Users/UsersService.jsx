@@ -103,3 +103,18 @@ export const updateUserPassword = async (id, newPassword) => {
     console.log(e);
   }
 };
+
+export const getUsersRole = async (userName) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/ApplicationUsers/GetApplicationUseRole/${userName}`
+    );
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    }
+    throw new Error("Failed to fetch user role");
+  } catch (e) {
+    console.log(e);
+  }
+};

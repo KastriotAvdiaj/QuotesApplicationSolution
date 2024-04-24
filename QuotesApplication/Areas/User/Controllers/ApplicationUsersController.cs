@@ -209,6 +209,25 @@ namespace QuotesApplication.Areas.User.Controllers
             return Ok("Users deleted successfully");
         }
 
+        [HttpGet("{username}")]
+        public async Task<ActionResult<object>> GetApplicationUseRole(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Username cannot be null or empty");
+            }
+
+            var applicationUser = await _context.Users.FirstOrDefaultAsync(u => u.NormalizedUsername == username.ToUpper());
+            
+
+            if (applicationUser == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return new { RoleName = applicationUser.RoleName };
+        }
+
         private bool ApplicationUserExists(string id, string username, string email)
         {
             if (_context.Users == null)

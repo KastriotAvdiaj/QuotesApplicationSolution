@@ -11,7 +11,7 @@ import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessag
 const Users = () => {
   const [users, setUsers] = useState([]);
   const [showNewUserForm, setNewUserForm] = useState(false);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const [successMessage, setSuccessMessage] = useState("");
   const [totalUsers, setTotalUsers] = useState(0);
   const handleNewUserForm = () => {
@@ -74,7 +74,7 @@ const Users = () => {
 
   return (
     <>
-      {isAuthenticated ? (
+      {isAuthenticated && isAdmin ? (
         <div className="mainUsersDiv">
           <SuccessMessage message={successMessage} />
           {showNewUserForm && (

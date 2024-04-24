@@ -11,11 +11,13 @@ export const Login = () => {
   const { login, logout } = useAuth();
 
   const [email, setEmail] = useState("kaloti.avdiaj@gmail.com");
+  // const [email, setEmail] = useState("emily_jones@example.com");
+
   const [password, setPassword] = useState("Kastriot!234");
   const [error, setError] = useState("");
   const [showPasswordInput, setShowPasswordInput] = useState(false);
   const navigate = useNavigate();
-  
+
   const [username, setUsername] = useState("");
 
   const handleUsername = (name) => {
@@ -79,7 +81,7 @@ export const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", data.username);
         handleUsername(data.username);
-        login(data.token);
+        login(data.token, data.username);
         console.log("Login Successful:", data);
         navigate("/");
       } else {
