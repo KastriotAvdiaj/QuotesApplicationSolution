@@ -102,18 +102,25 @@ namespace QuotesApplication.Areas.User.Controllers
             return Ok();
         }
 
-        [HttpPut]
-        public async Task<IActionResult> ChangeUsersPassword (string id,string password)
+        [HttpPut("{id}")]
+        public async Task<IActionResult> ChangeUsersPassword ( string id, [FromBody] string password)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null)
             {
                 return BadRequest("User not found");
             }
+            try
+            {
+                var hasher = new PasswordHasher<ApplicationUser>();
+                user.PasswordHash = hasher.HashPassword(user, password);
+                await _context.SaveChangesAsync();
+            }
+            catch(DbUpdateException)
+            {
+                return BadRequest("Something went wrong");
+            }
             
-            var hasher = new PasswordHasher<ApplicationUser>();
-            user.PasswordHash = hasher.HashPassword(user, password);
-            await _context.SaveChangesAsync();
             return Ok();
         }
 

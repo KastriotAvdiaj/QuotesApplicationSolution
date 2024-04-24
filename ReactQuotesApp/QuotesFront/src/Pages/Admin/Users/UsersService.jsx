@@ -97,6 +97,7 @@ export const updateUserPassword = async (id, newPassword) => {
         body: JSON.stringify(newPassword),
       }
     );
+    console.log(response);
     return response;
   } catch (e) {
     console.log(e);

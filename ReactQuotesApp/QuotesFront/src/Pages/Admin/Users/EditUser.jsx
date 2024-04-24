@@ -103,6 +103,7 @@ export const EditUser = () => {
         setTimeout(() => {
           setAlertOpen(true);
         }, 1000);
+
         setIsEnabled(true);
         setTimeout(() => {
           setAlertOpen(false);
@@ -128,6 +129,7 @@ export const EditUser = () => {
                 width: "30%",
                 boxShadow: "-3px 8px 8px rgb(0,0,0,0.6)",
                 marginTop: "35rem",
+                marginLeft: "4rem",
                 fontSize: "1rem",
               }}
             >
@@ -136,7 +138,10 @@ export const EditUser = () => {
           )}
 
           {changePassword && (
-            <ChangePassword onClose={handleCloseChangePassword} />
+            <ChangePassword
+              onClose={handleCloseChangePassword}
+              userId={userId}
+            />
           )}
 
           <h2 className="editUserh2">Edit User</h2>
@@ -247,9 +252,7 @@ export const EditUser = () => {
           </p>
           <NavLink to="/login">
             {" "}
-            <Button variant="contained" color="primary">
-              Login
-            </Button>
+            <button className="loginButtonAdmin">Login</button>
           </NavLink>
         </div>
       )}

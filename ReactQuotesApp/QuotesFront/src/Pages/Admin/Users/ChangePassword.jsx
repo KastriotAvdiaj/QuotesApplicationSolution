@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import "./ChangePassword.css";
+import { CircularProgress } from "@mui/material";
+import { updateUserPassword } from "./UsersService";
+import Alert from "@mui/material/Alert";
 
-const ChangePassword = ({ onClose }) => {
+const ChangePassword = ({ onClose, userId }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAlertOpen, setAlertOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,28 +39,35 @@ const ChangePassword = ({ onClose }) => {
   };
 
   const checkPassword = async () => {
+    setIsLoading(true);
+
     if (!password.trim()) {
       setPasswordError("Password is required.");
+      setIsLoading(false);
       return false;
     }
 
     const passwordErrors = validatePassword(password);
     if (passwordErrors.length > 0) {
       setPasswordError(passwordErrors.join("\n"));
+      setIsLoading(false);
       return false;
     }
     setPasswordError("");
     if (!confirmPassword.trim()) {
       setConfirmPasswordError("Please confirm your password.");
+      setIsLoading(false);
       return false;
     }
 
     if (!(confirmPassword === password)) {
       setConfirmPasswordError("Passwords must be matching.");
+      setIsLoading(false);
       return false;
     }
 
     try {
+      setIsLoading(true);
       const response = await fetch(
         `https://localhost:7099/api/Authentication/ValidatePassword`,
         {
@@ -74,10 +86,23 @@ const ChangePassword = ({ onClose }) => {
       }
       setConfirmPasswordError("");
       setPasswordError("");
-      return true;
+      const updatePass = await updateUserPassword(userId, password);
+      if (updatePass.ok) {
+        setTimeout(() => {
+          setAlertOpen(true);
+        }, 1000);
+        setTimeout(() => {
+          setAlertOpen(false);
+          setIsLoading(false);
+          onClose();
+        }, 2000);
+        console.log("Successfully updated password");
+        return true;
+      }
+      return false;
     } catch (error) {
       console.error("Error validating password:", error);
-      setPasswordError("Failed to validate password.");
+      setPasswordError("Failed to validate/update password.");
       return false;
     }
   };
@@ -114,7 +139,23 @@ const ChangePassword = ({ onClose }) => {
             )}
           </div>
           <div className="button-group">
-            <button onClick={checkPassword}>Change Password</button>
+            {isAlertOpen && (
+              <Alert
+                variant="filled"
+                severity="success"
+                className={`alert-positioned2`}
+              >
+                Successfully Updated Password!
+              </Alert>
+            )}
+
+            <button onClick={checkPassword} style={{ width: "180px" }}>
+              {isLoading ? (
+                <CircularProgress size={20} color="inherit" />
+              ) : (
+                "Change Password"
+              )}
+            </button>
             <button type="button" onClick={onClose}>
               Cancel
             </button>
