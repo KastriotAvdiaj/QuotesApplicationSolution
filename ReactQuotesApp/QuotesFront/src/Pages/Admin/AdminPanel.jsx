@@ -26,7 +26,7 @@ import SuccessMessage from "../../Components/SuccessfullMessage/SuccessMessage";
 export const AdminPanel = () => {
   const { books } = useContext(BooksContext);
   const { quotes, addQuote, setQuotes } = useContext(QuotesContext);
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
 
   const [selectedRows, setSelectedRows] = useState([]);
 
@@ -231,7 +231,7 @@ export const AdminPanel = () => {
 
   return (
     <>
-      {isAuthenticated ? (
+      {isAuthenticated && isAdmin ? (
         <div className="mainAdminContainer">
           <div className="adminMainHeader">
             <h2>

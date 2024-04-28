@@ -11,9 +11,8 @@ import { useAuth } from "../../Components/AuthContext/AuthContext";
 import { RiLogoutCircleLine } from "react-icons/ri";
 import { RiAdminFill } from "react-icons/ri";
 
-
 export const Sidebar = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, isAdmin, logout } = useAuth();
 
   const handleLogout = () => {
     logout();
@@ -73,9 +72,11 @@ export const Sidebar = () => {
           </div>
         ) : (
           <div className="bottomButtons2">
-            <NavLink to="/admin" className="adminButton">
-              <RiAdminFill /> Admin
-            </NavLink>
+            {isAdmin && (
+              <NavLink to="/admin" className="adminButton">
+                <RiAdminFill /> Admin
+              </NavLink>
+            )}
             <NavLink onClick={handleLogout}>
               <RiLogoutCircleLine />
               Logout

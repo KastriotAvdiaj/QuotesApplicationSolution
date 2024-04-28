@@ -14,7 +14,7 @@ export const BookNote = ({
   confirmDelete,
   openEditingBookNote,
 }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const [noteID, setNoteID] = useState(null);
 
   useEffect(() => {
@@ -88,7 +88,7 @@ export const BookNote = ({
         <>
           <p className="noteParagraph">{note.note}</p>
           <div className="pageAndDeleteButtonDiv">
-            {isAuthenticated && (
+            {isAuthenticated && isAdmin && (
               <>
                 <button
                   className="deleteNoteButton"
