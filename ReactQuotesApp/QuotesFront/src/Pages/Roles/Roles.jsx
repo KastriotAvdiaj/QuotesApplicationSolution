@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { getRoles } from "./RolesService";
+import { Role } from "../../Components/Roles/Role";
+import "./Roles.css";
 
 export const Roles = () => {
   const [roles, setRoles] = useState([]);
@@ -11,7 +13,6 @@ export const Roles = () => {
   const fetchRoles = async () => {
     try {
       const rolesData = await getRoles();
-      console.log(rolesData);
       setRoles(rolesData);
     } catch (error) {
       console.error("Error fetching roles:", error);
@@ -21,10 +22,10 @@ export const Roles = () => {
   return (
     <div>
       <h2>Roles</h2>
-      <ul>
-        {roles.map((role, index) => (
-          <li key={index}>
-            Role : {role.role} - Access : {role.access}
+      <ul className="rolesUl">
+        {roles.map((role) => (
+          <li key={role.roleId} className="rolesLi">
+            <Role role={role} key={role.roleId} />
           </li>
         ))}
       </ul>

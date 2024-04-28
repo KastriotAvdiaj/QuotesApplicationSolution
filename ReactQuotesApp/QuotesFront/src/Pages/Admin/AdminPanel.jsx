@@ -18,6 +18,7 @@ import { RiEditFill, RiAdminFill } from "react-icons/ri";
 import AlertDialog from "../../Components/Mui/AlertDialog";
 import { IoAddCircle } from "react-icons/io5";
 import "./AdminPanel.css";
+import { CgNotes } from "react-icons/cg";
 import { NavLink } from "react-router-dom";
 import BookDeletionButton from "../../Components/Books/Delete/BookDeletionButton";
 import { FaCircleUser } from "react-icons/fa6";
@@ -261,6 +262,15 @@ export const AdminPanel = () => {
                 >
                   <button>
                     Users <FaCircleUser />
+                  </button>
+                </NavLink>
+
+                <NavLink
+                  to="/admin/booknotes
+                "
+                >
+                  <button>
+                    BookNotes <CgNotes />
                   </button>
                 </NavLink>
               </div>

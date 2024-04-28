@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using QuotesApplication.Areas.User.Models;
+using QuotesApplication.Areas.User.ViewModels;
 using QuotesApplication.Data;
 
 namespace QuotesApplication.Areas.User.Controllers
@@ -23,13 +24,19 @@ namespace QuotesApplication.Areas.User.Controllers
 
         // GET: api/Roles
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Roles>>> GetRoles()
+        public async Task<ActionResult<IEnumerable<RoleWithUserCount>>> GetRolesWithUserCount()
         {
-          if (_context.Roles == null)
-          {
-              return NotFound();
-          }
-            return await _context.Roles.ToListAsync();
+            var rolesWithUserCount = await _context.Roles
+        .Select(role => new RoleWithUserCount
+        {
+            RoleId = role.Id,
+            RoleName = role.Role,
+            Access = role.Access,
+            UserCount = _context.Users.Count(user => user.Role.Id == role.Id)
+        })
+        .ToListAsync();
+
+            return rolesWithUserCount;
         }
 
         // GET: api/Roles/5

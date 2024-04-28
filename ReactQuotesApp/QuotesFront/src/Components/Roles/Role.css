@@ -1,0 +1,29 @@
+.mainRoleDiv {
+    cursor: pointer;
+    height: fit-content;
+    width: 250px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    background-color: rgb(150, 3, 3);
+    border-radius: 0.3rem;
+    margin: 2rem;
+    box-shadow: 2px 5px 8px rgb(31, 30, 30);
+    overflow: hidden;
+    transition: all 1s ease-in; 
+  }
+  
+  .hiddenPart{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .roleParagraph{
+    font-size: 1.4rem;
+    font-weight: bolder;
+  }
+
+  

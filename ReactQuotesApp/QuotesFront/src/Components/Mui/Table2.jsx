@@ -7,7 +7,9 @@ import {
 } from "react-table";
 import "./Table2.css";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import Alert from "@mui/material/Alert";
+import { FaRankingStar } from "react-icons/fa6";
 
 const Table2 = ({
   columns,
@@ -63,7 +65,7 @@ const Table2 = ({
   const handleEditUser = () => {
     if (selectedRows.length === 1) {
       const selectedUserId = selectedRows[0];
-      navigate(`/admin/users/editUser/${selectedUserId}`); // Use navigate to redirect
+      navigate(`/admin/users/editUser/${selectedUserId}`);
     } else {
       setAlertOpen(true);
       setTimeout(() => setAlertOpen(false), 1500);
@@ -111,6 +113,12 @@ const Table2 = ({
           placeholder="Search..."
         />
         <div className="actionButtonsWrapper">
+          <NavLink to="/admin/roles">
+            <button className="usersActionButtons role">
+              Roles <FaRankingStar />
+            </button>
+          </NavLink>
+
           <button
             className="usersActionButtons"
             onClick={() => {

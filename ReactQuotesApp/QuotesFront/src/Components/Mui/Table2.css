@@ -92,6 +92,18 @@
     font-weight: bold;
   }
 
+  .usersActionButtons.role{
+    margin-right: 1rem;
+    display: flex;
+    gap: 0.5rem;
+    border-radius: 0.2rem;
+    font-size: 1.1rem;
+    background-color: #075dad;
+  }
+  .usersActionButtons.role:hover{
+    background-color: #2b7ecc;
+  }
+
   .usersActionButtons:hover{
     background-color: #2b2929;
   }

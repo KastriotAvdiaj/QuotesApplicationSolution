@@ -1,0 +1,9 @@
+.rolesUl{
+    display: flex;
+    /* align-items: center; */
+    justify-content: center;
+}
+
+.rolesLi{
+    display: inline;
+}
