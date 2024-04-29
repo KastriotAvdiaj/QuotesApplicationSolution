@@ -30,7 +30,7 @@ export const Role = ({ role }) => {
           sx={{ backgroundColor: "gray", height: "1px", width: "200px" }}
         />
         <p className="accessParagraph">Access : {role.access}</p>
-        <p className="usersParagraph">Users Count - {role.userCount}</p>
+        <p className="usersParagraph">Total Users - {role.userCount}</p>
       </motion.div>
     </motion.div>
   );

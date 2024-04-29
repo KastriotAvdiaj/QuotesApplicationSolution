@@ -1,0 +1,18 @@
+.backButtonNewRole{
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.16rem;
+    border: none;
+    color: white;
+    background-color:black ;
+margin-bottom: 2rem;  
+padding: 0.3rem 1rem;
+font-size: 2rem;  
+}
+
+.backButtonNewRole:hover{
+    color: black;
+    background-color:white ;
+}

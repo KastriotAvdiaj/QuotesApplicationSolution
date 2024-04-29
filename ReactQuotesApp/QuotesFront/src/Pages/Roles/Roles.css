@@ -18,15 +18,27 @@
     display: inline;
 }
 
+.rolesButtonsDiv{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
 .addRoleButton{
+    margin-right: 2rem;
     cursor: pointer;
     background-color: white;
     color: black;
-    
-    padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem 0.5rem 0.9rem;
     font-size: 1.2rem;
     font-weight: 500;
     border-radius: 0.2rem;
+    box-shadow: 2px 3px 5px rgb(24, 23, 23);
     border: 1px solid black;
 }
 

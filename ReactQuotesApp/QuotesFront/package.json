@@ -30,6 +30,7 @@
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.21.3",
     "react-table": "^7.8.0",
+    "styled-components": "^6.1.8",
     "vite-plugin-mkcert": "^1.17.3",
     "yup": "^1.4.0"
   },
