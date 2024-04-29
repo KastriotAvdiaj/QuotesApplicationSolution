@@ -4,6 +4,33 @@
     justify-content: center;
 }
 
+.mainRolesDivContainer h2{
+    font-size: 2rem;
+    width: calc(100vw - 19rem);
+    background-color: rgb(54, 53, 53);
+    box-shadow: 10px 0px 19px rgb(36, 36, 36);
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+}
+
 .rolesLi{
     display: inline;
+}
+
+.addRoleButton{
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    font-weight: 500;
+    border-radius: 0.2rem;
+    border: 1px solid black;
+}
+
+.addRoleButton:hover{
+    background-color: black;
+    color: white;
 }

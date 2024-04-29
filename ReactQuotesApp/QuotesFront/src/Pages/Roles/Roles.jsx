@@ -20,8 +20,9 @@ export const Roles = () => {
   };
 
   return (
-    <div>
+    <div className="mainRolesDivContainer">
       <h2>Roles</h2>
+      <button className="addRoleButton">Add Role</button>
       <ul className="rolesUl">
         {roles.map((role) => (
           <li key={role.roleId} className="rolesLi">

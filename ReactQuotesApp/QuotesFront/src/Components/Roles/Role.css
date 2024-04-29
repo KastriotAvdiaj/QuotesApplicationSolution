@@ -21,6 +21,12 @@
     justify-content: center;
   }
 
+  .hiddenPart p {
+    padding: 0.5rem 1rem;
+    border-radius: 0.2rem;
+    background-color: rgb(92, 25, 22);
+  }
+
   .roleParagraph{
     font-size: 1.4rem;
     font-weight: bolder;
