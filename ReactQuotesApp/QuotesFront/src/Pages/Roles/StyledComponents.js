@@ -17,8 +17,7 @@ export const Label = styled.label`
 export const Input = styled.input`
   width: 100%;
   padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 1px;
 `;
 
 export const ErrorMessageContainer = styled.div`
@@ -31,5 +30,9 @@ export const SubmitButton = styled.button`
   color: white;
   border: none;
   border-radius: 4px;
+  font-size : 1.2rem;
   cursor: pointer;
+  &:hover {
+    background-color: #0056b3; /* darker shade of blue */
+  }
 `;
