@@ -1,7 +1,8 @@
 .rolesUl{
-    display: flex;
-    /* align-items: center; */
-    justify-content: center;
+margin :0 0 5rem 0;
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+
 }
 
 .mainRolesDivContainer h2{

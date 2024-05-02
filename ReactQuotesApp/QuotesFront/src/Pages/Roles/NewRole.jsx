@@ -1,73 +1,153 @@
-import React from "react";
-import { Formik, Form } from "formik";
-import * as Yup from "yup";
+import React, { useState } from "react";
 import "./NewRole.css";
-import { NavLink } from "react-router-dom";
-import {
-  FormContainer,
-  FormGroup,
-  Label,
-  Input,
-  ErrorMessageContainer,
-  SubmitButton,
-} from "./StyledComponents";
+import { NavLink, useNavigate } from "react-router-dom";
+import { createRole } from "./RolesService";
+import { CircularProgress } from "@mui/material";
 import { IoReturnDownBack } from "react-icons/io5";
+import Alert from "@mui/material/Alert";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
+import { VpnLock } from "@mui/icons-material";
 
-const NewRole = ({ onSubmit }) => {
-  const initialValues = {
-    role: "",
-    access: "",
-  };
+const NewRole = () => {
+  const [role, setRole] = useState("");
+  const [access, setAccess] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+  const [isAlertOpen, setAlertOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isErrorAlertOpen, setErrorAlertOpen] = useState(false);
 
   const { isAuthenticated, isAdmin } = useAuth();
 
-  const validationSchema = Yup.object().shape({
-    role: Yup.string().required("Role is required"),
-    access: Yup.string().required("Access is required"),
-  });
+  const handleRoleChange = (event) => {
+    setRole(event.target.value);
+  };
+
+  const handleAccessChange = (event) => {
+    setAccess(event.target.value);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    console.log(!role.trim() || !access.trim());
+    if (!role.trim() || !access.trim()) {
+      setErrorAlertOpen(true);
+      setErrorMessage("Role and Access fields cannot be empty!");
+      setTimeout(() => {
+        setErrorAlertOpen(false);
+        setErrorMessage("");
+      }, 2000);
+      return;
+    }
+
+    const roleRegex = /^[A-Za-z ]{1,10}$/;
+    const accessRegex = /^[A-Za-z ]{1,13}$/;
+
+    if (!roleRegex.test(role)) {
+      setErrorAlertOpen(true);
+      setErrorMessage(
+        "Role should contain only letters and spaces and have a maximum of 10 characters!"
+      );
+      setTimeout(() => {
+        setErrorAlertOpen(false);
+        setErrorMessage("");
+      }, 2000);
+      return;
+    }
+
+    if (!accessRegex.test(access)) {
+      setErrorAlertOpen(true);
+      setErrorMessage(
+        "Access should contain only letters and spaces and have a maximum of 13 characters!"
+      );
+      setTimeout(() => {
+        setErrorAlertOpen(false);
+        setErrorMessage("");
+      }, 3000);
+      return;
+    }
+    const newRole = { role, access };
+    const response = await createRole(newRole);
+
+    if (response.ok) {
+      setAlertOpen(true);
+      setTimeout(() => {
+        setAlertOpen(false);
+        navigate("/admin/roles");
+      }, 2000);
+    }
+  };
 
   return (
     <>
-      {isAuthenticated && isAdmin ? (
-        <Formik
-          initialValues={initialValues}
-          validationSchema={validationSchema}
-          onSubmit={(values, { resetForm }) => {
-            onSubmit(values);
-            resetForm();
+      {isAlertOpen && (
+        <Alert
+          variant="filled"
+          severity="success"
+          className={`alert-positioned`}
+          sx={{
+            width: "30%",
+            boxShadow: "-3px 8px 8px rgb(0,0,0,0.6)",
+            marginTop: "35rem",
+            marginLeft: "4rem",
+            fontSize: "1rem",
           }}
         >
-          {({ errors, touched }) => (
-            <FormContainer>
-              <NavLink to="/admin/roles">
-                <button className="backButtonNewRole">
-                  <IoReturnDownBack />
-                </button>
-              </NavLink>
+          Successfully Created New Role!
+        </Alert>
+      )}
+      {isErrorAlertOpen && (
+        <Alert
+          variant="filled"
+          severity="error"
+          className={`alert-positioned`}
+          sx={{
+            width: "40%",
+            boxShadow: "-3px 8px 8px rgb(0,0,0,0.6)",
+            marginTop: "18rem",
+            marginLeft: "5rem",
+            fontSize: "1rem",
+          }}
+        >
+          {errorMessage}
+        </Alert>
+      )}
+      {isAuthenticated && isAdmin ? (
+        <div className="form-container2">
+          <NavLink to="/admin/roles">
+            <button className="backButtonNewRole">
+              <IoReturnDownBack />
+            </button>
+          </NavLink>
 
-              <Form>
-                <FormGroup>
-                  <Label htmlFor="role">Role</Label>
-                  <Input type="text" id="role" name="role" />
-                  {errors.role && touched.role && (
-                    <ErrorMessageContainer>{errors.role}</ErrorMessageContainer>
-                  )}
-                </FormGroup>
-                <FormGroup>
-                  <Label htmlFor="access">Access</Label>
-                  <Input type="text" id="access" name="access" />
-                  {errors.access && touched.access && (
-                    <ErrorMessageContainer>
-                      {errors.access}
-                    </ErrorMessageContainer>
-                  )}
-                </FormGroup>
-                <SubmitButton type="submit">Submit</SubmitButton>
-              </Form>
-            </FormContainer>
-          )}
-        </Formik>
+          <form onSubmit={handleSubmit} className="form2  ">
+            <div className="form-group">
+              <label htmlFor="role">Role:</label>
+              <input
+                type="text"
+                id="role"
+                name="role"
+                value={role}
+                onChange={handleRoleChange}
+                required
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="access">Access:</label>
+              <input
+                type="text"
+                id="access"
+                name="access"
+                value={access}
+                onChange={handleAccessChange}
+                required
+              />
+            </div>
+            <button type="submit" className="submit-button">
+              Submit
+            </button>
+          </form>
+        </div>
       ) : (
         <div className="accessDenied">
           <p>

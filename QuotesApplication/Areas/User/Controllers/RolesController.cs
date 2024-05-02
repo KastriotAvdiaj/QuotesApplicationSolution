@@ -91,16 +91,20 @@ namespace QuotesApplication.Areas.User.Controllers
         // POST: api/Roles
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Roles>> PostRoles(Roles roles)
+        public async Task<ActionResult<Roles>> PostRoles([FromBody] Roles roles)
         {
           if (_context.Roles == null)
           {
               return Problem("Entity set 'ApplicationDbContext.Roles'  is null.");
           }
-            _context.Roles.Add(roles);
-            await _context.SaveChangesAsync();
+          if(ModelState.IsValid)
+            {
+                _context.Roles.Add(roles);
+                await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetRoles", new { id = roles.Id }, roles);
+                return Ok();
+            }
+            return BadRequest(ModelState);
         }
 
         // DELETE: api/Roles/5

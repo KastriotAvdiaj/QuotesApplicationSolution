@@ -61,6 +61,7 @@ export const EditUser = () => {
       try {
         const userData = await GetUser(userId);
         const rolesData = await getRoles();
+        console.log(rolesData);
         setRoles(rolesData);
         setUser(userData);
       } catch (error) {
@@ -202,8 +203,8 @@ export const EditUser = () => {
                       disabled={isEnabled}
                     >
                       {roles.map((role) => (
-                        <MenuItem key={role.id} value={role.role}>
-                          {role.role}
+                        <MenuItem key={role.roleId} value={role.roleName}>
+                          {role.roleName}
                         </MenuItem>
                       ))}
                     </Select>

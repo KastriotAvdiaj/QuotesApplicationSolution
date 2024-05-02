@@ -7,3 +7,24 @@ export const getRoles = async () => {
     console.error(e);
   }
 };
+
+export const createRole = async (newRole) => {
+  try {
+    const response = await fetch("https://localhost:7099/api/Roles", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newRole),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    return response;
+  } catch (error) {
+    console.error("Error creating role:", error);
+    throw error;
+  }
+};

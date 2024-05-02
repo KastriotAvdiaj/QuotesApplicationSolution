@@ -19,3 +19,38 @@ font-size: 2rem;
     color: black;
     background-color:white ;
 }
+
+.form-container2 {
+    margin-top: 5rem;
+    margin-left: 2rem;
+    width: 50%;
+  }
+  
+  .form-group2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group2 input {
+    width: 50%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .submit-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .submit-button:hover {
+    background-color: #0056b3;
+  }
+  
