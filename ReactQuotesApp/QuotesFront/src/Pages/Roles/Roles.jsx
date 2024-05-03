@@ -8,7 +8,9 @@ import { useAuth } from "../../Components/AuthContext/AuthContext";
 import "./Roles.css";
 import { FaMinus } from "react-icons/fa6";
 import Alert from "@mui/material/Alert";
+import { FaRegEdit } from "react-icons/fa";
 import { DeleteRoles } from "./DeleteRoles";
+import { EditRolePopUp } from "./EditRolePopUp";
 
 export const Roles = () => {
   const [roles, setRoles] = useState([]);
@@ -19,9 +21,11 @@ export const Roles = () => {
   const [isErrorAlertOpen, setErrorAlertOpen] = useState(false);
 
   const [isDeletRolesOpen, setDeleteRolesOpen] = useState(false);
+  const [isEditPopUpOpen, setIsEditPopUpOpen] = useState(false);
 
   const handleClose = () => {
     setDeleteRolesOpen(false);
+    setIsEditPopUpOpen(false);
   };
   useEffect(() => {
     fetchRoles();
@@ -106,6 +110,12 @@ export const Roles = () => {
         handleClose={handleClose}
         handleDelete={handleDelete}
       />
+      <EditRolePopUp
+        roles={roles}
+        open={isEditPopUpOpen}
+        handleClose={handleClose}
+        handleDelete={handleDelete}
+      />
       {isAuthenticated && isAdmin ? (
         <div className="mainRolesDivContainer">
           <h2>Roles</h2>
@@ -117,6 +127,14 @@ export const Roles = () => {
               }}
             >
               <FaMinus /> Delete Roles
+            </button>
+            <button
+              className="addRoleButton"
+              onClick={() => {
+                setIsEditPopUpOpen(true);
+              }}
+            >
+              <FaRegEdit /> Edit Roles
             </button>
             <NavLink to="/admin/roles/newRole">
               <button className="addRoleButton">
