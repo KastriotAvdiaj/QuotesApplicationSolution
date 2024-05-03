@@ -97,8 +97,14 @@ namespace QuotesApplication.Areas.User.Controllers
           {
               return Problem("Entity set 'ApplicationDbContext.Roles'  is null.");
           }
-          if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
+            
+                if (_context.Roles.Any(r => r.Role == roles.Role))
+                {
+                    ModelState.AddModelError("Name", "Role with the same name already exists.");
+                    return BadRequest(ModelState);
+                }
                 _context.Roles.Add(roles);
                 await _context.SaveChangesAsync();
 
@@ -107,24 +113,36 @@ namespace QuotesApplication.Areas.User.Controllers
             return BadRequest(ModelState);
         }
 
-        // DELETE: api/Roles/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteRoles(int id)
+        [HttpDelete("{roleName}")]
+        public async Task<IActionResult> DeleteRoles(string roleName)
         {
-            if (_context.Roles == null)
+            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Role == roleName);
+            if (role == null)
             {
                 return NotFound();
             }
-            var roles = await _context.Roles.FindAsync(id);
-            if (roles == null)
+            if (role.Role == "Admin" || role.Role == "User")
             {
-                return NotFound();
+                return BadRequest("Cannot delete built-in roles.");
             }
 
-            _context.Roles.Remove(roles);
+            var usersWithRole = _context.Users.Where(u => u.RoleName == roleName);
+
+            var userRole = await _context.Roles.SingleOrDefaultAsync(r => r.Role == "User");
+            if (userRole == null)
+            {
+                return BadRequest("Default 'User' role not found.");
+            }
+            foreach (var user in usersWithRole)
+            {
+                user.RoleName = userRole.Role;
+            }
+
+            _context.Roles.Remove(role);
+
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool RolesExists(int id)

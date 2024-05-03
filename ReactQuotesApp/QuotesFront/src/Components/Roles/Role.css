@@ -12,6 +12,7 @@
     box-shadow: 2px 5px 8px rgb(31, 30, 30);
     overflow: hidden;
     transition: all 1s ease-in; 
+    overflow-y: hidden;
   }
   
   .hiddenPart{

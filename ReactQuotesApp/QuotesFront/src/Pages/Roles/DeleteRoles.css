@@ -1,0 +1,15 @@
+/* DeleteRoles Component Styles */
+.delete-roles-dialog {
+    padding: 2rem;
+    width: 100%;
+  }
+  
+  .delete-roles-dialog-title {
+    width: 20rem;
+  }
+  
+  .delete-roles-dialog-content {
+    padding: 2rem;
+    margin: 2rem;
+  }
+

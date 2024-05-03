@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using QuotesApplication.Areas.User.Models;
 using QuotesApplication.Areas.User.ViewModels;
 using QuotesApplication.Data;
@@ -11,13 +12,15 @@ namespace QuotesApplication.Areas.User.Controllers
     [ApiController]
     public class ApplicationUsersController : ControllerBase
     {
+        private readonly ILogger<ApplicationUsersController> _logger;
         private readonly ApplicationDbContext _context;
         private readonly PasswordHasher<ApplicationUser> _passwordHasher;
 
-        public ApplicationUsersController(ApplicationDbContext context)
+        public ApplicationUsersController(ApplicationDbContext context, ILogger<ApplicationUsersController> logger)
         {
             _context = context;
             _passwordHasher = new PasswordHasher<ApplicationUser>();
+            _logger = logger;
         }
 
         // GET: api/ApplicationUsers
@@ -65,19 +68,26 @@ namespace QuotesApplication.Areas.User.Controllers
                 return BadRequest();
             }
 
-            
-            var role = await _context.Roles.SingleOrDefaultAsync(r => r.Role == updatedUserData.Role);
-            if (role == null)
+            if(updatedUserData.Role == null)
             {
-               
                 return BadRequest("Specified role does not exist.");
+
             }
+ 
+                var role = await _context.Roles.SingleOrDefaultAsync(r => r.Role == updatedUserData.Role);
+                if (role == null)
+                {
+                    var roleName = updatedUserData.Role;
+                    _logger.LogWarning("Role {Role} not found.", roleName);
+                    return BadRequest("Specified role does not exist.");
+                }
+            
 
             user.Username = updatedUserData.Username;
             user.NormalizedUsername = updatedUserData.Username.ToUpper();
             user.Email = updatedUserData.Email;
             user.NormalizedEmail = updatedUserData.Email.ToUpper();
-            user.Role = role; 
+            user.Role = role;
             user.RoleName = updatedUserData.Role;
 
             _context.Entry(user).State = EntityState.Modified;

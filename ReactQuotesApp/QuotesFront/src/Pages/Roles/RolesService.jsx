@@ -28,3 +28,20 @@ export const createRole = async (newRole) => {
     throw error;
   }
 };
+
+export const deleteRole = async (role) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/Roles/${role}`,
+      {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response;
+  } catch (e) {
+    console.error(e);
+  }
+};
