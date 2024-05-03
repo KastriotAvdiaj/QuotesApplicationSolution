@@ -15,6 +15,8 @@ export const Roles = () => {
   const { isAuthenticated, isAdmin } = useAuth();
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isErrorAlertOpen, setErrorAlertOpen] = useState(false);
 
   const [isDeletRolesOpen, setDeleteRolesOpen] = useState(false);
 
@@ -26,19 +28,32 @@ export const Roles = () => {
   }, []);
 
   const handleDelete = async (roleNameToDelete) => {
-    const response = await deleteRole(roleNameToDelete);
-    if (response.ok) {
-      console.log(roles);
-      setRoles((prevRoles) =>
-        prevRoles.filter((role) => role.roleName !== roleNameToDelete)
-      );
+    if (roleNameToDelete === "User" || roleNameToDelete === "Admin") {
       handleClose();
-      setSuccessMessage("Successfully Deleted Role!");
-      setAlertOpen(true);
+      setErrorAlertOpen(true);
+      setErrorMessage("Cannot Delete Built in Role" + " - " + roleNameToDelete);
       setTimeout(() => {
-        setAlertOpen(false);
-        setSuccessMessage("");
+        setErrorAlertOpen(false);
+        setErrorMessage("");
       }, 2000);
+    }
+    try {
+      const response = await deleteRole(roleNameToDelete);
+      if (response.ok) {
+        console.log(roles);
+        setRoles((prevRoles) =>
+          prevRoles.filter((role) => role.roleName !== roleNameToDelete)
+        );
+        handleClose();
+        setSuccessMessage("Successfully Deleted Role!");
+        setAlertOpen(true);
+        setTimeout(() => {
+          setAlertOpen(false);
+          setSuccessMessage("");
+        }, 2000);
+      }
+    } catch (e) {
+      console.error(e);
     }
   };
 
@@ -67,6 +82,22 @@ export const Roles = () => {
           }}
         >
           {successMessage}
+        </Alert>
+      )}
+      {isErrorAlertOpen && (
+        <Alert
+          variant="filled"
+          severity="error"
+          className={`alert-positioned`}
+          sx={{
+            width: "40%",
+            boxShadow: "-3px 8px 8px rgb(0,0,0,0.6)",
+            marginTop: "18rem",
+            marginLeft: "5rem",
+            fontSize: "1rem",
+          }}
+        >
+          {errorMessage}
         </Alert>
       )}
       <DeleteRoles

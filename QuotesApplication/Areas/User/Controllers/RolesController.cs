@@ -135,6 +135,7 @@ namespace QuotesApplication.Areas.User.Controllers
             }
             foreach (var user in usersWithRole)
             {
+                user.Role = userRole;
                 user.RoleName = userRole.Role;
             }
 
