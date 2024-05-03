@@ -13,6 +13,7 @@ const NewRole = () => {
   const [access, setAccess] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const [successMessage, setSuccessMessage] = useState("");
   const [isAlertOpen, setAlertOpen] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [isErrorAlertOpen, setErrorAlertOpen] = useState(false);
@@ -67,14 +68,41 @@ const NewRole = () => {
       return;
     }
     const newRole = { role, access };
-    const response = await createRole(newRole);
-
-    if (response.ok) {
-      setAlertOpen(true);
+    try {
+      const response = await createRole(newRole);
+      if (response.ok) {
+        setSuccessMessage("Successfully Created New Role!");
+        setAlertOpen(true);
+        setTimeout(() => {
+          setAlertOpen(false);
+          setSuccessMessage("");
+          navigate("/admin/roles");
+        }, 2000);
+      } else if (response.status === 400) {
+        const errorData = await response.json();
+        if (errorData && errorData.errors && errorData.errors.Name) {
+          setErrorAlertOpen(true);
+          setErrorMessage(errorData.errors.Name[0]);
+          setTimeout(() => {
+            setErrorAlertOpen(false);
+            setErrorMessage("");
+          }, 3000);
+        } else {
+          console.error("Unknown error occurred:", errorData);
+        }
+      } else {
+        console.error("Unknown error occurred:", response);
+      }
+    } catch (error) {
+      console.error("Error creating role:", error);
+      setErrorAlertOpen(true);
+      setErrorMessage(
+        "There was an error creating the Role. Try a different Name"
+      );
       setTimeout(() => {
-        setAlertOpen(false);
-        navigate("/admin/roles");
-      }, 2000);
+        setErrorAlertOpen(false);
+        setErrorMessage("");
+      }, 3000);
     }
   };
 
@@ -93,7 +121,7 @@ const NewRole = () => {
             fontSize: "1rem",
           }}
         >
-          Successfully Created New Role!
+          {successMessage}
         </Alert>
       )}
       {isErrorAlertOpen && (

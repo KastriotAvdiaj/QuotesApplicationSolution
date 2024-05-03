@@ -7,11 +7,15 @@ import { MdAdd } from "react-icons/md";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import "./Roles.css";
 import { FaMinus } from "react-icons/fa6";
+import Alert from "@mui/material/Alert";
 import { DeleteRoles } from "./DeleteRoles";
 
 export const Roles = () => {
   const [roles, setRoles] = useState([]);
   const { isAuthenticated, isAdmin } = useAuth();
+  const [isAlertOpen, setAlertOpen] = useState(false);
+  const [successMessage, setSuccessMessage] = useState("");
+
   const [isDeletRolesOpen, setDeleteRolesOpen] = useState(false);
 
   const handleClose = () => {
@@ -29,6 +33,12 @@ export const Roles = () => {
         prevRoles.filter((role) => role.roleName !== roleNameToDelete)
       );
       handleClose();
+      setSuccessMessage("Successfully Deleted Role!");
+      setAlertOpen(true);
+      setTimeout(() => {
+        setAlertOpen(false);
+        setSuccessMessage("");
+      }, 2000);
     }
   };
 
@@ -43,6 +53,22 @@ export const Roles = () => {
 
   return (
     <>
+      {isAlertOpen && (
+        <Alert
+          variant="filled"
+          severity="success"
+          className={`alert-positioned`}
+          sx={{
+            width: "30%",
+            boxShadow: "-3px 8px 8px rgb(0,0,0,0.6)",
+            marginTop: "35rem",
+            marginLeft: "4rem",
+            fontSize: "1rem",
+          }}
+        >
+          {successMessage}
+        </Alert>
+      )}
       <DeleteRoles
         roles={roles}
         open={isDeletRolesOpen}
