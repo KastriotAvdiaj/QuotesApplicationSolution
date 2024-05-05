@@ -10,7 +10,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import "./DeleteRoles.css"; // Import the CSS file
+import "./DeleteRoles.css"; 
 
 export const DeleteRoles = ({ roles, open, handleClose, handleDelete }) => {
   const [selectedRole, setSelectedRole] = useState("");

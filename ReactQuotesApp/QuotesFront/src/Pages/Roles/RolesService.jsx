@@ -42,3 +42,19 @@ export const deleteRole = async (role) => {
     console.error(e);
   }
 };
+
+export const updateRole = async (roleId, updatedRole) => {
+  try {
+    const response = await fetch(`https://localhost:7099/api/Roles/${roleId}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatedRole),
+    });
+    console.log(response);
+    return response;
+  } catch (e) {
+    console.error(e);
+  }
+};

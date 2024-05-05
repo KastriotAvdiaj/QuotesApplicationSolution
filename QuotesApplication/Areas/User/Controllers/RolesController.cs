@@ -43,10 +43,10 @@ namespace QuotesApplication.Areas.User.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Roles>> GetRoles(int id)
         {
-          if (_context.Roles == null)
-          {
-              return NotFound();
-          }
+            if (_context.Roles == null)
+            {
+                return NotFound();
+            }
             var roles = await _context.Roles.FindAsync(id);
 
             if (roles == null)
@@ -55,6 +55,19 @@ namespace QuotesApplication.Areas.User.Controllers
             }
 
             return roles;
+        }
+
+        [HttpGet("/singleRole/{roleName}")]
+        public async Task<ActionResult<Roles>> GetRoleByName(string roleName)
+        {
+            var role = await _context.Roles.FirstOrDefaultAsync(r => r.Role == roleName);
+
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            return role;
         }
 
         // PUT: api/Roles/5
@@ -85,7 +98,7 @@ namespace QuotesApplication.Areas.User.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Roles

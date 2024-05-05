@@ -20,6 +20,7 @@ import Users from "./Pages/Admin/Users/Users.jsx";
 import { EditUser } from "./Pages/Admin/Users/EditUser.jsx";
 import { Roles } from "./Pages/Roles/Roles.jsx";
 import NewRole from "./Pages/Roles/NewRole.jsx";
+import { EditRole } from "./Pages/Roles/EditRole.jsx";
 
 function App() {
   return (
@@ -46,6 +47,10 @@ function App() {
                     <Route
                       path="/admin/users/editUser/:userId"
                       element={<EditUser />}
+                    />
+                    <Route
+                      path="/admin/roles/editRole/:roleName"
+                      element={<EditRole />}
                     />
                     <Route
                       path="/:bookName/Notes"

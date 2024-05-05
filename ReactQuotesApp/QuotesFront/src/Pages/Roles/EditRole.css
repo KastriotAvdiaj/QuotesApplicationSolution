@@ -1,0 +1,30 @@
+/* EditRole.css */
+.edit-role-container {
+    max-width: 400px;
+    margin: 10rem auto 0 auto;
+    padding: 20px 35px 20px 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  .edit-role-roleName-span{
+    text-decoration: underline;
+    color:#117cf0;
+  }
+  .edit-role-heading {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .edit-role-label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .edit-role-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  

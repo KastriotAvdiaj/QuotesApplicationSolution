@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { getRoles } from "./RolesService";
 import { Role } from "../../Components/Roles/Role";
 import { deleteRole } from "./RolesService";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { MdAdd } from "react-icons/md";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
 import "./Roles.css";
@@ -20,12 +20,28 @@ export const Roles = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [isErrorAlertOpen, setErrorAlertOpen] = useState(false);
 
+  const navigate = useNavigate();
+
   const [isDeletRolesOpen, setDeleteRolesOpen] = useState(false);
   const [isEditPopUpOpen, setIsEditPopUpOpen] = useState(false);
 
   const handleClose = () => {
     setDeleteRolesOpen(false);
     setIsEditPopUpOpen(false);
+  };
+
+  const handleEditRole = (roleName) => {
+    if (roleName === "User" || roleName === "Admin") {
+      handleClose();
+      setErrorAlertOpen(true);
+      setErrorMessage("Cannot Edit Built in Role" + " - " + roleName);
+      setTimeout(() => {
+        setErrorAlertOpen(false);
+        setErrorMessage("");
+      }, 2000);
+      return;
+    }
+    navigate(`/admin/roles/editRole/${roleName}`);
   };
   useEffect(() => {
     fetchRoles();
@@ -114,7 +130,7 @@ export const Roles = () => {
         roles={roles}
         open={isEditPopUpOpen}
         handleClose={handleClose}
-        handleDelete={handleDelete}
+        handleEditRole={handleEditRole}
       />
       {isAuthenticated && isAdmin ? (
         <div className="mainRolesDivContainer">

@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import "./DeleteRoles.css";
 
-export const EditRolePopUp = ({ roles, open, handleClose, handleDelete }) => {
+export const EditRolePopUp = ({ roles, open, handleClose, handleEditRole }) => {
   const [selectedRole, setSelectedRole] = useState("");
 
   const handleChange = (event) => {
@@ -62,7 +62,7 @@ export const EditRolePopUp = ({ roles, open, handleClose, handleDelete }) => {
         </Button>
         <Button
           onClick={() => {
-            handleDelete(selectedRole);
+            handleEditRole(selectedRole);
           }}
           variant="contained"
           color="primary"
