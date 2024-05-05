@@ -73,9 +73,9 @@ const FadeInListItem = ({ index, quote }) => {
   useEffect(() => {
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && ref.current) {
           ref.current.classList.add("fade-in");
-        } else {
+        } else if (ref.current) {
           ref.current.classList.remove("fade-in");
         }
       },
