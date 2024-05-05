@@ -160,8 +160,8 @@ const Table2 = ({
                 }
               />
             </th>
-            {headerGroups.map((headerGroup) => (
-              <React.Fragment key={headerGroup.id}>
+            {headerGroups.map((headerGroup, index) => (
+              <React.Fragment key={index}>
                 {headerGroup.headers.map((column) => (
                   <th
                     key={column.id}
