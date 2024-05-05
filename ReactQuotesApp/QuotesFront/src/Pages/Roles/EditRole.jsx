@@ -92,7 +92,12 @@ export const EditRole = () => {
         }, 2500);
         return;
       }
-      console.log("Role saved:", role);
+      setMessage("Something went wrong with updating role!");
+      setErrorAlertOpen(true);
+      setTimeout(() => {
+        setErrorAlertOpen(false);
+        setMessage("");
+      }, 2500);
     } catch (error) {
       console.error("Error saving role:", error);
     }

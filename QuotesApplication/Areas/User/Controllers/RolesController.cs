@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using QuotesApplication.Areas.User.Models;
 using QuotesApplication.Areas.User.ViewModels;
 using QuotesApplication.Data;
@@ -16,10 +17,12 @@ namespace QuotesApplication.Areas.User.Controllers
     public class RolesController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private ILogger<RolesController> _logger;
 
-        public RolesController(ApplicationDbContext context)
+        public RolesController(ApplicationDbContext context, ILogger<RolesController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         // GET: api/Roles
@@ -73,14 +76,34 @@ namespace QuotesApplication.Areas.User.Controllers
         // PUT: api/Roles/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutRoles(int id, Roles roles)
+        public async Task<IActionResult> PutRoles(int id, Roles newRole)
         {
-            if (id != roles.Id)
+            if (id != newRole.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(roles).State = EntityState.Modified;
+            var role = await _context.Roles.FindAsync(id);
+
+            if (role == null)
+            {
+                return NotFound();
+            }
+
+            if (role.Role == "Admin" || role.Role == "User")
+            {
+                return BadRequest("Not Allowed");
+            }
+
+            try
+            {
+                role.Access = newRole.Access;
+                role.Role = newRole.Role;
+                _context.Entry(role).State = EntityState.Modified;
+            }catch (Exception ex)
+            {
+                _logger.LogError(ex,"An Error Occurred");
+            }
 
             try
             {
