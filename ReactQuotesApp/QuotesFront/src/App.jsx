@@ -21,6 +21,7 @@ import { EditUser } from "./Pages/Admin/Users/EditUser.jsx";
 import { Roles } from "./Pages/Roles/Roles.jsx";
 import NewRole from "./Pages/Roles/NewRole.jsx";
 import { EditRole } from "./Pages/Roles/EditRole.jsx";
+import { AdminBookNotes } from "./Pages/BookNotes/AdminBookNotes/AdminBookNotes.jsx";
 
 function App() {
   return (
@@ -43,6 +44,10 @@ function App() {
                     <Route path="/admin/users" element={<Users />} />
                     <Route path="/admin/roles" element={<Roles />} />
                     <Route path="/admin/roles/newRole" element={<NewRole />} />
+                    <Route
+                      path="/admin/adminBookNotes"
+                      element={<AdminBookNotes />}
+                    />
 
                     <Route
                       path="/admin/users/editUser/:userId"

@@ -266,7 +266,7 @@ export const AdminPanel = () => {
                 </NavLink>
 
                 <NavLink
-                  to="/admin/booknotes
+                  to="/admin/adminBookNotes
                 "
                 >
                   <button>

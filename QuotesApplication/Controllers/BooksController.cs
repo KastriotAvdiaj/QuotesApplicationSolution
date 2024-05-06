@@ -6,6 +6,7 @@ using QuotesApplication.Data;
 using QuotesApplication.Models;
 using QuotesApplication.ViewModels;
 using System.IO;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace QuotesApplication.Controllers
 {
@@ -49,6 +50,39 @@ namespace QuotesApplication.Controllers
 
             return bookDTOs;
         }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<BookWithNotesDTO>>> GetBookIdsWithNotes()
+        {
+            var booksWithNotes = await _context.BookNotes
+                .Include(n => n.Book)
+                .ToListAsync();
+
+            if (booksWithNotes == null || !booksWithNotes.Any())
+            {
+                return NotFound();
+            }
+
+            var bookWithNotesDTOs = booksWithNotes
+                .GroupBy(n => n.BookId)
+                .Select(group => new BookWithNotesDTO
+                {
+                    BookId = group.Key,
+                    Title = group.First().Book.Title,
+                    Author = group.First().Book.Author,
+                    BookNotes = group.Select(note => new BookNoteViewModel
+                    {
+                        Note = note.Note,
+                        Title = note.Title,
+                        Color = note.Color,
+                        Page = note.Page
+                    }).ToList()
+                }).ToList();
+
+            return Ok(bookWithNotesDTOs);
+        }
+
+
 
         // GET: api/Books/5
         [HttpGet("{id}")]
