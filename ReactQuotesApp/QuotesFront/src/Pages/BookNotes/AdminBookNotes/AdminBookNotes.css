@@ -1,3 +1,39 @@
 .mainAdminBookNotesDiv{
-    margin: 0 3rem;
+    margin: 0 3rem 10rem 3rem;
+    font-family: 'Dosis';
+}
+
+.admin-bookNotes-select{
+    margin-left: 1rem;
+    right: 8%;
+    display: flex;
+    flex-direction: column;
+}
+
+.admin-bookNotes-note{
+    font-size: 1.1rem;
+}
+
+.admin-bookNotes-page{
+    font-family: Arial, Helvetica, sans-serif;
+    width: fit-content;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    color: white;
+    font-weight: 500;
+    background-color: rgb(18, 125, 197);
+}
+
+.admin-bookNotes-Title{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5rem;
+    box-shadow: 2px 8px 7px rgb(31, 30, 30);
+    margin-top: 2rem;
+    font-weight: bolder;
+    border-radius: 0.2rem;
+    font-size: 2.5rem;
+    width: 100%;
+    padding: 2rem 0 2rem 0;
+    background-color: rgb(60, 60, 83);
 }

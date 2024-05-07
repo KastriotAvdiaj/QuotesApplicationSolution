@@ -26,7 +26,7 @@ export const EditUser = () => {
   let { userId } = useParams();
   const [roles, setRoles] = useState([]);
   const [user, setUser] = useState({});
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
   const [userValues, setUserValues] = useState({
     Username: "",
     NormalizedUsername: "",
@@ -119,7 +119,7 @@ export const EditUser = () => {
 
   return (
     <>
-      {isAuthenticated ? (
+      {isAuthenticated && isAdmin ? (
         <>
           {isAlertOpen && (
             <Alert

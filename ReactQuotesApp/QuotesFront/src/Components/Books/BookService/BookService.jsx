@@ -1,6 +1,5 @@
 const baseUrl = "https://localhost:7099/api/Books";
 
-// Function to update a book
 export const updateBook = async (bookData) => {
   const response = await fetch(`${baseUrl}/PutBooks/${bookData.id}`, {
     method: "PUT",
