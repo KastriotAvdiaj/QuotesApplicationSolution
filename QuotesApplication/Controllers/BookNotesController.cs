@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using NuGet.Versioning;
 using QuotesApplication.Data;
 using QuotesApplication.Models;
 using QuotesApplication.ViewModels;
@@ -27,10 +28,10 @@ namespace QuotesApplication.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<BookNote>>> GetBookNotes()
         {
-          if (_context.BookNotes == null)
-          {
-              return NotFound();
-          }
+            if (_context.BookNotes == null)
+            {
+                return NotFound();
+            }
             return await _context.BookNotes.ToListAsync();
         }
 
@@ -81,7 +82,7 @@ namespace QuotesApplication.Controllers
         // PUT: api/BookNotes/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutBookNote(int id,[FromBody] BookNoteViewModel bookNote)
+        public async Task<IActionResult> PutBookNote(int id, [FromBody] BookNoteViewModel bookNote)
         {
             var oldBookNote = await _context.BookNotes.FindAsync(id);
 
@@ -92,7 +93,7 @@ namespace QuotesApplication.Controllers
 
             oldBookNote.Title = bookNote.Title;
             oldBookNote.Note = bookNote.Note;
-            oldBookNote.Page = bookNote.Page;   
+            oldBookNote.Page = bookNote.Page;
             oldBookNote.Color = bookNote.Color;
 
             _context.Entry(oldBookNote).State = EntityState.Modified;
@@ -114,6 +115,29 @@ namespace QuotesApplication.Controllers
             }
 
             return NoContent();
+        }
+
+        [HttpPut("{bookNoteId}")]
+        public async Task<IActionResult> ChangeNotesBook( int bookNoteId, [FromBody] string bookTitle)
+        {
+            var bookNote = await _context.BookNotes.FindAsync(bookNoteId);
+            if (bookNote == null)
+            {
+                return NotFound(bookNoteId);
+            }
+
+            var newBook = await _context.Books.FirstOrDefaultAsync(b => b.Title == bookTitle);
+            if (newBook == null)
+            {
+                return NotFound(bookTitle);
+            }
+
+            bookNote.Book = newBook;
+            bookNote.BookId = newBook.Id;
+
+            _context.SaveChanges();
+
+            return Ok();
         }
 
         // POST: api/BookNotes

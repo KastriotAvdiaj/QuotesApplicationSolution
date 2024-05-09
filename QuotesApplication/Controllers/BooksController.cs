@@ -72,6 +72,7 @@ namespace QuotesApplication.Controllers
                     Author = group.First().Book.Author,
                     BookNotes = group.Select(note => new BookNoteViewModel
                     {
+                        Id = note.Id,
                         Note = note.Note,
                         Title = note.Title,
                         Color = note.Color,

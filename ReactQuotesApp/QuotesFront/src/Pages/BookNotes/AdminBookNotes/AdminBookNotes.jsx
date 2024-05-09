@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import "./AdminBookNotes.css";
+import { NavLink } from "react-router-dom";
 import Accordion from "@mui/material/Accordion";
 import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -13,6 +14,8 @@ import FormHelperText from "@mui/material/FormHelperText";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
+import ResponsiveDialog from "../../../Components/Mui/ResponsiveDialog";
+import { changeNotesBook } from "./AdminBookNotesService";
 import { getBooksWithBookNotes } from "./AdminBookNotesService";
 import BasicSpeedDial from "../../../Components/Mui/BasicSpeedDial";
 import { BooksContext } from "../../../Components/Books/BooksProvider";
@@ -22,9 +25,25 @@ export const AdminBookNotes = () => {
   const { books } = useContext(BooksContext);
   const { isAuthenticated, isAdmin } = useAuth();
   const [selectedBook, setSelectedBook] = useState("");
+  const [isAlertDialoOpen, setAlertDialogOpen] = useState(false);
+  const [BookNoteId, setBookNoteId] = useState();
 
-  const handleChange = (event) => {
+  const handleChange = (event, bookNoteId) => {
+    console.log(event.target.value);
     setSelectedBook(event.target.value);
+    setBookNoteId(bookNoteId);
+    setAlertDialogOpen(true);
+    // changeNotesBook(event.target.value, bookNoteId);
+  };
+
+  const handleDialogClose = () => {
+    setAlertDialogOpen(false);
+    setBookNoteId();
+  };
+
+  const handleAgreeDialog = () => {
+    changeNotesBook(selectedBook, BookNoteId);
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -63,6 +82,12 @@ export const AdminBookNotes = () => {
           <div className="admin-bookNotes-Title">
             You Can Find All The Book Notes Here!
           </div>
+          <ResponsiveDialog
+            isOpen={isAlertDialoOpen}
+            handleClose={handleDialogClose}
+            bookTitle={selectedBook}
+            onAgree={handleAgreeDialog}
+          />
           {booksWithNotes.map((book) => (
             <div key={book.bookId}>
               <h2>{book.title}</h2>
@@ -80,11 +105,21 @@ export const AdminBookNotes = () => {
                     id={`panel${index}-header`}
                     sx={{ fontWeight: "bolder", fontSize: "1.3rem" }}
                   >
-                    {note.title}
+                    <div className="title-divider">
+                      {note.title}
+                      <Divider
+                        sx={{
+                          color: "gray",
+                          border: "1px solid",
+                          marginTop: "1rem",
+                        }}
+                      />
+                    </div>
                   </AccordionSummary>
                   <AccordionDetails>
                     <p className="admin-bookNotes-note">{note.note}</p>
                     <p className="admin-bookNotes-page">{`Page: ${note.page}`}</p>
+                    <p className="admin-bookNotes-id">{`ID: ${note.id}`}</p>
                   </AccordionDetails>
                   <AccordionActions>
                     <div className="admin-bookNotes-select">
@@ -97,7 +132,7 @@ export const AdminBookNotes = () => {
                           id="demo-simple-select-helper"
                           value={selectedBook}
                           label="Book"
-                          onChange={handleChange}
+                          onChange={(event) => handleChange(event, note.id)}
                           MenuProps={{
                             PaperProps: {
                               style: {
