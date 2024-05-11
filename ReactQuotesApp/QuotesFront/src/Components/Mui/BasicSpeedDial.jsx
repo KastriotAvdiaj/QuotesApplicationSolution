@@ -11,7 +11,13 @@ const actions = [
   { icon: <DeleteForeverIcon />, name: "Delete" },
 ];
 
-export default function BasicSpeedDial() {
+export default function BasicSpeedDial({ onActionClick, note }) {
+  const handleActionClick = (name) => {
+    console.log(name);
+    console.log(note);
+    onActionClick(name, note);
+  };
+
   return (
     <Box sx={{ height: 100, transform: "translateZ(0px)", flexGrow: 1 }}>
       <SpeedDial
@@ -24,6 +30,7 @@ export default function BasicSpeedDial() {
             key={action.name}
             icon={action.icon}
             tooltipTitle={action.name}
+            onClick={() => handleActionClick(action.name)}
           />
         ))}
       </SpeedDial>

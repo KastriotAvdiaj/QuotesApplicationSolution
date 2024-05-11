@@ -6,7 +6,9 @@ import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Button from "@mui/material/Button";
+import { EditNote } from "../../../Components/SingleBook/EditNote";
+import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessage";
+import { deleteBookNoteById } from "../../Books/SingleBook/SingleBookService";
 import { Divider } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
 import { useAuth } from "../../../Components/AuthContext/AuthContext";
@@ -27,13 +29,64 @@ export const AdminBookNotes = () => {
   const [selectedBook, setSelectedBook] = useState("");
   const [isAlertDialoOpen, setAlertDialogOpen] = useState(false);
   const [BookNoteId, setBookNoteId] = useState();
+  const [message, setMessage] = useState("");
+  const [editBookNote, setEditBookNote] = useState(false);
+  const [bookNoteToEdit, setBookNoteToEdit] = useState(null);
 
-  const handleChange = (event, bookNoteId) => {
-    console.log(event.target.value);
-    setSelectedBook(event.target.value);
-    setBookNoteId(bookNoteId);
-    setAlertDialogOpen(true);
-    // changeNotesBook(event.target.value, bookNoteId);
+  const handleEditFormVisibility = () => {
+    setEditBookNote(!editBookNote);
+  };
+
+  const handleActionClick = (actionName, note) => {
+    if (actionName === "Delete") {
+      console.log(note.id);
+      handlBookNoteDelete(note.id);
+    } else if (actionName === "Edit") {
+      setBookNoteToEdit(note);
+      setEditBookNote(true);
+    }
+  };
+
+  const handlBookNoteDelete = async (noteId) => {
+    try {
+      const response = await deleteBookNoteById(noteId);
+      if (response) {
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+        setMessage("Successfully Deleted BookNote");
+      }
+    } catch (e) {
+      console.error("Failed to delete book note:", e);
+    }
+  };
+
+  const handleChange = async (event, bookNoteId) => {
+    try {
+      const newBookTitle = event.target.value;
+      setSelectedBook(newBookTitle);
+      setBookNoteId(bookNoteId);
+      setAlertDialogOpen(true);
+
+      const updatedBooksWithNotes = booksWithNotes.map((book) => {
+        const updatedBookNotes = book.bookNotes.map((note) => {
+          if (note.id === bookNoteId) {
+            return {
+              ...note,
+              book: newBookTitle,
+            };
+          }
+          return note;
+        });
+        return {
+          ...book,
+          bookNotes: updatedBookNotes,
+        };
+      });
+      setBooksWithNotes(updatedBooksWithNotes);
+    } catch (error) {
+      console.error("Error handling book change:", error);
+    }
   };
 
   const handleDialogClose = () => {
@@ -41,10 +94,17 @@ export const AdminBookNotes = () => {
     setBookNoteId();
   };
 
-  const handleAgreeDialog = () => {
-    changeNotesBook(selectedBook, BookNoteId);
-    window.location.reload();
+  const handleAgreeDialog = async () => {
+    try {
+      await changeNotesBook(selectedBook, BookNoteId);
+      const updatedData = await getBooksWithBookNotes();
+      setBooksWithNotes(updatedData);
+      setAlertDialogOpen(false);
+    } catch (error) {
+      console.error("Failed to change book for note:", error);
+    }
   };
+
 
   useEffect(() => {
     const fetchBooksWithNotes = async () => {
@@ -88,6 +148,15 @@ export const AdminBookNotes = () => {
             bookTitle={selectedBook}
             onAgree={handleAgreeDialog}
           />
+          {editBookNote && (
+            <EditNote
+              isOpen={editBookNote}
+              bookNote={bookNoteToEdit}
+              handleFormVisibility={handleEditFormVisibility}
+              bookTitle={selectedBook}
+            />
+          )}
+          <SuccessMessage message={message} />
           {booksWithNotes.map((book) => (
             <div key={book.bookId}>
               <h2>{book.title}</h2>
@@ -153,7 +222,10 @@ export const AdminBookNotes = () => {
                         <FormHelperText>Select a different book</FormHelperText>
                       </FormControl>
                     </div>
-                    <BasicSpeedDial />
+                    <BasicSpeedDial
+                      onActionClick={handleActionClick}
+                      note={note}
+                    />
                   </AccordionActions>
                 </Accordion>
               ))}

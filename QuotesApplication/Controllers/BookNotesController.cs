@@ -118,7 +118,7 @@ namespace QuotesApplication.Controllers
         }
 
         [HttpPut("{bookNoteId}")]
-        public async Task<IActionResult> ChangeNotesBook( int bookNoteId, [FromBody] string bookTitle)
+        public async Task<ActionResult<BookNote>> ChangeNotesBook( int bookNoteId, [FromBody] string bookTitle)
         {
             var bookNote = await _context.BookNotes.FindAsync(bookNoteId);
             if (bookNote == null)
@@ -137,7 +137,7 @@ namespace QuotesApplication.Controllers
 
             _context.SaveChanges();
 
-            return Ok();
+            return Ok(bookNote);
         }
 
         // POST: api/BookNotes
@@ -201,7 +201,7 @@ namespace QuotesApplication.Controllers
             _context.BookNotes.Remove(bookNote);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
         private bool BookNoteExists(int id)
