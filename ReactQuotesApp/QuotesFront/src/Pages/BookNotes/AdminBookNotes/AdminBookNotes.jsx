@@ -6,6 +6,7 @@ import AccordionActions from "@mui/material/AccordionActions";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { MdOutlineNoteAdd } from "react-icons/md";
 import { EditNote } from "../../../Components/SingleBook/EditNote";
 import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessage";
 import { deleteBookNoteById } from "../../Books/SingleBook/SingleBookService";
@@ -22,6 +23,7 @@ import {
   changeNotesBook,
   getBooksWithBookNotes,
 } from "./AdminBookNotesService";
+import { NewNoteAdmin } from "../NewNoteAdmin";
 import BasicSpeedDial from "../../../Components/Mui/BasicSpeedDial";
 import { BooksContext } from "../../../Components/Books/BooksProvider";
 
@@ -42,6 +44,42 @@ export const AdminBookNotes = () => {
   const [isBookNoteDialogOpen, setBookNoteDialogOpen] = useState(false);
   const [expandedAccordion, setExpandedAccordion] = useState(false);
 
+  const [isNewNoteOpen, setNewNoteVisibility] = useState(false);
+
+  const updateBookNotes = (newNote) => {
+    console.log(newNote);
+    console.log(newNote.bookId);
+    console.log(booksWithNotes);
+
+    setBooksWithNotes((prevBooksWithNotes) => {
+      const bookExists = prevBooksWithNotes.some(
+        (book) => book.bookId === newNote.bookId
+      );
+
+      //this is checking if the book already has any notes
+      if (bookExists) {
+        return prevBooksWithNotes.map((book) =>
+          book.bookId === newNote.bookId
+            ? { ...book, bookNotes: [...book.bookNotes, newNote] }
+            : book
+        );
+        //if it doesn't we create a new object here
+      } else {
+        return [
+          ...prevBooksWithNotes,
+          { bookId: newNote.bookId, bookNotes: [newNote] },
+        ];
+      }
+    });
+
+    setMessage("Successfully added new note");
+    setTimeout(() => setMessage(""), 3000);
+  };
+
+  const handleNewFormVisibility = () => {
+    setNewNoteVisibility(!isNewNoteOpen);
+  };
+
   const handleCloseDialog = () => {
     setBookNoteDialogOpen(false);
   };
@@ -51,6 +89,7 @@ export const AdminBookNotes = () => {
   };
 
   const handleEditFormVisibility = () => {
+    console.log("Clicked");
     setEditBookNote(!editBookNote);
   };
 
@@ -87,15 +126,37 @@ export const AdminBookNotes = () => {
     }
   };
 
+  // const updateBookNote = (updatedNote) => {
+  //   setBooksWithNotes((prevBooksWithNotes) =>
+  //     prevBooksWithNotes.map((book) => ({
+  //       ...book,
+  //       bookNotes: book.bookNotes.map((note) =>
+  //         note.id === updatedNote.id ? updatedNote : note
+  //       ),
+  //     }))
+  //   );
+  //   setMessage("Successfully updated the note");
+  //   setTimeout(() => setMessage(""), 3000);
+  // };
+
   const updateBookNote = (updatedNote) => {
-    setBooksWithNotes((prevBooksWithNotes) =>
-      prevBooksWithNotes.map((book) => ({
-        ...book,
-        bookNotes: book.bookNotes.map((note) =>
-          note.id === updatedNote.id ? updatedNote : note
-        ),
-      }))
-    );
+    setBooksWithNotes((prevBooksWithNotes) => {
+      const bookIndex = prevBooksWithNotes.findIndex((book) =>
+        book.bookNotes.some((note) => note.id === updatedNote.id)
+      );
+
+      if (bookIndex === -1) return prevBooksWithNotes;
+
+      const updatedBooks = [...prevBooksWithNotes];
+      const bookToUpdate = { ...updatedBooks[bookIndex] };
+      bookToUpdate.bookNotes = bookToUpdate.bookNotes.map((note) =>
+        note.id === updatedNote.id ? updatedNote : note
+      );
+      updatedBooks[bookIndex] = bookToUpdate;
+
+      return updatedBooks;
+    });
+
     setMessage("Successfully updated the note");
     setTimeout(() => setMessage(""), 3000);
   };
@@ -103,6 +164,8 @@ export const AdminBookNotes = () => {
   useEffect(() => {
     if (deleteBooknote && BookNoteId) {
       handlBookNoteDelete(BookNoteId);
+      setMessage("Successfully Deleted Book Note!");
+      setTimeout(() => setMessage(""), 3000);
     }
   }, [deleteBooknote, BookNoteId]);
 
@@ -170,6 +233,14 @@ export const AdminBookNotes = () => {
           <div className="admin-bookNotes-Title">
             You Can Find All The Book Notes Here!
           </div>
+          <div className="new-note-div-wrapper">
+            <button
+              className="add-new-note-admin"
+              onClick={handleNewFormVisibility}
+            >
+              <MdOutlineNoteAdd /> Add New Note
+            </button>
+          </div>
           <ResponsiveDialog
             isOpen={isAlertDialoOpen}
             handleClose={handleDialogClose}
@@ -182,6 +253,12 @@ export const AdminBookNotes = () => {
             dialogTitle={dialogTitle}
             onClose={handleCloseDialog}
             onConfirm={handleConfirmDelete}
+          />
+          <NewNoteAdmin
+            books={books}
+            isOpen={isNewNoteOpen}
+            updateBookNotes={updateBookNotes}
+            handleFormVisibility={handleNewFormVisibility}
           />
           {editBookNote && (
             <EditNote
@@ -229,8 +306,10 @@ export const AdminBookNotes = () => {
                   </AccordionSummary>
                   <AccordionDetails>
                     <p className="admin-bookNotes-note">{note.note}</p>
-                    <p className="admin-bookNotes-page">{`Page: ${note.page}`}</p>
-                    <p className="admin-bookNotes-id">{`ID: ${note.id}`}</p>
+                    <section className="admin-page-and-id-wrapper">
+                      <p className="admin-bookNotes-page">{`Page: ${note.page}`}</p>
+                      <p className="admin-bookNotes-id">{`ID: ${note.id}`}</p>
+                    </section>
                   </AccordionDetails>
                   <AccordionActions>
                     <div className="admin-bookNotes-select">

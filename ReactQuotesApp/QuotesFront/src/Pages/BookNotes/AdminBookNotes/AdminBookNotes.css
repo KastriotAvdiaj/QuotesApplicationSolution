@@ -11,7 +11,18 @@
 }
 
 .admin-bookNotes-note{
-    font-size: 1.1rem;
+    color: rgb(0, 0, 0);
+    padding: 1rem;
+    box-shadow: inset 2px 2px 10px rgba(27, 27, 27, 0.459);
+    border: 1px solid gray;
+    background-color: rgba(247, 167, 167, 0.432);
+    font-size: 1.4rem;
+    margin: 0;
+}
+
+.admin-page-and-id-wrapper{
+    display: flex;
+    gap: 1rem;
 }
 
 .admin-bookNotes-id{
@@ -48,4 +59,33 @@
     width: 100%;
     padding: 2rem 0 2rem 0;
     background-color: rgb(60, 60, 83);
+}
+
+.add-new-note-admin{
+    margin-right: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    border-radius: 0.3rem;
+    color: white;
+    background-color: rgb(128, 139, 238);
+    border: 1px solid rgb(161, 159, 159);
+}
+
+.add-new-note-admin:hover{
+    background-color: rgb(100, 113, 235);
+}
+
+.add-new-note-admin:active{
+    transform: scale(0.97);
+}
+
+.new-note-div-wrapper{
+    width: 100%;
+    display: flex;
+    justify-content: end;
 }
