@@ -10,6 +10,7 @@ import { EditNote } from "../../../Components/SingleBook/EditNote";
 import SuccessMessage from "../../../Components/SuccessfullMessage/SuccessMessage";
 import { deleteBookNoteById } from "../../Books/SingleBook/SingleBookService";
 import { Divider } from "@mui/material";
+import AlertDialog from "../../../Components/Mui/AlertDialog";
 import MenuItem from "@mui/material/MenuItem";
 import { useAuth } from "../../../Components/AuthContext/AuthContext";
 import FormHelperText from "@mui/material/FormHelperText";
@@ -17,8 +18,10 @@ import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import Select from "@mui/material/Select";
 import ResponsiveDialog from "../../../Components/Mui/ResponsiveDialog";
-import { changeNotesBook } from "./AdminBookNotesService";
-import { getBooksWithBookNotes } from "./AdminBookNotesService";
+import {
+  changeNotesBook,
+  getBooksWithBookNotes,
+} from "./AdminBookNotesService";
 import BasicSpeedDial from "../../../Components/Mui/BasicSpeedDial";
 import { BooksContext } from "../../../Components/Books/BooksProvider";
 
@@ -28,10 +31,24 @@ export const AdminBookNotes = () => {
   const { isAuthenticated, isAdmin } = useAuth();
   const [selectedBook, setSelectedBook] = useState("");
   const [isAlertDialoOpen, setAlertDialogOpen] = useState(false);
-  const [BookNoteId, setBookNoteId] = useState();
+  const [BookNoteId, setBookNoteId] = useState(null);
   const [message, setMessage] = useState("");
   const [editBookNote, setEditBookNote] = useState(false);
   const [bookNoteToEdit, setBookNoteToEdit] = useState(null);
+
+  const [deleteBooknote, setDeleteBookNote] = useState(false);
+  const [dialogMessage, setDialogMessage] = useState("");
+  const [dialogTitle, setDialogTitle] = useState("");
+  const [isBookNoteDialogOpen, setBookNoteDialogOpen] = useState(false);
+  const [expandedAccordion, setExpandedAccordion] = useState(false);
+
+  const handleCloseDialog = () => {
+    setBookNoteDialogOpen(false);
+  };
+
+  const handleConfirmDelete = () => {
+    setDeleteBookNote(true);
+  };
 
   const handleEditFormVisibility = () => {
     setEditBookNote(!editBookNote);
@@ -39,8 +56,13 @@ export const AdminBookNotes = () => {
 
   const handleActionClick = (actionName, note) => {
     if (actionName === "Delete") {
-      console.log(note.id);
-      handlBookNoteDelete(note.id);
+      setBookNoteId(note.id);
+      setDialogMessage(
+        "Are you sure you want to delete this book note with the ID : " +
+          note.id
+      );
+      setDialogTitle("Delete selected Book Note");
+      setBookNoteDialogOpen(true);
     } else if (actionName === "Edit") {
       setBookNoteToEdit(note);
       setEditBookNote(true);
@@ -51,15 +73,38 @@ export const AdminBookNotes = () => {
     try {
       const response = await deleteBookNoteById(noteId);
       if (response) {
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
+        const updatedBooksWithNotes = await getBooksWithBookNotes();
+        setBooksWithNotes(updatedBooksWithNotes);
         setMessage("Successfully Deleted BookNote");
+        setDeleteBookNote(false);
+        setBookNoteId(null);
+        setExpandedAccordion(false);
+        return;
       }
+      console.error("There was an error deleting note", response);
     } catch (e) {
       console.error("Failed to delete book note:", e);
     }
   };
+
+  const updateBookNote = (updatedNote) => {
+    setBooksWithNotes((prevBooksWithNotes) =>
+      prevBooksWithNotes.map((book) => ({
+        ...book,
+        bookNotes: book.bookNotes.map((note) =>
+          note.id === updatedNote.id ? updatedNote : note
+        ),
+      }))
+    );
+    setMessage("Successfully updated the note");
+    setTimeout(() => setMessage(""), 3000);
+  };
+
+  useEffect(() => {
+    if (deleteBooknote && BookNoteId) {
+      handlBookNoteDelete(BookNoteId);
+    }
+  }, [deleteBooknote, BookNoteId]);
 
   const handleChange = async (event, bookNoteId) => {
     try {
@@ -67,23 +112,6 @@ export const AdminBookNotes = () => {
       setSelectedBook(newBookTitle);
       setBookNoteId(bookNoteId);
       setAlertDialogOpen(true);
-
-      const updatedBooksWithNotes = booksWithNotes.map((book) => {
-        const updatedBookNotes = book.bookNotes.map((note) => {
-          if (note.id === bookNoteId) {
-            return {
-              ...note,
-              book: newBookTitle,
-            };
-          }
-          return note;
-        });
-        return {
-          ...book,
-          bookNotes: updatedBookNotes,
-        };
-      });
-      setBooksWithNotes(updatedBooksWithNotes);
     } catch (error) {
       console.error("Error handling book change:", error);
     }
@@ -100,11 +128,11 @@ export const AdminBookNotes = () => {
       const updatedData = await getBooksWithBookNotes();
       setBooksWithNotes(updatedData);
       setAlertDialogOpen(false);
+      setBookNoteId(null);
     } catch (error) {
       console.error("Failed to change book for note:", error);
     }
   };
-
 
   useEffect(() => {
     const fetchBooksWithNotes = async () => {
@@ -148,12 +176,20 @@ export const AdminBookNotes = () => {
             bookTitle={selectedBook}
             onAgree={handleAgreeDialog}
           />
+          <AlertDialog
+            isOpen={isBookNoteDialogOpen}
+            dialogMessage={dialogMessage}
+            dialogTitle={dialogTitle}
+            onClose={handleCloseDialog}
+            onConfirm={handleConfirmDelete}
+          />
           {editBookNote && (
             <EditNote
               isOpen={editBookNote}
               bookNote={bookNoteToEdit}
               handleFormVisibility={handleEditFormVisibility}
               bookTitle={selectedBook}
+              updateBookNote={updateBookNote}
             />
           )}
           <SuccessMessage message={message} />
@@ -162,7 +198,13 @@ export const AdminBookNotes = () => {
               <h2>{book.title}</h2>
               {book.bookNotes.map((note, index) => (
                 <Accordion
-                  key={index}
+                  key={note.id}
+                  expanded={expandedAccordion === note.id}
+                  onChange={() =>
+                    setExpandedAccordion(
+                      expandedAccordion === note.id ? null : note.id
+                    )
+                  }
                   sx={{
                     margin: "0.5rem",
                     backgroundColor: getBackgroundColor(note.color),
