@@ -2,16 +2,13 @@ import React, { useState } from "react";
 import "./NewRole.css";
 import { NavLink, useNavigate } from "react-router-dom";
 import { createRole } from "./RolesService";
-import { CircularProgress } from "@mui/material";
 import { IoReturnDownBack } from "react-icons/io5";
 import Alert from "@mui/material/Alert";
 import { useAuth } from "../../Components/AuthContext/AuthContext";
-import { VpnLock } from "@mui/icons-material";
 
 const NewRole = () => {
   const [role, setRole] = useState("");
   const [access, setAccess] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const [successMessage, setSuccessMessage] = useState("");
   const [isAlertOpen, setAlertOpen] = useState(false);

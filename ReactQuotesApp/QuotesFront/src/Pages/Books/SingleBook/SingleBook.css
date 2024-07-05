@@ -165,3 +165,8 @@
 .viewAllButton:active{
     transform: scale(0.98);
 }
+
+.review{
+    background-color: rgba(55, 0, 255, 0);
+    border: 1px solid white;
+}

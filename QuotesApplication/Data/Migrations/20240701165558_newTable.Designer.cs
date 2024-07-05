@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuotesApplication.Data;
 
@@ -11,9 +12,11 @@ using QuotesApplication.Data;
 namespace QuotesApplication.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240701165558_newTable")]
+    partial class newTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,13 +233,13 @@ namespace QuotesApplication.Data.Migrations
             modelBuilder.Entity("QuotesApplication.Models.Reviews", b =>
                 {
                     b.HasOne("QuotesApplication.Models.Books", "Books")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("BooksId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("QuotesApplication.Areas.User.Models.ApplicationUser", "User")
-                        .WithMany("Reviews")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -244,16 +247,6 @@ namespace QuotesApplication.Data.Migrations
                     b.Navigation("Books");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("QuotesApplication.Areas.User.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("QuotesApplication.Models.Books", b =>
-                {
-                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }

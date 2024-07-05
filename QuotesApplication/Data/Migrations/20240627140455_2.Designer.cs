@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuotesApplication.Data;
 
@@ -11,9 +12,11 @@ using QuotesApplication.Data;
 namespace QuotesApplication.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240627140455_2")]
+    partial class _2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,6 +150,76 @@ namespace QuotesApplication.Data.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("QuotesApplication.Models.Contracts", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"));
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ID");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Contracts");
+                });
+
+            modelBuilder.Entity("QuotesApplication.Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("QuotesApplication.Models.Movie", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("DirectorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReleaseYear")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Movies");
+                });
+
             modelBuilder.Entity("QuotesApplication.Models.Quote", b =>
                 {
                     b.Property<int>("Id")
@@ -166,43 +239,6 @@ namespace QuotesApplication.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Quotes");
-                });
-
-            modelBuilder.Entity("QuotesApplication.Models.Reviews", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("BookId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("BooksId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Rating")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BooksId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("QuotesApplication.Areas.User.Models.ApplicationUser", b =>
@@ -227,33 +263,15 @@ namespace QuotesApplication.Data.Migrations
                     b.Navigation("Book");
                 });
 
-            modelBuilder.Entity("QuotesApplication.Models.Reviews", b =>
+            modelBuilder.Entity("QuotesApplication.Models.Contracts", b =>
                 {
-                    b.HasOne("QuotesApplication.Models.Books", "Books")
-                        .WithMany("Reviews")
-                        .HasForeignKey("BooksId")
+                    b.HasOne("QuotesApplication.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuotesApplication.Areas.User.Models.ApplicationUser", "User")
-                        .WithMany("Reviews")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Books");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("QuotesApplication.Areas.User.Models.ApplicationUser", b =>
-                {
-                    b.Navigation("Reviews");
-                });
-
-            modelBuilder.Entity("QuotesApplication.Models.Books", b =>
-                {
-                    b.Navigation("Reviews");
+                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

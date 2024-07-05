@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using QuotesApplication.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuotesApplication.Areas.User.Models
 {
@@ -30,6 +31,8 @@ namespace QuotesApplication.Areas.User.Models
         public Roles Role { get; set; }
 
         public string RoleName { get; set; }
+
+        public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
 
     }
 }

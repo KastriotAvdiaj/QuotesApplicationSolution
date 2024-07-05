@@ -1,0 +1,158 @@
+
+    .add-review-wrapper{
+        position: fixed;
+        padding: 0;
+        margin: 0;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(17, 17, 17, 0.747);
+        backdrop-filter: blur(5px);
+        z-index: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .closed{
+        display: none;
+    }
+
+    .add-review{
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 0.45fr 1fr 0.25fr;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        padding: 1rem 3rem;
+        color: black;
+        width: 600px;
+        height: 350px;
+        border-radius: 0.2rem;
+        background-color: rgb(44, 44, 44);
+    }
+
+    .rating{
+        font-size: 1.5rem;
+        font-weight: bold;
+        align-items: center;
+        /* justify-content: center; */
+        flex-direction: column;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        color: rgb(0, 0, 0);
+    }
+
+
+    .rating p{
+        padding: 0;
+        margin: 0;
+    }
+
+    .book-title-review{
+        color: rgb(255, 208, 0);
+        font-size: 1.3rem;
+    }
+
+    .book-author-review {
+        color: rgb(226, 214, 214);
+        font-size: 0.9rem;
+    }
+
+    .actual-rating{
+        display: grid;
+        grid-template-columns: 1fr 0.1fr 1fr;
+        grid-template-rows: 1fr;
+        grid-column-gap: 0px;
+        grid-row-gap: 0px;
+        align-items: center;
+    }
+
+    .mui-rating{
+        font-size: 1.2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .add-review-buttons{
+        display: flex;
+        justify-content:center;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .rating-divider{
+        height: 85%;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content:center;
+        align-items: center;
+    }
+
+    .add-review-buttons button{
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        padding: 0.4rem 1.2rem;
+        border-radius: 0.3rem;
+        border: none;
+        justify-content: center;
+        font-size: 1.2rem;
+        color: white;
+    }
+
+    .add-review-buttons button:active{
+        transform: scale(0.97)
+    }
+
+    .submit-button-review{
+        background-color: #1252b3;
+    }
+    .submit-button-review:hover{
+        background-color: #0e4f8f;
+    }
+
+    .cancel-button-review{
+        background-color: #ff2508;
+    }
+
+    .cancel-button-review:hover{
+        background-color: #c70808;
+    }
+
+    .no-login{
+       grid-row: 1/4;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 5rem;    
+        box-sizing: border-box;
+    }
+
+    .no-login-p{
+        color: white;
+        font-size: 1.6rem;
+    }
+
+    .no-login-button{
+        cursor: pointer;
+        background-color: #020202;
+        padding: 0.5rem 2rem;
+        border-radius: 0.3rem;
+        border: none;
+        color: white;
+        font-size: 1.6rem;
+        box-sizing: border-box;
+        border: 1px solid transparent;
+    }
+
+    .no-login-button:hover{
+        background-color: #1e1e1f;
+        border: 1px solid white;
+    }

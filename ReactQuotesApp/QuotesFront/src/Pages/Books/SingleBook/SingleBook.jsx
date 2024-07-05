@@ -15,6 +15,8 @@ import { BookNote } from "../../../Components/SingleBook/BookNote";
 import AlertDialog from "../../../Components/Mui/AlertDialog";
 import { EditNote } from "../../../Components/SingleBook/EditNote";
 import { infinity } from "ldrs";
+import { AddReview } from "../../../Components/Review/AddReview";
+import { CiStar } from "react-icons/ci";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -26,6 +28,7 @@ export const SingleBook = () => {
   const [isNewNoteOpen, setNewNoteVisibility] = useState(false);
   const [bookNotes, setBookNotes] = useState([]);
   const [isBookNoteDialogOpen, setBookNoteDialogOpen] = useState(false);
+  const [isAddReviewOpen, setReviewOpen] = useState(false);
 
   const [bookNoteToEdit, setBookNoteToEdit] = useState(null);
   const [editBookNote, setEditBookNote] = useState(false);
@@ -67,6 +70,17 @@ export const SingleBook = () => {
     }
   }, [bookId, books]);
 
+  const handleReview = (event) => {
+    event.stopPropagation();
+    setReviewOpen(true);
+    console.log(isAddReviewOpen);
+  };
+
+  const handleCloseReview = () => {
+    if (!isAddReviewOpen) return;
+    console.log(isAddReviewOpen);
+    setReviewOpen(false);
+  };
   const handleFormVisibility = () => {
     setNewNoteVisibility(!isNewNoteOpen);
   };
@@ -182,6 +196,12 @@ export const SingleBook = () => {
         />
       )}
 
+      <AddReview
+        open={isAddReviewOpen}
+        onClose={handleCloseReview}
+        book={book}
+      />
+
       <AlertDialog
         isOpen={isBookNoteDialogOpen}
         dialogMessage={dialogMessage}
@@ -288,15 +308,21 @@ export const SingleBook = () => {
             component="p"
             sx={{ backgroundColor: "gray" }}
           />
-          <button
-            className="newNoteButton"
-            onClick={() => {
-              handleFormVisibility();
-            }}
-          >
-            <MdOutlineNoteAdd />
-            Add a note
-          </button>
+          <div style={{ display: "flex", gap: "1rem" }}>
+            <button
+              className="newNoteButton"
+              onClick={() => {
+                handleFormVisibility();
+              }}
+            >
+              <MdOutlineNoteAdd />
+              Add a note
+            </button>
+            <button className="newNoteButton review" onClick={handleReview}>
+              <CiStar />
+              Add Review
+            </button>
+          </div>
         </div>
         <button className="deleteSinlgeBookButton">Delete</button>
       </div>

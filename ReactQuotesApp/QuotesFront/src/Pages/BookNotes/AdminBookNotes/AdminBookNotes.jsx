@@ -47,9 +47,6 @@ export const AdminBookNotes = () => {
   const [isNewNoteOpen, setNewNoteVisibility] = useState(false);
 
   const updateBookNotes = (newNote) => {
-    console.log(newNote);
-    console.log(newNote.bookId);
-    console.log(booksWithNotes);
 
     setBooksWithNotes((prevBooksWithNotes) => {
       const bookExists = prevBooksWithNotes.some(

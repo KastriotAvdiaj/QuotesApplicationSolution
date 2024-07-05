@@ -14,5 +14,7 @@ namespace QuotesApplication.Models
         public string? ImageBase64 { get; set; }
 
         public byte[] ImageBytes { get; set; }
+
+        public virtual ICollection<Reviews> Reviews { get; set; } = new List<Reviews>();
     }
 }

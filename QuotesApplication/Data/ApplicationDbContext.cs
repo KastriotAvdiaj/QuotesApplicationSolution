@@ -18,5 +18,8 @@ namespace QuotesApplication.Data
         public DbSet<BookNote> BookNotes { get; set; }
 
         public DbSet<Roles> Roles { get; set; }
+
+        public DbSet<Reviews> Reviews { get; set; }
+
     }
 }
