@@ -109,11 +109,11 @@ namespace QuotesApplication.Controllers
                 UserId = reviews.UserId,
                 BookId = reviews.BookId,
                 User = user,
-                Books = book,
+                Books = book,   
                 CreatedDate = DateTime.Now
             };
 
-            _context.Reviews.Add(review);
+             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 
             return Ok();

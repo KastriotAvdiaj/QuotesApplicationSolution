@@ -57,6 +57,7 @@ export const deleteUsers = async (ids) => {
 
 export const GetUser = async (id) => {
   try {
+    console.log(id);
     const response = await fetch(
       `https://localhost:7099/api/ApplicationUsers/GetApplicationUser/${id}`
     );
@@ -116,5 +117,26 @@ export const getUsersRole = async (userName) => {
     throw new Error("Failed to fetch user role");
   } catch (e) {
     console.log(e);
+  }
+};
+
+export const getUserByUsername = async (userName) => {
+  try {
+    const response = await fetch(
+      `https://localhost:7099/api/ApplicationUsers/GetApplicationUserByUsername/${userName}`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error("Fetch error:", error);
+    throw error;
   }
 };

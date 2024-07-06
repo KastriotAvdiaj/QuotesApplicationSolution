@@ -1,5 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { getUsersRole } from "../../Pages/Admin/Users/UsersService";
+import {
+  getUserByUsername,
+  getUsersRole,
+} from "../../Pages/Admin/Users/UsersService";
 
 const AuthContext = createContext();
 
@@ -13,7 +16,7 @@ export const AuthProvider = ({ children }) => {
     return token && expirationTime > now;
   });
 
-  const login = async (token, username) => {
+  const login = async (token, username, id) => {
     const now = new Date();
     const expirationTime = new Date(now.getTime() + 1000 * 60 * 100); //10 minutes
     localStorage.setItem("token", token);
@@ -22,12 +25,15 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("username", username);
   };
   const [isAdmin, setIsAdmin] = useState(false);
+  const [user, setUser] = useState({});
 
   useEffect(() => {
     const fetchUserRole = async () => {
       try {
         const username = localStorage.getItem("username");
         const role = await getUsersRole(username);
+        const getUser = await getUserByUsername(username);
+        setUser(getUser);
         setIsAdmin(role.roleName === "Admin");
       } catch (error) {
         console.error("Error fetching user role:", error);
@@ -47,7 +53,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout, isAdmin }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, isAdmin, user }}>
       {children}
     </AuthContext.Provider>
   );

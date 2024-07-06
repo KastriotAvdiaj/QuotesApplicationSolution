@@ -112,7 +112,8 @@ namespace QuotesApplication.Areas.User.Controllers
                 {
                     Token = token,
                     user.Username,
-                    user.Email
+                    user.Email,
+                    user.Id
                 });
 
             }

@@ -236,95 +236,101 @@ export const SingleBook = () => {
           ></l-infinity>
         </div>
       )}
-      <div className="singleBookMainDiv">
-        <div className="bookDisplayDiv">
-          <div className="bookDetails">
-            <div>
-              <p className="singleBookTitle">"{book.title}"</p>
-              <p className="singleBookAuthor">by {book.author}</p>
-              <Divider
-                variant="middle"
-                component="p"
-                sx={{ backgroundColor: "gray" }}
-              />
-              <p className="summarizationText">Summarization</p>
-              <p className="singleBookDescription">{book.description}</p>
-            </div>
-            <button
-              className="singleBookEditButton"
-              onClick={() => {
-                setEditFormOpen(true);
-              }}
-            >
-              {" "}
-              <RiEdit2Fill />
-              Edit
-            </button>
-          </div>
-          <img
-            className="singleBookImage"
-            src={`data:image/png;base64,${book.imageBase64}`}
-            alt={book.title}
-          />
-          <BookEditForm
-            bookToEdit={book}
-            isOpen={isEditFormOpen}
-            handleVisibility={closeEditForm}
-            handleSuccessUpdate={handleSuccessfulUpdate}
-          />
-          <SuccessMessage message={message} />
-        </div>
-        <div className="otherBookInformationDiv">
-          <p className="topExtraInfParagraph">Book Notes</p>
-          {bookNotes && bookNotes.length > 0 ? (
-            <>
-              {displayedNotes.map((note) => (
-                <BookNote
-                  key={note.id}
-                  note={note}
-                  confirmDelete={deleteBooknote}
-                  successDeletion={successDeletion}
-                  openAlertDialog={openAlertDialog}
-                  openEditingBookNote={openEditingBookNote}
+      <div>
+        <div className="singleBookMainDiv">
+          <div className="bookDisplayDiv">
+            <div className="bookDetails">
+              <div>
+                <p className="singleBookTitle">"{book.title}"</p>
+                <p className="singleBookAuthor">by {book.author}</p>
+                <Divider
+                  variant="middle"
+                  component="p"
+                  sx={{ backgroundColor: "gray" }}
                 />
-              ))}
-              {remainingNotes > 0 && (
-                <div className="remainingNotes">
-                  <p>There are {remainingNotes} more notes for this book.</p>
-                  <button
-                    className="viewAllButton"
-                    onClick={handleViewAllButtonClick}
-                  >
-                    View all <SiCodereview />
-                  </button>
+                <p className="summarizationText">Summarization</p>
+                <p className="singleBookDescription">{book.description}</p>
+              </div>
+              <button
+                className="singleBookEditButton"
+                onClick={() => {
+                  setEditFormOpen(true);
+                }}
+              >
+                {" "}
+                <RiEdit2Fill />
+                Edit
+              </button>
+            </div>
+            <img
+              className="singleBookImage"
+              src={`data:image/png;base64,${book.imageBase64}`}
+              alt={book.title}
+            />
+            <BookEditForm
+              bookToEdit={book}
+              isOpen={isEditFormOpen}
+              handleVisibility={closeEditForm}
+              handleSuccessUpdate={handleSuccessfulUpdate}
+            />
+            <SuccessMessage message={message} />
+          </div>
+          <div className="otherBookInformationDiv">
+            <p className="topExtraInfParagraph">Book Notes</p>
+            {bookNotes && bookNotes.length > 0 ? (
+              <>
+                <div className="displaying-booknotes">
+                  {displayedNotes.map((note) => (
+                    <BookNote
+                      key={note.id}
+                      note={note}
+                      confirmDelete={deleteBooknote}
+                      successDeletion={successDeletion}
+                      openAlertDialog={openAlertDialog}
+                      openEditingBookNote={openEditingBookNote}
+                    />
+                  ))}
                 </div>
-              )}
-            </>
-          ) : (
-            <p>There isn't anything on this book yet.</p>
-          )}
-          <Divider
-            variant="fullWidth"
-            component="p"
-            sx={{ backgroundColor: "gray" }}
-          />
-          <div style={{ display: "flex", gap: "1rem" }}>
-            <button
-              className="newNoteButton"
-              onClick={() => {
-                handleFormVisibility();
-              }}
-            >
-              <MdOutlineNoteAdd />
-              Add a note
-            </button>
-            <button className="newNoteButton review" onClick={handleReview}>
-              <CiStar />
-              Add Review
-            </button>
+                {remainingNotes > 0 && (
+                  <div className="remainingNotes">
+                    <p>There are {remainingNotes} more notes for this book.</p>
+                    <button
+                      className="viewAllButton"
+                      onClick={handleViewAllButtonClick}
+                    >
+                      View all <SiCodereview />
+                    </button>
+                  </div>
+                )}
+              </>
+            ) : (
+              <p>There isn't anything on this book yet.</p>
+            )}
+            <Divider
+              variant="fullWidth"
+              component="p"
+              sx={{ backgroundColor: "gray" }}
+            />
+            <div style={{ display: "flex", gap: "1rem" }}>
+              <button
+                className="newNoteButton"
+                onClick={() => {
+                  handleFormVisibility();
+                }}
+              >
+                <MdOutlineNoteAdd />
+                Add a note
+              </button>
+              <button className="newNoteButton review" onClick={handleReview}>
+                <CiStar />
+                Add Review
+              </button>
+            </div>
           </div>
         </div>
-        <button className="deleteSinlgeBookButton">Delete</button>
+        <div className="reviews-div">
+          <h1>Book Reviews</h1>
+        </div>
       </div>
     </>
   );

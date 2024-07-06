@@ -81,7 +81,7 @@ export const Login = () => {
         localStorage.setItem("token", data.token);
         localStorage.setItem("username", data.username);
         handleUsername(data.username);
-        login(data.token, data.username);
+        login(data.token, data.username, data.id);
         console.log("Login Successful:", data);
         navigate("/");
       } else {

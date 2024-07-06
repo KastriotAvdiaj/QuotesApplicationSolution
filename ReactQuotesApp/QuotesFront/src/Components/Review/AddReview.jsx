@@ -8,12 +8,31 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import { NavLink } from "react-router-dom";
 import { Divider } from "@mui/material";
+import { addReview } from "./ReviewProvider";
 
 export const AddReview = ({ open, onClose, book }) => {
-  const { isAuthenticated, isAdmin } = useAuth();
+  const { isAuthenticated, isAdmin, user } = useAuth();
 
   const [value, setValue] = React.useState(0);
-  console.log(value);
+  const [comment, setComment] = React.useState("");
+
+  const handleSubmit = async () => {
+    const review = {
+      comment: comment,
+      rating: value,
+      userId: user.id,
+      bookId: book.id,
+    };
+    try {
+      const response = await addReview(review);
+      console.log(response);
+      if (response) {
+        onClose();
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
 
   return (
     <div className={open ? "add-review-wrapper" : "closed"}>
@@ -78,6 +97,8 @@ export const AddReview = ({ open, onClose, book }) => {
                   rows={5}
                   placeholder="Give a comment for your rating."
                   variant="filled"
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
                   sx={{
                     marginLeft: "4rem",
                     "& .MuiFilledInput-root": {
@@ -114,7 +135,9 @@ export const AddReview = ({ open, onClose, book }) => {
                 <button className="cancel-button-review" onClick={onClose}>
                   Cancel
                 </button>
-                <button className="submit-button-review">Submit</button>
+                <button className="submit-button-review" onClick={handleSubmit}>
+                  Submit
+                </button>
               </div>
             </>
           )}

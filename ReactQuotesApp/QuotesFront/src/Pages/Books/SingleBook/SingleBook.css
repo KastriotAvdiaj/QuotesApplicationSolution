@@ -1,11 +1,12 @@
 .singleBookMainDiv{
-    height: 100vh;
+    /* height: 100vh;  */
     width: calc(100vw -15rem);
     box-sizing: border-box;
     display: flex;
 }
 
 .bookDisplayDiv{
+    height: fit-content;
     width: fit-content;
     display: flex;
     gap: 2rem;
@@ -81,28 +82,6 @@
     transform: scale(0.97);
 }
 
-.deleteSinlgeBookButton{
-    position: absolute;
-    top: 0;
-    right: 0;
-    margin: 1rem 2rem 0 0;
-    cursor: pointer;
-    padding: 0.5rem 1rem;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 0.2rem;
-    color: white;
-    background-color: rgb(255, 0, 0);
-}
-
-.deleteSinlgeBookButton:hover{
-    background-color: rgb(177, 4, 4);
-}
-
-.deleteSinlgeBookButton:active{
-    transform: scale(0.97);
-}
-
 
 .topExtraInfParagraph{
     color: white;
@@ -118,6 +97,7 @@
     border: none;
     color: white;
     background: rgb(118, 118, 192);
+    border: 1px solid transparent;
     border-radius: 0.2rem;
     padding: 0.5rem 1rem;
     font-size: 1.2rem;
@@ -132,10 +112,10 @@
 }
 
 .otherBookInformationDiv{
-    max-height: 600px;
-    /* height: fit-content; */
+    /* max-height: 600px; */
     padding-bottom: 2rem;
     margin-left: 2rem;
+    overflow: auto;
 }
 
 .remainingNotes{
@@ -169,4 +149,46 @@
 .review{
     background-color: rgba(55, 0, 255, 0);
     border: 1px solid white;
+}
+
+.reviews-div{
+    margin-top: 5rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 0.2fr 1fr;
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;  
+    align-items: center;
+}
+
+.reviews-div h1{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.displaying-booknotes {
+    overflow-x: hidden;
+    padding-right: 2rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.displaying-booknotes::-webkit-scrollbar {
+    width: 12px; 
+}
+
+.displaying-booknotes::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 4px;
+
+}
+
+.displaying-booknotes::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 3px; 
+}
+
+.displaying-booknotes::-webkit-scrollbar-thumb:hover {
+    background: #555555; 
 }

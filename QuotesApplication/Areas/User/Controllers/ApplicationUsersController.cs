@@ -247,5 +247,24 @@ namespace QuotesApplication.Areas.User.Controllers
 
             return _context.Users.Any(e => e.Id == id || e.Username == username || e.Email == email);
         }
+
+        [HttpGet("{username}")]
+
+        public async Task<ActionResult<ApplicationUser>> GetApplicationUserByUsername(string username)
+        {
+            if (string.IsNullOrEmpty(username))
+            {
+                return BadRequest("Username cannot be null or empty");
+            }
+
+            var applicationUser = await _context.Users.FirstOrDefaultAsync(u => u.NormalizedUsername == username.ToUpper());
+
+            if (applicationUser == null)
+            {
+                return NotFound("User not found");
+            }
+
+            return applicationUser;
+        }
     }
 }

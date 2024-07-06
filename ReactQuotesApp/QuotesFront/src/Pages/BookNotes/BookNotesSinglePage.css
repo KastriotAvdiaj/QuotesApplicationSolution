@@ -1,6 +1,6 @@
 .mainBookNotesSinglePageDiv{
-    margin-top: 5rem;
-    height: 100vh;
+    margin: 5rem 0 10rem 0;
+    
     width: calc(100vw- 15rem);
     display: flex;
     align-items: center;
