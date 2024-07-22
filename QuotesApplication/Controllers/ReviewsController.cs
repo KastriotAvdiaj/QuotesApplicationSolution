@@ -25,16 +25,85 @@ namespace QuotesApplication.Controllers
 
         // GET: api/Reviews
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Reviews>>> GetReviews()
+        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetReviews()
         {
-          if (_context.Reviews == null)
-          {
-              return NotFound();
-          }
-            return await _context.Reviews.ToListAsync();
+            if (_context.Reviews == null)
+            {
+                return NotFound();
+            }
+
+            var reviews = await _context.Reviews
+                .Include(r => r.User)
+                .Include(r => r.Books)
+                .ToListAsync();
+
+            var reviewDTOs = reviews.Select(r => new ReviewDTO
+            {
+                UserId = r.UserId,
+                User = new ApplicationUser
+                {
+                    Id = r.User.Id,
+                    Username = r.User.Username,
+                    Email = r.User.Email
+                },
+                Book = new BookReviewDTO
+                {
+                    Id = r.Books.Id,
+                    Title = r.Books.Title,
+                    Author = r.Books.Author
+                },
+                BookId = r.BookId,
+                Comment = r.Comment,
+                Rating = Math.Round(r.Rating, 1)
+            }).ToList();
+
+            return Ok(reviewDTOs);
         }
 
- 
+        [HttpGet("ByBook/{bookId}")]
+        public async Task<ActionResult<IEnumerable<ReviewDTO>>> GetReviewsByBookId(int bookId)
+        {
+            if (_context.Reviews == null)
+            {
+                return NotFound();
+            }
+
+            var reviews = await _context.Reviews
+                .Where(r => r.BookId == bookId)
+                .Include(r => r.User)
+                .Include(r => r.Books)
+                .ToListAsync();
+
+            if (!reviews.Any())
+            {
+                return Ok(new List<ReviewDTO>());
+            }
+
+            var reviewDTOs = reviews.Select(r => new ReviewDTO
+            {
+                UserId = r.UserId,
+                User = new ApplicationUser
+                {
+                    Id = r.User.Id,
+                    Username = r.User.Username,
+                    Email = r.User.Email
+                },
+                Book = new BookReviewDTO
+                {
+                    Id = r.Books.Id,
+                    Title = r.Books.Title,
+                    Author = r.Books.Author
+                },
+                BookId = r.BookId,
+                Comment = r.Comment,
+                Rating = Math.Round(r.Rating, 1)
+            }).ToList();
+
+            return Ok(reviewDTOs);
+        }
+
+
+
         [HttpGet("{id}")]
         public async Task<ActionResult<Reviews>> GetReviewById(int id)
         {
@@ -82,7 +151,7 @@ namespace QuotesApplication.Controllers
         // POST: api/Reviews
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Reviews>> PostReviews(ReviewDTO reviews)
+        public async Task<ActionResult<Reviews>> PostReviews(ReviewViewModel reviews)
         {
           if (_context.Reviews == null)
           {

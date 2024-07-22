@@ -15,6 +15,10 @@ builder.Services.Configure<OpenAI>(builder.Configuration.GetSection("OpenAI"));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+/*builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+});*/
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
@@ -93,7 +97,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("AllowSpecificOrigin");
+app.UseCors("AllowSpecificOrigin"); 
 
 app.UseRouting();
 

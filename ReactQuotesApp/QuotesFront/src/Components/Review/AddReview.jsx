@@ -23,11 +23,13 @@ export const AddReview = ({ open, onClose, book }) => {
       userId: user.id,
       bookId: book.id,
     };
+    const frontEndReview = { ...review, user, book };
+
     try {
       const response = await addReview(review);
       console.log(response);
       if (response) {
-        onClose();
+        onClose(frontEndReview);
       }
     } catch (e) {
       console.log(e);
@@ -36,7 +38,7 @@ export const AddReview = ({ open, onClose, book }) => {
 
   return (
     <div className={open ? "add-review-wrapper" : "closed"}>
-      <ClickAwayListener onClickAway={onClose}>
+      <ClickAwayListener onClickAway={() => onClose(null)}>
         <motion.div animate={{ opacity: open ? 1 : 0 }} className="add-review">
           {!isAuthenticated ? (
             <div className="no-login">
@@ -68,13 +70,13 @@ export const AddReview = ({ open, onClose, book }) => {
                     }}
                     sx={{
                       "& .MuiRating-iconFilled": {
-                        color: "#ff6d75", // Customize this color for filled stars
+                        color: "#ff6d75",
                       },
                       "& .MuiRating-iconHover": {
-                        color: "#ff3d47", // Customize this color for hovered stars
+                        color: "#ff3d47",
                       },
                       "& .MuiRating-iconEmpty": {
-                        color: "#e4e5e9", // Customize this color for empty stars
+                        color: "#e4e5e9",
                       },
                       fontSize: "2rem",
                     }}
@@ -102,37 +104,40 @@ export const AddReview = ({ open, onClose, book }) => {
                   sx={{
                     marginLeft: "4rem",
                     "& .MuiFilledInput-root": {
-                      backgroundColor: "rgb(66, 66, 66)", // Slightly lighter background for input
-                      color: "white", // Text color
+                      backgroundColor: "rgb(66, 66, 66)",
+                      color: "white",
                     },
                     "& .MuiInputLabel-root": {
-                      color: "white", // Label color
+                      color: "white",
                     },
                     "& .MuiFilledInput-underline:before": {
-                      borderBottomColor: "white", // Bottom border before focus
+                      borderBottomColor: "white",
                     },
                     "& .MuiFilledInput-underline:after": {
-                      borderBottomColor: "white", // Bottom border after focus
+                      borderBottomColor: "white",
                     },
                     "& .MuiFilledInput-root:hover:not(.Mui-disabled):before": {
-                      borderBottomColor: "white", // Bottom border on hover
+                      borderBottomColor: "white",
                     },
                     "& .MuiOutlinedInput-root": {
                       "& fieldset": {
-                        borderColor: "white", // Border color for outlined variant
+                        borderColor: "white",
                       },
                       "&:hover fieldset": {
-                        borderColor: "white", // Border color on hover for outlined variant
+                        borderColor: "white",
                       },
                       "&.Mui-focused fieldset": {
-                        borderColor: "white", // Border color on focus for outlined variant
+                        borderColor: "white",
                       },
                     },
                   }}
                 />
               </div>
               <div className="add-review-buttons">
-                <button className="cancel-button-review" onClick={onClose}>
+                <button
+                  className="cancel-button-review"
+                  onClick={() => onClose(null)}
+                >
                   Cancel
                 </button>
                 <button className="submit-button-review" onClick={handleSubmit}>

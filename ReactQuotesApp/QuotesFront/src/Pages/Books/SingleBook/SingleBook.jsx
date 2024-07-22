@@ -1,4 +1,5 @@
 import "./SingleBook.css";
+import { Reviews } from "../../Reviews/Reviews";
 import React, { useContext, useEffect, useState } from "react";
 import { useParams, Navigate } from "react-router-dom";
 import { BooksContext } from "../../../Components/Books/BooksProvider";
@@ -17,6 +18,7 @@ import { EditNote } from "../../../Components/SingleBook/EditNote";
 import { infinity } from "ldrs";
 import { AddReview } from "../../../Components/Review/AddReview";
 import { CiStar } from "react-icons/ci";
+import { getReviewsById } from "../../../Components/Review/ReviewProvider";
 
 export const SingleBook = () => {
   const { books } = useContext(BooksContext);
@@ -76,11 +78,17 @@ export const SingleBook = () => {
     console.log(isAddReviewOpen);
   };
 
-  const handleCloseReview = () => {
+  const handleCloseReview = (review) => {
     if (!isAddReviewOpen) return;
-    console.log(isAddReviewOpen);
+
+    if (review) {
+      console.log(review.user);
+      setReviews((prevReviews) => [...prevReviews, review]);
+    }
+
     setReviewOpen(false);
   };
+
   const handleFormVisibility = () => {
     setNewNoteVisibility(!isNewNoteOpen);
   };
@@ -152,6 +160,26 @@ export const SingleBook = () => {
   const handleConfirmDelete = () => {
     setDeleteBookNote(true);
   };
+
+  const [reviews, setReviews] = useState([]);
+  const [loadingForReviews, setLoadingForReviews] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const reviewsData = await getReviewsById(bookId);
+        setReviews(reviewsData);
+      } catch (error) {
+        setError(error);
+      } finally {
+        setLoadingForReviews(false);
+      }
+    };
+
+    fetchReviews();
+  }, [bookId]);
+
   if (!/^\d+$/.test(bookId)) {
     // If bookId is not numeric, redirect to a custom error page or home
     return <Navigate to="/error" replace />;
@@ -329,7 +357,13 @@ export const SingleBook = () => {
           </div>
         </div>
         <div className="reviews-div">
-          <h1>Book Reviews</h1>
+          <h1>Reviews</h1>
+          <Reviews
+            reviews={reviews}
+            addReview={handleReview}
+            loading={loadingForReviews}
+            error={error}
+          />
         </div>
       </div>
     </>
